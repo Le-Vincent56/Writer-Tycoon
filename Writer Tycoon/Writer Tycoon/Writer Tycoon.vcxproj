@@ -128,7 +128,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Resources\Button.cpp" />
+    <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="States\MainMenuState.cpp" />
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="States\State.cpp" />
@@ -137,7 +140,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Resources\Button.h" />
+    <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="States\MainMenuState.h" />
     <ClInclude Include="States\GameState.h" />
     <ClInclude Include="States\State.h" />
   </ItemGroup>
