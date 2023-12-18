@@ -31,42 +31,43 @@ Player::~Player()
 // Functions
 void Player::updateInput(std::map<std::string, int> keybinds, const float& dt)
 {
-	bool keyPressed = false;
-
-	// Update player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_UP"))))
+	// Check vertical movement
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_UP"))) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_DOWN"))))
 	{
-		this->movementComponent->applyForce(sf::Vector2f(0.0f, -50.0f));
-		this->movementComponent->setDirection(sf::Vector2f(0.0f, -1.0f));
-		keyPressed = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_UP"))))
+		{
+			this->movementComponent->setDirectionY(-1.0f);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_DOWN"))))
+		{
+			this->movementComponent->setDirectionY(1.0f);
+		}
 	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_LEFT"))))
+	else 
 	{
-		this->movementComponent->applyForce(sf::Vector2f(-50.0f, 0.0f));
-		this->movementComponent->setDirection(sf::Vector2f(-1.0f, 0.0f));
-		keyPressed = true;
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_DOWN"))))
-	{
-		this->movementComponent->applyForce(sf::Vector2f(0.0f, 50.0f));
-		this->movementComponent->setDirection(sf::Vector2f(0.0f, 1.0f));
-		keyPressed = true;
+		this->movementComponent->setDirectionY(0.0f);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_RIGHT"))))
+	// Check horizontal movement
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_LEFT"))) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_RIGHT"))))
 	{
-		this->movementComponent->applyForce(sf::Vector2f(50.0f, 0.0f));
-		this->movementComponent->setDirection(sf::Vector2f(1.0f, 0.0f));
-		keyPressed = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_LEFT"))))
+		{
+			this->movementComponent->setDirectionX(-1.0f);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(keybinds.at("MOVE_RIGHT"))))
+		{
+			this->movementComponent->setDirectionX(1.0f);
+		}
 	}
-	
-	// If no key is pressed, set no direction
-	if (!keyPressed)
+	else
 	{
-		this->movementComponent->setDirection(sf::Vector2f(0.0f, 0.0f));
+		this->movementComponent->setDirectionX(0.0f);
 	}
+
+	std::cout << "Direction: " << "(" << this->movementComponent->getDirection().x << ", " << this->movementComponent->getDirection().x << ")" << "\n";
 }
 
 void Player::update(const float& dt)

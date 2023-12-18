@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Components\MovementComponent.h" />
+    <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Resources\Button.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Game.h" />

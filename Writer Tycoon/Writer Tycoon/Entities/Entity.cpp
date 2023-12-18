@@ -24,9 +24,9 @@ void Entity::setTexture(sf::Texture& texture)
 	this->sprite.setTexture(texture);
 }
 
-void Entity::createMovementComponent(const float coeffOfFriction, const float maxVelocity)
+void Entity::createMovementComponent(const float coeffOfFriction, const float maxSpeed)
 {
-	this->movementComponent = new MovementComponent(this->sprite, coeffOfFriction, maxVelocity);
+	this->movementComponent = new MovementComponent(this->sprite, coeffOfFriction, maxSpeed);
 }
 
 // Functions

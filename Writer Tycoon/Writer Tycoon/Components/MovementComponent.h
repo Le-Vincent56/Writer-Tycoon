@@ -23,7 +23,10 @@ private:
 	// Variables
 	sf::Sprite& sprite;
 
-	float maxVelocity;
+	float accelAmount;
+	float decelAmount;
+
+	float maxSpeed;
 	float coeffOfFriction;
 	sf::Vector2f position;
 	sf::Vector2f acceleration;
@@ -31,19 +34,22 @@ private:
 	sf::Vector2f velocity;
 
 	// Initializer Functions
+	void initVariables();
 
 public:
 	// Constructor/Destructor
-	MovementComponent(sf::Sprite& sprite, float coeffOfFriction, float maxVelocity);
+	MovementComponent(sf::Sprite& sprite, float coeffOfFriction, float maxSpeed);
 	virtual ~MovementComponent();
 
 	// Accessors
 	const sf::Vector2f& getVelocity() const;
+	const sf::Vector2f& getDirection() const;
 
 	// Functions
 	void applyForce(sf::Vector2f force);
-	void applyFriction();
-	void setDirection(sf::Vector2f direction);
+	void setDirectionX(float x);
+	void setDirectionY(float y);
+	void move(float lerpAmount);
 	void update(const float& dt);
 };
 
