@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Resources\Button.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -140,6 +141,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Resources\Button.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Game.h" />
