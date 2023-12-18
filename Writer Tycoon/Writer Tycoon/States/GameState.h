@@ -6,10 +6,12 @@ class GameState :
     public State
 {
 private:
-    Entity player;
+    Player* player;
 
-    // Functions
+    // Initalizer Functions
     void initKeybinds();
+    void initTextures();
+    void initEntities();
 
 public:
     // Constructor/Destructor

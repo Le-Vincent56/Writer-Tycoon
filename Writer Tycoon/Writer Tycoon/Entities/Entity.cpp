@@ -3,9 +3,7 @@
 // Initializer Functions
 void Entity::initVariables()
 {
-	this->texture = nullptr;
-	this->sprite = nullptr;
-	this->movementSpeed = 100.0f;
+	this->movementComponent = nullptr;
 }
 
 // Constructor/Destructor
@@ -16,39 +14,30 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	delete this->sprite;
+	delete this->movementComponent;
 }
 
 // Component Functions
-void Entity::createSprite(sf::Texture* texture)
+void Entity::setTexture(sf::Texture& texture)
 {
 	// Set the texture for the sprite
-	this->texture = texture;
-	this->sprite->setTexture(*this->texture);
+	this->sprite.setTexture(texture);
+}
+
+void Entity::createMovementComponent(const float coeffOfFriction, const float maxVelocity)
+{
+	this->movementComponent = new MovementComponent(this->sprite, coeffOfFriction, maxVelocity);
 }
 
 // Functions
-void Entity::move(const float& dt, const float xDir, const float yDir)
+void Entity::setPosition(const float x, const float y)
 {
-	// Check if a sprite exists
-	if (this->sprite)
-	{
-		// Move the sprite
-		this->sprite->move(xDir * this->movementSpeed * dt, yDir * this->movementSpeed * dt);
-	}
-}
-
-void Entity::update(const float& dt)
-{
-	
+	// Set the position of the sprite
+	this->sprite.setPosition(x, y);
 }
 
 void Entity::render(sf::RenderTarget* target)
 {
-	// Check if the sprite exists
-	if (this->sprite)
-	{
-		// Draw the sprite
-		target->draw(*this->sprite);
-	}
+	// Draw the sprite
+	target->draw(this->sprite);
 }

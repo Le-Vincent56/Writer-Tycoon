@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Entities\Player.cpp" />
+    <ClCompile Include="Components\MovementComponent.cpp" />
     <ClCompile Include="Resources\Button.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -136,18 +137,21 @@
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="States\State.cpp" />
+    <ClCompile Include="Utils\VectorUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Entities\Player.h" />
+    <ClInclude Include="Components\MovementComponent.h" />
     <ClInclude Include="Resources\Button.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="States\MainMenuState.h" />
     <ClInclude Include="States\GameState.h" />
     <ClInclude Include="States\State.h" />
+    <ClInclude Include="Utils\VectorUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
