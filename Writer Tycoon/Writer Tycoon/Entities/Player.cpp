@@ -7,21 +7,30 @@ void Player::initVariables()
 
 void Player::initComponents()
 {
-	this->createMovementComponent(10.0f, 200.0f);
+	
 }
 
 // Constructor/Destructor
-Player::Player(float x, float y, sf::Texture& texture)
+Player::Player(float x, float y, sf::Texture& textureSheet)
 {
 	// Initialize
 	this->initVariables();
-	this->initComponents();
-
-	// Create the sprite
-	this->setTexture(texture);
 
 	// Set the position
 	this->setPosition(x, y);
+
+	// Create components
+	this->createMovementComponent(10.0f, 200.0f);
+	this->createAnimationComponent(textureSheet);
+
+	this->animationComponent->addAnimation("IDLE_LEFT", 10.0f, 0, 0, 5, 0, 16, 32);
+	/*this->animationComponent->addAnimation("IDLE_UP", 100.0f, 0, 0, 5, 0, 16, 32);
+	this->animationComponent->addAnimation("IDLE_RIGHT", 100.0f, 0, 0, 5, 0, 16, 32);
+	this->animationComponent->addAnimation("IDLE_DOWN", 100.0f, 0, 0, 5, 0, 16, 32);
+	this->animationComponent->addAnimation("RUN_LEFT", 100.0f, 0, 0, 5, 0, 16, 32);
+	this->animationComponent->addAnimation("RUN_UP", 100.0f, 0, 0, 5, 0, 16, 32);
+	this->animationComponent->addAnimation("RUN_RIGHT", 100.0f, 0, 0, 5, 0, 16, 32);
+	this->animationComponent->addAnimation("RUN_DOWN", 100.0f, 0, 0, 0, 0, 16, 32);*/
 }
 
 Player::~Player()
@@ -77,5 +86,12 @@ void Player::update(const float& dt)
 	{
 		// Update movement
 		this->movementComponent->update(dt);
+	}
+
+	// Check for animation component
+	if (this->animationComponent)
+	{
+		// Update animation
+		this->animationComponent->play("IDLE_LEFT", dt);
 	}
 }

@@ -128,6 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Components\AnimationComponent.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Components\MovementComponent.cpp" />
     <ClCompile Include="Resources\Button.cpp" />
@@ -143,6 +144,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\AnimationComponent.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Components\MovementComponent.h" />
     <ClInclude Include="Utils\MathUtils.h" />

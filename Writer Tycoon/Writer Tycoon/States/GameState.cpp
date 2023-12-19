@@ -25,15 +25,15 @@ void GameState::initKeybinds()
 void GameState::initTextures()
 {
 	// Load player sprite
-	if (!this->textures["PLAYER_IDLE"].loadFromFile("Assets/Sprites/Player/player_idle.png"))
+	if (!this->textures["PLAYER_IDLE_LEFT_SHEET"].loadFromFile("Assets/Sprites/Player/player_idle_left.png"))
 	{
-		throw "ERROR::GAME_STATE_::COULD_NOT_LOAD_PLAYER_IDLE_TEXTURE";
+		throw "ERROR::GAME_STATE_::COULD_NOT_LOAD_PLAYER_IDLE_LEFT_SHEET_TEXTURE";
 	}
 }
 
 void GameState::initEntities()
 {
-	this->player = new Player(0, 0, this->textures["PLAYER_IDLE"]);
+	this->player = new Player(0, 0, this->textures["PLAYER_IDLE_LEFT_SHEET"]);
 }
 
 // Constructor/Destructor
