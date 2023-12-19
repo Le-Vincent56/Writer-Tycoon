@@ -2,7 +2,7 @@
 
 // Constructor/Destructor
 AnimationComponent::AnimationComponent(sf::Sprite& sprite, sf::Texture& textureSheet)
-	: sprite(sprite), textureSheet(textureSheet)
+	: sprite(sprite), textureSheet(textureSheet), lastAnimation(nullptr)
 {
 }
 
@@ -28,5 +28,20 @@ void AnimationComponent::addAnimation(const std::string key,
 
 void AnimationComponent::play(const std::string key, const float& dt)
 {
+	// Check if we have switched animations
+	if (this->lastAnimation != this->animations[key])
+	{
+		// Check if the last animation exists
+		if (this->lastAnimation != nullptr)
+		{
+			// Reset the last animation
+			this->lastAnimation->reset();
+		}
+
+		// Set the new last animation
+		this->lastAnimation = this->animations[key];
+	}
+
+	// Play the animation
 	this->animations[key]->play(dt);
 }

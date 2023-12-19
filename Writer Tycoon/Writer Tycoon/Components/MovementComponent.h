@@ -17,6 +17,15 @@
 #include <SFML/System.hpp>
 #include <SFML/Network.hpp>
 
+enum PLAYER_DIR
+{
+	IDLE = 0,
+	DOWN = 1,
+	LEFT = 2,
+	RIGHT = 3,
+	UP = 4
+};
+
 class MovementComponent
 {
 private:
@@ -24,6 +33,7 @@ private:
 	sf::Sprite& sprite;
 
 	bool locked;
+	float idleBuffer;
 
 	float accelAmount;
 	float decelAmount;
@@ -35,6 +45,9 @@ private:
 	sf::Vector2f direction;
 	sf::Vector2f velocity;
 
+	PLAYER_DIR currentState;
+	PLAYER_DIR lastState;
+
 	// Initializer Functions
 	void initVariables();
 
@@ -45,12 +58,14 @@ public:
 
 	// Accessors
 	const sf::Vector2f& getVelocity() const;
-	const sf::Vector2f& getDirection() const;
+	const PLAYER_DIR& getCurrentState() const;
+	const PLAYER_DIR& getLastState() const;
 
 	// Functions
 	void applyForce(sf::Vector2f force);
 	void setDirectionX(float x);
 	void setDirectionY(float y);
+	void updateMovementMap();
 	void move(float lerpAmount);
 	void update(const float& dt);
 };

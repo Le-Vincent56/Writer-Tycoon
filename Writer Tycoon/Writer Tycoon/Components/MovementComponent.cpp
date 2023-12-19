@@ -4,8 +4,9 @@
 void MovementComponent::initVariables()
 {
 	locked = false;
-	accelAmount = 20.0f;
-	decelAmount = 20.0f;
+	idleBuffer = 30.0f;
+	accelAmount = 40.0f;
+	decelAmount = 40.0f;
 }
 
 // Constructor/Destructor
@@ -26,9 +27,14 @@ const sf::Vector2f& MovementComponent::getVelocity() const
 	return this->velocity;
 }
 
-const sf::Vector2f& MovementComponent::getDirection() const
+const PLAYER_DIR& MovementComponent::getCurrentState() const
 {
-	return this->direction;
+	return this->currentState;
+}
+
+const PLAYER_DIR& MovementComponent::getLastState() const
+{
+	return this->lastState;
 }
 
 // Functions
@@ -45,6 +51,43 @@ void MovementComponent::setDirectionX(float x)
 void MovementComponent::setDirectionY(float y)
 {
 	this->direction.y = y;
+}
+
+void MovementComponent::updateMovementMap()
+{
+	// Check if the player is idle
+	if ((this->velocity.x < idleBuffer && this->velocity.x > -idleBuffer) && (this->velocity.y < idleBuffer && this->velocity.y > -idleBuffer))
+	{
+		this->currentState = PLAYER_DIR::IDLE;
+	}
+
+	// Check if the player is moving down
+	if (this->direction.y == 1.0f)
+	{
+		this->currentState = PLAYER_DIR::DOWN;
+		lastState = PLAYER_DIR::DOWN;
+	}
+
+	// Check if the player is moving left
+	if (this->direction.x == -1.0f)
+	{
+		this->currentState = PLAYER_DIR::LEFT;
+		lastState = PLAYER_DIR::LEFT;
+	}
+
+	// Check if the player is moving right
+	if (this->direction.x == 1.0f)
+	{
+		this->currentState = PLAYER_DIR::RIGHT;
+		lastState = PLAYER_DIR::RIGHT;
+	}
+
+	// Check if the player is moving up
+	if (this->direction.y == -1.0f)
+	{
+		this->currentState = PLAYER_DIR::UP;
+		lastState = PLAYER_DIR::UP;
+	}
 }
 
 void MovementComponent::move(float lerpAmount)
@@ -79,10 +122,14 @@ void MovementComponent::update(const float& dt)
 
 		// Set velocity and position
 		this->velocity += acceleration * dt;
+		std::cout << "Velocity: " << "(" << velocity.x << ", " << velocity.y << ")\n";
 		this->position += this->velocity * dt;
 
 		// Set sprite position
 		this->sprite.setPosition(this->position);
+
+		// Update movement map
+		updateMovementMap();
 
 		// Reset acceleration
 		this->acceleration = sf::Vector2f(0.0f, 0.0f);

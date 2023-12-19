@@ -74,12 +74,6 @@ void Game::initKeys()
 
 	// Close the ilfe stream
 	ifs.close();
-
-	// Debug
-	for (auto i : this->supportedKeys)
-	{
-		std::cout << i.first << " " << i.second << "\n";
-	}
 }
 
 void Game::initStates()
@@ -114,7 +108,6 @@ Game::~Game()
 // Functions 
 void Game::endApplication()
 {
-	std::cout << "Ending application!";
 }
 
 void Game::updateDt()
