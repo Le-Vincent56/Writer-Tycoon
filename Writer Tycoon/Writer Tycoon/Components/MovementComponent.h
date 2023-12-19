@@ -23,6 +23,8 @@ private:
 	// Variables
 	sf::Sprite& sprite;
 
+	bool locked;
+
 	float accelAmount;
 	float decelAmount;
 

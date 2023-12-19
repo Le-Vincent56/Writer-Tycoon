@@ -3,7 +3,8 @@
 // Constructor/Destructor
 Button::Button(float x, float y, float width, float height,
 	sf::Font* font, std::string text, unsigned int textSize,
-	sf::Color idleColor, sf::Color hoverColor, sf::Color actveColor)
+	sf::Color textIdleColor, sf::Color textHoverColor, sf::Color textActiveColor,
+	sf::Texture* buttonIdleTexture, sf::Texture* buttonActiveTexture)
 {
 	// Set button state
 	this->buttonState = BTN_IDLE;
@@ -20,17 +21,30 @@ Button::Button(float x, float y, float width, float height,
 	this->text.setCharacterSize(textSize);
 
 	// Center the text
-	this->text.setPosition(
-		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.0f) - this->text.getGlobalBounds().width / 2.0f,
-		this->shape.getPosition().y + (this->shape.getGlobalBounds().height / 2.0f) - this->text.getGlobalBounds().height / 2.0f
-	);
+	float textX = this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.0f) - this->text.getGlobalBounds().width / 2.0f;
+	float textY = this->shape.getPosition().y + (this->shape.getGlobalBounds().height / 2.0f) - this->text.getGlobalBounds().height * 1.125;
+
+	// If there's a texture, adjust text position
+	if (this->buttonIdleTexture)
+	{
+		textX += (this->shape.getGlobalBounds().width - this->buttonIdleTexture->getSize().x) / 2.0f;
+		textY += (this->shape.getGlobalBounds().height - this->buttonIdleTexture->getSize().y) / 2.0f;
+	}
+
+	this->text.setPosition(textX, textY);
 
 	// Set colors
-	this->idleColor = idleColor;
-	this->hoverColor = hoverColor;
-	this->activeColor = activeColor;
+	this->textIdleColor = textIdleColor;
+	this->textHoverColor = textHoverColor;
+	this->textActiveColor = textActiveColor;
 
-	this->shape.setFillColor(this->idleColor);
+	// Set textures
+	this->buttonIdleTexture = buttonIdleTexture;
+	this->buttonIdleColor = sf::Color(255, 255, 255, 255);
+	this->buttonHoverColor = sf::Color(180, 180, 180, 255);;
+	this->buttonActiveTexture = buttonActiveTexture;
+
+	this->shape.setTexture(this->buttonIdleTexture);
 }
 
 Button::~Button()
@@ -65,15 +79,22 @@ void Button::update(const sf::Vector2f mousePos)
 	switch (this->buttonState)
 	{
 		case BTN_IDLE:
-			this->shape.setFillColor(this->idleColor);
+			this->shape.setTexture(this->buttonIdleTexture);
+			this->text.setFillColor(this->textIdleColor);
+			this->shape.setFillColor(this->buttonIdleColor);
 			break;
 
 		case BTN_HOVER:
-			this->shape.setFillColor(this->hoverColor);
+			this->shape.setTexture(this->buttonIdleTexture);
+			this->text.setFillColor(this->textHoverColor);
+			this->shape.setFillColor(this->buttonHoverColor);
+			
 			break;
 
 		case BTN_ACTIVE:
-			this->shape.setFillColor(this->activeColor);
+			this->shape.setTexture(this->buttonActiveTexture);
+			this->text.setFillColor(this->textActiveColor);
+			this->shape.setFillColor(this->buttonIdleColor);
 			break;
 
 		default:

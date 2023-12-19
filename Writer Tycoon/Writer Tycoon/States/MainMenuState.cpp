@@ -25,10 +25,24 @@ void MainMenuState::initBackground()
 	this->background.setTexture(&this->backgroundTexture);
 }
 
+void MainMenuState::initTextures()
+{
+	// Load button sprites
+	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long.png"))
+	{
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_TEXTURE";
+	}
+
+	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_pressed.png"))
+	{
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_PRESSED_TEXTURE";
+	}
+}
+
 void MainMenuState::initFonts()
 {
 	// Attempt to load the font
-	if (!this->font.loadFromFile("Fonts/EBGaramond-Regular.ttf"))
+	if (!this->font.loadFromFile("Fonts/monogram-extended.ttf"))
 	{
 		throw("ERROR: MainMenuState could not load font");
 	}
@@ -60,24 +74,35 @@ void MainMenuState::initButtons()
 {
 	// Game state button
 	float windowCenterX = this->window->getSize().x / 2;
-	float buttonWidth = 150;
+	float buttonWidth = 200;
 	float buttonCenterX = windowCenterX - (buttonWidth / 2);
 
-	float windowQuarterY = this->window->getSize().y - (this->window->getSize().y / 3);
-	float buttonHeight = 50;
+	float windowQuarterY = this->window->getSize().y / 2;
+	float buttonHeight = 75;
 
+	// Game State
 	this->buttons["GAME_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 0.5), buttonWidth, buttonHeight,
 		&this->font, "New Game", 24,
-		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
+		&this->buttonIdle, &this->buttonPressed);
 
-	this->buttons["SETTINGS_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 2), buttonWidth, buttonHeight,
+	// Settings State
+	this->buttons["SETTINGS_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 2.0), buttonWidth, buttonHeight,
 		&this->font, "Settings", 24,
-		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
+		&this->buttonIdle, &this->buttonPressed);
+
+	// Editor State
+	this->buttons["EDITOR_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 3.5), buttonWidth, buttonHeight,
+		&this->font, "Editor", 24,
+		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
+		&this->buttonIdle, &this->buttonPressed);
 
 	// Exit state
-	this->buttons["EXIT_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 3.5), buttonWidth, 50,
+	this->buttons["EXIT_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 5.0), buttonWidth, buttonHeight,
 		&this->font, "Quit", 24,
-		sf::Color(100, 100, 100, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
+		&this->buttonIdle, &this->buttonPressed);
 }
 
 // Constructor/Destructor
@@ -87,6 +112,7 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int
 	// Initialize variables
 	this->initVariables();
 	this->initBackground();
+	this->initTextures();
 	this->initFonts();
 	this->initKeybinds();
 	this->initButtons();

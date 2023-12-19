@@ -25,7 +25,7 @@ void GameState::initKeybinds()
 void GameState::initTextures()
 {
 	// Load player sprite
-	if (!this->textures["PLAYER_IDLE"].loadFromFile("Assets/Sprites/Player/PlayerIdle.png"))
+	if (!this->textures["PLAYER_IDLE"].loadFromFile("Assets/Sprites/Player/player_idle.png"))
 	{
 		throw "ERROR::GAME_STATE_::COULD_NOT_LOAD_PLAYER_IDLE_TEXTURE";
 	}

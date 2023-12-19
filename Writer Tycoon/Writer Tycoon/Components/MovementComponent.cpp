@@ -3,6 +3,7 @@
 // Initializer Functions
 void MovementComponent::initVariables()
 {
+	locked = false;
 	accelAmount = 20.0f;
 	decelAmount = 20.0f;
 }
@@ -67,19 +68,23 @@ void MovementComponent::move(float lerpAmount)
 
 void MovementComponent::update(const float& dt)
 {
-	// Move the entity
-	this->move(0.5f);
+	// Check if the player is locked
+	if (!locked)
+	{
+		// Move the entity
+		this->move(0.5f);
 
-	// Get the current position
-	this->position = this->sprite.getPosition();
+		// Get the current position
+		this->position = this->sprite.getPosition();
 
-	// Set velocity and position
-	this->velocity += acceleration * dt;
-	this->position += this->velocity * dt;
+		// Set velocity and position
+		this->velocity += acceleration * dt;
+		this->position += this->velocity * dt;
 
-	// Set sprite position
-	this->sprite.setPosition(this->position);
+		// Set sprite position
+		this->sprite.setPosition(this->position);
 
-	// Reset acceleration
-	this->acceleration = sf::Vector2f(0.0f, 0.0f);
+		// Reset acceleration
+		this->acceleration = sf::Vector2f(0.0f, 0.0f);
+	}
 }

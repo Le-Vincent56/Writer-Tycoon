@@ -19,18 +19,25 @@ private:
 	short unsigned int buttonState;
 
 	sf::RectangleShape shape;
+
 	sf::Font* font;
 	sf::Text text;
 
-	sf::Color idleColor;
-	sf::Color hoverColor;
-	sf::Color activeColor;
+	sf::Color textIdleColor;
+	sf::Color textHoverColor;
+	sf::Color textActiveColor;
+
+	sf::Texture* buttonIdleTexture;
+	sf::Color buttonIdleColor;
+	sf::Color buttonHoverColor;
+	sf::Texture* buttonActiveTexture;
 
 public:
 	// Constructor/Destructor
-	Button(float x, float y, float width, float height, 
+	Button(float x, float y, float width, float height,
 		sf::Font* font, std::string text, unsigned int textSize,
-		sf::Color idleColor, sf::Color hoverColor, sf::Color actveColor);
+		sf::Color textIdleColor, sf::Color textHoverColor, sf::Color textActiveColor,
+		sf::Texture* buttonIdleTexture, sf::Texture* buttonActiveTexture);
 	virtual ~Button();
 
 	// Accessors

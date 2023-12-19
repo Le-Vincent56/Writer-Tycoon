@@ -12,11 +12,15 @@ private:
     sf::RectangleShape background;
     sf::Font font;
 
+    sf::Texture buttonIdle;
+    sf::Texture buttonPressed;
+
     std::map<std::string, Button*> buttons;
 
     // Functions
     void initVariables();
     void initBackground();
+    void initTextures();
     void initFonts();
     void initKeybinds();
     void initButtons();
