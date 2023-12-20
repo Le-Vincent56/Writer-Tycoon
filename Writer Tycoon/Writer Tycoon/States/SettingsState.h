@@ -1,39 +1,41 @@
 #pragma once
 
 #include "State.h"
-#include "SettingsState.h"
-#include "..\GUI\PauseMenu.h"
 
-class GameState :
+class SettingsState :
     public State
 {
 private:
+    // Variables
+    sf::Texture backgroundTexture;
+    sf::RectangleShape background;
+
     sf::Font font;
     sf::Texture buttonIdle;
     sf::Texture buttonPressed;
 
-    PauseMenu* pauseMenu;
+    std::map<std::string, Button*> buttons;
 
-    Player* player;
-
-    // Initalizer Functions
+    // Functions
+    void initVariables();
+    void initBackground();
     void initTextures();
     void initFonts();
     void initKeybinds();
-    void initPauseMenu();
-    void initEntities();
+    void initButtons();
 
 public:
     // Constructor/Destructor
-    GameState(sf::RenderWindow* window, 
+    SettingsState(sf::RenderWindow* window, 
         std::map<std::string, int>* supportedKeys, 
         std::stack<State*>* states);
-    virtual ~GameState();
+    virtual ~SettingsState();
 
     // Functions
     void updateInput(const float& dt);
-    void updatePauseMenuButtons();
+    void updateButtons();
     void update(const float& dt);
+    void renderButtons(sf::RenderTarget& target);
     void render(sf::RenderTarget* target = nullptr);
 };
 

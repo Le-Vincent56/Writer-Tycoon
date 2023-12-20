@@ -86,7 +86,9 @@ void GameState::initEntities()
 }
 
 // Constructor/Destructor
-GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states)
+GameState::GameState(sf::RenderWindow* window, 
+	std::map<std::string, int>* supportedKeys, 
+	std::stack<State*>* states)
 	: State(window, supportedKeys, states)
 {
 	this->initTextures();
@@ -105,8 +107,6 @@ GameState::~GameState()
 // Functions
 void GameState::updateInput(const float& dt)
 {
-	std::cout << "Can Press Key: " << this->getCanPressKey() << "\n";
-
 	// Pause the game
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("CLOSE"))) && this->getCanPressKey())
 	{
@@ -128,20 +128,24 @@ void GameState::updateInput(const float& dt)
 void GameState::updatePauseMenuButtons()
 {
 	// Resume state
-	if (this->pauseMenu->isButtonPressed("RESUME_STATE"))
+	if (this->pauseMenu->isButtonPressed("RESUME_STATE") && this->getCanPressButtons())
 	{
+		this->startButtonTimer();
 		this->unpauseState();
 	}
 
 	// Settings state
-	if (this->pauseMenu->isButtonPressed("SETTINGS_STATE"))
+	if (this->pauseMenu->isButtonPressed("SETTINGS_STATE") && this->getCanPressButtons())
 	{
 		// TODO: ADD SETTINGS STATE
+		this->startButtonTimer();
+		this->states->push(new SettingsState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Exit state
-	if (this->pauseMenu->isButtonPressed("EXIT_STATE"))
+	if (this->pauseMenu->isButtonPressed("EXIT_STATE") && this->getCanPressButtons())
 	{
+		this->startButtonTimer();
 		this->endState();
 	}
 }
@@ -151,6 +155,9 @@ void GameState::update(const float& dt)
 {
 	// Update mouse positions
 	this->updateMousePositions();
+
+	// Update button time
+	this->updateButtonTime(dt);
 
 	// Update key time
 	this->updateKeyTime(dt);

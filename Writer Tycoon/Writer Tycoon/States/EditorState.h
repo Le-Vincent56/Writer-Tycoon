@@ -23,7 +23,9 @@ private:
 
 public:
     // Constructor/Destructor
-    EditorState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states);
+    EditorState(sf::RenderWindow* window, 
+        std::map<std::string, int>* supportedKeys, 
+        std::stack<State*>* states);
     virtual ~EditorState();
 
     // Functions

@@ -59,7 +59,9 @@ void EditorState::initButtons()
 }
 
 // Constructor/Destructor
-EditorState::EditorState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states)
+EditorState::EditorState(sf::RenderWindow* window, 
+	std::map<std::string, int>* supportedKeys, 
+	std::stack<State*>* states)
 	: State(window, supportedKeys, states)
 {
 	// Initialize variables
@@ -97,6 +99,9 @@ void EditorState::update(const float& dt)
 	// Update mouse positions
 	this->updateMousePositions();
 
+	// Update button time
+	this->updateButtonTime(dt);
+
 	// Update input
 	this->updateInput(dt);
 
@@ -121,15 +126,4 @@ void EditorState::render(sf::RenderTarget* target)
 
 	// Draw buttons
 	this->renderButtons(*target);
-
-	// Remove later
-	sf::Text mouseText;
-	mouseText.setPosition(this->mousePosView.x, this->mousePosView.y - 50);
-	mouseText.setFont(this->font);
-	mouseText.setCharacterSize(12);
-	std::stringstream ss;
-	ss << this->mousePosView.x << ", " << this->mousePosView.y;
-	mouseText.setString(ss.str());
-
-	target->draw(mouseText);
 }
