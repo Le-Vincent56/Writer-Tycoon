@@ -22,6 +22,11 @@ MovementComponent::~MovementComponent()
 }
 
 // Accessors
+const float& MovementComponent::getMaxSpeed() const
+{
+	return this->maxSpeed;
+}
+
 const sf::Vector2f& MovementComponent::getVelocity() const
 {
 	return this->velocity;
@@ -93,7 +98,7 @@ void MovementComponent::updateMovementMap()
 void MovementComponent::move(float lerpAmount)
 {
 	// Retrieve target speed
-	sf::Vector2f targetSpeed = VectorUtils::mult(this->direction, this->maxSpeed);
+	sf::Vector2f targetSpeed = VectorUtils::mult(VectorUtils::normalize(this->direction), this->maxSpeed);
 	targetSpeed = VectorUtils::lerp(this->velocity, targetSpeed, lerpAmount);
 
 	// Calculate acceleration rate
@@ -122,7 +127,6 @@ void MovementComponent::update(const float& dt)
 
 		// Set velocity and position
 		this->velocity += acceleration * dt;
-		std::cout << "Velocity: " << "(" << velocity.x << ", " << velocity.y << ")\n";
 		this->position += this->velocity * dt;
 
 		// Set sprite position

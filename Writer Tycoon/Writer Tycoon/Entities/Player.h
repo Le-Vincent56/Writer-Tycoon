@@ -17,6 +17,9 @@ public:
 
     // Functions
     void updateInput(std::map<std::string, int> keybinds, const float& dt);
+    void updateMovement(const float& dt);
+    void updateAnimation(const float& dt);
+    void updateHitbox();
     void update(const float& dt);
 };
 

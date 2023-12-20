@@ -57,6 +57,7 @@ public:
 	virtual ~MovementComponent();
 
 	// Accessors
+	const float& getMaxSpeed() const;
 	const sf::Vector2f& getVelocity() const;
 	const PLAYER_DIR& getCurrentState() const;
 	const PLAYER_DIR& getLastState() const;

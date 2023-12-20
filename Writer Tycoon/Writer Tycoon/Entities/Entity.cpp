@@ -4,6 +4,8 @@
 void Entity::initVariables()
 {
 	this->movementComponent = nullptr;
+	this->animationComponent = nullptr;
+	this->hitboxComponent = nullptr;
 }
 
 // Constructor/Destructor
@@ -16,6 +18,7 @@ Entity::~Entity()
 {
 	delete this->movementComponent;
 	delete this->animationComponent;
+	delete this->hitboxComponent;
 }
 
 // Component Functions
@@ -35,6 +38,13 @@ void Entity::createAnimationComponent(sf::Texture& textureSheet)
 	this->animationComponent = new AnimationComponent(this->sprite, textureSheet);
 }
 
+void Entity::createHitboxComponent(sf::Sprite& sprite,
+	const float offsetX, const float offsetY,
+	float width, float height)
+{
+	this->hitboxComponent = new HitboxComponent(sprite, offsetX, offsetY, width, height);
+}
+
 // Functions
 void Entity::setPosition(const float x, const float y)
 {
@@ -42,8 +52,15 @@ void Entity::setPosition(const float x, const float y)
 	this->sprite.setPosition(x, y);
 }
 
-void Entity::render(sf::RenderTarget* target)
+void Entity::render(sf::RenderTarget& target)
 {
 	// Draw the sprite
-	target->draw(this->sprite);
+	target.draw(this->sprite);
+
+	// Check if there is a hitbox component
+	if (this->hitboxComponent)
+	{
+		// Render the target
+		this->hitboxComponent->render(target);
+	}
 }

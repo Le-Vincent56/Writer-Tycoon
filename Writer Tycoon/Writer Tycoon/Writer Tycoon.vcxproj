@@ -129,6 +129,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Components\AnimationComponent.cpp" />
+    <ClCompile Include="Components\HitboxComponent.cpp" />
+    <ClCompile Include="States\EditorState.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Components\MovementComponent.cpp" />
     <ClCompile Include="Resources\Button.cpp" />
@@ -138,6 +140,7 @@
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="States\State.cpp" />
+    <ClCompile Include="Tiles\Tile.cpp" />
     <ClCompile Include="Utils\VectorUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,8 +148,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\AnimationComponent.h" />
+    <ClInclude Include="Components\HitboxComponent.h" />
+    <ClInclude Include="States\EditorState.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Components\MovementComponent.h" />
+    <ClInclude Include="Tiles\Tile.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Resources\Button.h" />
     <ClInclude Include="Entities\Entity.h" />
