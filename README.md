@@ -3,7 +3,7 @@ _Writer Tycoon_* is a 2D, management, simulation game where you take on the role
 
 This project started off as a way to hone my C++ skills, but now is more of a test to see how much I can get done within four weeks of winter break (December 20, 2023 - January 15, 2024), with a couple of days added on from Finals week. I do not plan on stopping the project afterwards, but it will be for more leisure than examination/reflection or intense learning.
 
-# Engine
+## Engine
 _Writer Tycoon_ uses the SFML library for C++. The code is structured to use Game States in a stack formation to easily push and pop states that are relevant to the player. Sprite sheet animation components were fully crafted by hand, as well as collisions, lerping movement, and all UI components. Down the line, I want to implement a level editor that allows me to create maps quickly.
 
 ## PHASE 1 - ENGINE DEVELOPMENT AND BASIC COMPONENTS
@@ -67,8 +67,8 @@ _Writer Tycoon_ uses the SFML library for C++. The code is structured to use Gam
 * Workplace: Liveliness/Motivation------------------------------☐
 * More to come...
 
-# Sources
-Textures: Modern Interiors / Modern User Interface - LimeZu, https://limezu.itch.io/
+## Sources
+Textures: Modern Interiors / Modern User Interface - LimeZu, https://limezu.itch.io/<br>
 Font: Monogram - DataGoblin, https://datagoblin.itch.io/
 
 
