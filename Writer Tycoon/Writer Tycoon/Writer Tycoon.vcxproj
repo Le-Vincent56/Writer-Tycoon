@@ -130,10 +130,11 @@
   <ItemGroup>
     <ClCompile Include="Components\AnimationComponent.cpp" />
     <ClCompile Include="Components\HitboxComponent.cpp" />
+    <ClCompile Include="GUI\PauseMenu.cpp" />
     <ClCompile Include="States\EditorState.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
     <ClCompile Include="Components\MovementComponent.cpp" />
-    <ClCompile Include="Resources\Button.cpp" />
+    <ClCompile Include="GUI\Button.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="States\MainMenuState.cpp" />
@@ -149,12 +150,13 @@
   <ItemGroup>
     <ClInclude Include="Components\AnimationComponent.h" />
     <ClInclude Include="Components\HitboxComponent.h" />
+    <ClInclude Include="GUI\PauseMenu.h" />
     <ClInclude Include="States\EditorState.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Components\MovementComponent.h" />
     <ClInclude Include="Tiles\Tile.h" />
     <ClInclude Include="Utils\MathUtils.h" />
-    <ClInclude Include="Resources\Button.h" />
+    <ClInclude Include="GUI\Button.h" />
     <ClInclude Include="Entities\Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="States\MainMenuState.h" />

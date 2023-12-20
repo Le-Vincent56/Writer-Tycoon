@@ -1,7 +1,7 @@
 #pragma once
 
 #include "..\Entities\Player.h"
-#include "../Resources/Button.h"
+#include "..\GUI\Button.h"
 
 class State
 {
@@ -16,6 +16,9 @@ protected:
 	std::map<std::string, int> keybinds;
 	bool quit;
 	bool paused;
+
+	bool canPressKey;
+	float keyTime;
 
 	sf::Vector2i mousePosScreen;
 	sf::Vector2i mousePosWindow;
@@ -32,11 +35,16 @@ public:
 	State(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states);
 	virtual ~State();
 
-	// Functions
+	// Accessors
 	const bool& getQuit() const;
+	const bool getCanPressKey();
+
+	// Functions
 	void endState();
 	void pauseState();
 	void unpauseState();
+	void startKeyTimer();
+	virtual void updateKeyTime(const float& dt);
 	virtual void updateMousePositions();
 	virtual void updateInput(const float& dt) = 0;
 	virtual void update(const float& dt) = 0;

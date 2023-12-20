@@ -44,7 +44,7 @@ void MainMenuState::initFonts()
 	// Attempt to load the font
 	if (!this->font.loadFromFile("Fonts/monogram-extended.ttf"))
 	{
-		throw("ERROR: MainMenuState could not load font");
+		throw("ERROR::MAIN_MENU_STATE::COULD_NOT_LOAD_FONT_MONOGRAM_EXTENDED");
 	}
 }
 
@@ -72,37 +72,49 @@ void MainMenuState::initKeybinds()
 
 void MainMenuState::initButtons()
 {
-	// Game state button
+	// Button Params
 	float windowCenterX = this->window->getSize().x / 2;
 	float buttonWidth = 200;
 	float buttonCenterX = windowCenterX - (buttonWidth / 2);
 
-	float windowQuarterY = this->window->getSize().y / 2;
+	float windowCenterY = this->window->getSize().y / 2;
 	float buttonHeight = 75;
 
 	// Game State
-	this->buttons["GAME_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 0.5), buttonWidth, buttonHeight,
-		&this->font, "New Game", 24,
+	this->buttons["GAME_STATE"] = new Button(
+		buttonCenterX, windowCenterY + (buttonHeight * 0.5), 
+		buttonWidth, buttonHeight,
+		this->font, "NEW GAME", 24,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
-		&this->buttonIdle, &this->buttonPressed);
+		this->buttonIdle, this->buttonPressed
+	);
 
 	// Settings State
-	this->buttons["SETTINGS_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 2.0), buttonWidth, buttonHeight,
-		&this->font, "Settings", 24,
+	this->buttons["SETTINGS_STATE"] = new Button(
+		buttonCenterX, windowCenterY + (buttonHeight * 2.0), 
+		buttonWidth, buttonHeight,
+		this->font, "SETTINGS", 24,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
-		&this->buttonIdle, &this->buttonPressed);
+		this->buttonIdle, this->buttonPressed
+	);
 
 	// Editor State
-	this->buttons["EDITOR_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 3.5), buttonWidth, buttonHeight,
-		&this->font, "Editor", 24,
+	this->buttons["EDITOR_STATE"] = new Button(
+		buttonCenterX, windowCenterY + (buttonHeight * 3.5), 
+		buttonWidth, buttonHeight,
+		this->font, "EDITOR", 24,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
-		&this->buttonIdle, &this->buttonPressed);
+		this->buttonIdle, this->buttonPressed
+	);
 
 	// Exit state
-	this->buttons["EXIT_STATE"] = new Button(buttonCenterX, windowQuarterY + (buttonHeight * 5.0), buttonWidth, buttonHeight,
-		&this->font, "Quit", 24,
+	this->buttons["EXIT_STATE"] = new Button(
+		buttonCenterX, windowCenterY + (buttonHeight * 5.0), 
+		buttonWidth, buttonHeight,
+		this->font, "QUIT", 32,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
-		&this->buttonIdle, &this->buttonPressed);
+		this->buttonIdle, this->buttonPressed
+	);
 }
 
 // Constructor/Destructor

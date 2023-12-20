@@ -20,31 +20,31 @@ private:
 
 	sf::RectangleShape shape;
 
-	sf::Font* font;
+	sf::Font& font;
 	sf::Text text;
 
 	sf::Color textIdleColor;
 	sf::Color textHoverColor;
 	sf::Color textActiveColor;
 
-	sf::Texture* buttonIdleTexture;
+	sf::Texture& buttonIdleTexture;
 	sf::Color buttonIdleColor;
 	sf::Color buttonHoverColor;
-	sf::Texture* buttonActiveTexture;
+	sf::Texture& buttonActiveTexture;
 
 public:
 	// Constructor/Destructor
 	Button(float x, float y, float width, float height,
-		sf::Font* font, std::string text, unsigned int textSize,
+		sf::Font& font, std::string text, unsigned int textSize,
 		sf::Color textIdleColor, sf::Color textHoverColor, sf::Color textActiveColor,
-		sf::Texture* buttonIdleTexture, sf::Texture* buttonActiveTexture);
+		sf::Texture& buttonIdleTexture, sf::Texture& buttonActiveTexture);
 	virtual ~Button();
 
 	// Accessors
 	const bool isPressed() const;
 
 	// Functions
-	void update(const sf::Vector2f mousePos);
+	void update(const sf::Vector2f& mousePosView);
 	void render(sf::RenderTarget& target);
 };
 

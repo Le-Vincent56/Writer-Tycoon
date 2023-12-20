@@ -10,8 +10,8 @@ private:
     // Variables
     sf::Texture backgroundTexture;
     sf::RectangleShape background;
+   
     sf::Font font;
-
     sf::Texture buttonIdle;
     sf::Texture buttonPressed;
 

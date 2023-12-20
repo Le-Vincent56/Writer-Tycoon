@@ -28,7 +28,7 @@ void EditorState::initFonts()
 	// Attempt to load the font
 	if (!this->font.loadFromFile("Fonts/monogram-extended.ttf"))
 	{
-		throw("ERROR: MainMenuState could not load font");
+		throw("ERROR::EDITOR_STATE::COULD_NOT_LOAD_FONT_MONOGRAM_EXTENDED");
 	}
 }
 

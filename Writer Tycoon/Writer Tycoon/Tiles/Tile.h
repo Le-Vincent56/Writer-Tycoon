@@ -9,6 +9,7 @@ protected:
 
 
 public:
+	// Constructor/Destructor
 	Tile();
 	virtual ~Tile();
 };
