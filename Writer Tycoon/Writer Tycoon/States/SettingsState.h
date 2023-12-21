@@ -24,6 +24,8 @@ private:
 
     std::vector<sf::VideoMode> modes;
 
+    bool changesMade;
+
     // Functions
     void initVariables();
     void initBackground();

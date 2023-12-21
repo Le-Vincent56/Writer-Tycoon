@@ -94,6 +94,18 @@ const bool Button::getClickBuffer()
 }
 
 // Modifiers
+void Button::setEnabled(const bool enabled)
+{
+	if (enabled)
+	{
+		this->buttonState = BTN_IDLE;
+	}
+	else
+	{
+		this->buttonState = BTN_DISABLED;
+	}
+}
+
 void Button::setID(const short unsigned int id)
 {
 	this->id = id;
@@ -116,7 +128,13 @@ void Button::setTextureOverride(const bool isOverriding)
 
 void Button::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 {
-	// Detect if the mouse is within bounds
+	// Don't update events if the button is disabled
+	if (this->buttonState == BTN_DISABLED)
+	{
+		return;
+	}
+
+	// Detect if the mouse is within bounds and if the button is disabled
 	if (this->shape.getGlobalBounds().contains(mousePosView))
 	{
 		// When the button is pressed, set the active texture
@@ -129,10 +147,20 @@ void Button::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 		}
 		else if (sfEvent.type == sf::Event::MouseButtonReleased)
 		{
-			// When released, activate the button function
-			if (sfEvent.mouseButton.button == sf::Mouse::Left && getClickBuffer())
+			if (sfEvent.mouseButton.button == sf::Mouse::Left)
 			{
-				this->buttonState = BTN_ACTIVE_FUNCTION;
+				// Check if the button can be clicked on release
+				if (getClickBuffer())
+				{
+					// If so, activate
+					this->buttonState = BTN_ACTIVE_FUNCTION;
+				}
+				else
+				{
+					// If not, set back to idle
+					this->buttonState = BTN_IDLE;
+				}
+				
 			}
 		}
 	}
@@ -160,22 +188,31 @@ void Button::updateClickBuffer(const float& dt)
 // Functions
 void Button::update(const float& dt, const sf::Vector2f& mousePosView)
 {
-	// Update click buffer
-	this->updateClickBuffer(dt);
-
-	// Check if the mouse is hovering over the button
-	if (this->shape.getGlobalBounds().contains(mousePosView))
+	// Check if the button is disabled
+	if (this->buttonState == BTN_DISABLED)
 	{
-		hovering = true;
+		this->shape.setTexture(&this->buttonIdleTexture);
+		this->text.setFillColor(this->textIdleColor);
+		this->shape.setFillColor(sf::Color(140, 140, 140, 255));
 	}
 	else
 	{
-		hovering = false;
-	}
+		// Update click buffer
+		this->updateClickBuffer(dt);
 
-	// Set button color
-	switch (this->buttonState)
-	{
+		// Check if the mouse is hovering over the button
+		if (this->shape.getGlobalBounds().contains(mousePosView))
+		{
+			hovering = true;
+		}
+		else
+		{
+			hovering = false;
+		}
+
+		// Set button color
+		switch (this->buttonState)
+		{
 		case BTN_IDLE:
 			if (!textureOverriden)
 			{
@@ -206,13 +243,14 @@ void Button::update(const float& dt, const sf::Vector2f& mousePosView)
 		default:
 			this->shape.setFillColor(sf::Color::Red);
 			break;
-	}
+		}
 
-	// Set hovering fill color
-	if (hovering)
-	{
-		this->text.setFillColor(this->textHoverColor);
-		this->shape.setFillColor(this->buttonHoverColor);
+		// Set hovering fill color
+		if (hovering)
+		{
+			this->text.setFillColor(this->textHoverColor);
+			this->shape.setFillColor(this->buttonHoverColor);
+		}
 	}
 }
 

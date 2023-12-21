@@ -26,6 +26,7 @@ private:
 	Button* currentElement;
 	std::vector<Button*> elements;
 
+	short unsigned int lastCurrentID;
 	bool showElements;
 
 public:
@@ -39,6 +40,7 @@ public:
 
 	// Accesors
 	const unsigned short& getCurrentElementID() const;
+	const unsigned short& getLastCurrentElementID() const;
 
 	// Functions
 	void updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView);

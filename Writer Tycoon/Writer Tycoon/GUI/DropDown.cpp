@@ -37,6 +37,9 @@ DropDown::DropDown(float x, float y, float width, float height,
 			)
 		);
 	}
+
+	// Set the last current element ID
+	this->lastCurrentID = this->currentElement->getID();
 }
 
 DropDown::~DropDown()
@@ -52,6 +55,11 @@ DropDown::~DropDown()
 const unsigned short& DropDown::getCurrentElementID() const
 {
 	return this->currentElement->getID();
+}
+
+const unsigned short& DropDown::getLastCurrentElementID() const
+{
+	return this->lastCurrentID;
 }
 
 // Functions
@@ -110,6 +118,9 @@ void DropDown::update(const float& dt, const sf::Vector2f& mousePosView)
 
 				// Stop overriding the current element texture
 				currentElement->setTextureOverride(false);
+
+				// Update the last current element ID
+				this->lastCurrentID = this->currentElement->getID();
 
 				// Update the active ID of the current element
 				this->currentElement->setID(i->getID());

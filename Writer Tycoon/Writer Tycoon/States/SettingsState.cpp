@@ -5,6 +5,7 @@ void SettingsState::initVariables()
 {
 	// Load video modes
 	this->modes = sf::VideoMode::getFullscreenModes();
+	this->changesMade = false;
 }
 
 void SettingsState::initBackground()
@@ -93,8 +94,7 @@ void SettingsState::initGUI()
 	float windowCenterY = this->window->getSize().y / 2.0f;
 	float buttonHeight = 75.0f;
 
-	// Back state
-	// Back state
+	// Save Button
 	this->buttons["SAVE"] = new Button(
 		buttonCenterX, windowCenterY + (buttonHeight * 5.0),
 		buttonWidth, buttonHeight,
@@ -103,6 +103,10 @@ void SettingsState::initGUI()
 		this->buttonIdle, this->buttonPressed
 	);
 
+	// Disable the save button at first
+	this->buttons["SAVE"]->setEnabled(false);
+
+	// Back Button
 	this->buttons["BACK"] = new Button(
 		buttonCenterX + buttonWidth, windowCenterY + (buttonHeight * 5.0f),
 		buttonWidth, buttonHeight,
@@ -207,25 +211,45 @@ void SettingsState::updateGUI(const float& dt)
 	}
 
 	// Update dropdown
-	// Update the buttons
 	for (auto& it : this->dropdowns)
 	{
+		// Check if settings have been changed
+		if (it.second->getLastCurrentElementID() != it.second->getCurrentElementID())
+		{
+			this->changesMade = true;
+		}
+
+		// Update
 		it.second->update(dt, this->mousePosView);
 	}
 
 	// Save changes
 	if (this->buttons["SAVE"]->isPressed())
 	{
+		// Save changes
 		this->window->create(
 			this->modes[this->dropdowns["RESOLUTION"]->getCurrentElementID()],
 			"Test", sf::Style::Default
 		);
+
+		// Reset changes made
+		this->changesMade = false;
 	}
 
 	// Quit the game
 	if (this->buttons["BACK"]->isPressed())
 	{
 		this->endState();
+	}
+
+	// Enable the save button if changes made, disable if not
+	if (changesMade)
+	{
+		this->buttons["SAVE"]->setEnabled(true);
+	}
+	else
+	{
+		this->buttons["SAVE"]->setEnabled(false);
 	}
 }
 

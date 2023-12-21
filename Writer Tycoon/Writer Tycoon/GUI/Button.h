@@ -10,10 +10,11 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
-enum button_states { 
+enum button_states {
 	BTN_IDLE = 0,
 	BTN_ACTIVE = 1,
-	BTN_ACTIVE_FUNCTION = 2
+	BTN_ACTIVE_FUNCTION = 2,
+	BTN_DISABLED = 3
 };
 
 class Button
@@ -60,6 +61,7 @@ public:
 	const bool getClickBuffer();
 
 	// Modifiers
+	void setEnabled(const bool enabled);
 	void setID(const short unsigned int id);
 	void setText(const std::string text);
 	void setButtonTexture(const sf::Texture& texture);
