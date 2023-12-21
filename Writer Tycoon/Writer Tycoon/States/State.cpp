@@ -10,8 +10,6 @@ State::State(sf::RenderWindow* window,
 	this->states = states;
 	this->quit = false;
 	this->paused = false;
-	this->canPressButtons = true;
-	this->buttonTime = 5.0f;
 	this->canPressKey = true;
 	this->keyTime = 5.0f;
 }
@@ -25,11 +23,6 @@ State::~State()
 const bool& State::getQuit() const
 {
 	return this->quit;
-}
-
-const bool State::getCanPressButtons()
-{
-	return this->canPressButtons;
 }
 
 const bool State::getCanPressKey()
@@ -53,35 +46,9 @@ void State::unpauseState()
 	this->paused = false;
 }
 
-void State::startButtonTimer()
-{
-	this->canPressButtons = false;
-}
-
 void State::startKeyTimer()
 {
 	this->canPressKey = false;
-}
-
-void State::updateButtonTime(const float& dt)
-{
-	// Check if a button can be pressed
-	if (!this->canPressButtons)
-	{
-		// Update button time if it hasn't hit the max time yet
-		if (this->buttonTime >= 0)
-		{
-			this->buttonTime -= 10.0f * dt;
-			this->canPressButtons = false;
-		}
-		else
-		{
-			// Reset button time and whether the player can press
-			// a button
-			this->buttonTime = 5.0f;
-			this->canPressButtons = true;
-		}
-	}
 }
 
 void State::updateKeyTime(const float& dt)

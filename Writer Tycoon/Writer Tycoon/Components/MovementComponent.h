@@ -62,10 +62,12 @@ public:
 	const PLAYER_DIR& getCurrentState() const;
 	const PLAYER_DIR& getLastState() const;
 
-	// Functions
-	void applyForce(sf::Vector2f force);
+	// Modifiers
 	void setDirectionX(float x);
 	void setDirectionY(float y);
+
+	// Functions
+	void applyForce(sf::Vector2f force);
 	void updateMovementMap();
 	void move(float lerpAmount);
 	void update(const float& dt);

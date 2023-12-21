@@ -10,14 +10,14 @@ void GameState::initTextures()
 	}
 
 	// Load button sprites
-	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long.png"))
+	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long_idle.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_TEXTURE";
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_IDLE_TEXTURE";
 	}
 
-	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_pressed.png"))
+	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_active.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_PRESSED_TEXTURE";
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_ACTIVE_TEXTURE";
 	}
 }
 
@@ -105,6 +105,16 @@ GameState::~GameState()
 }
 
 // Functions
+void GameState::updateEvents(sf::Event& sfEvent)
+{
+	// Check if paused
+	if (this->paused)
+	{
+		// Update pause menu events
+		this->pauseMenu->updateEvents(sfEvent, this->mousePosView);
+	}
+}
+
 void GameState::updateInput(const float& dt)
 {
 	// Pause the game
@@ -113,7 +123,7 @@ void GameState::updateInput(const float& dt)
 		// Start the key timer
 		this->startKeyTimer();
 
-		// Check if paused
+		// Toggle paused
 		if (!this->paused)
 		{
 			this->pauseState();
@@ -128,24 +138,20 @@ void GameState::updateInput(const float& dt)
 void GameState::updatePauseMenuButtons()
 {
 	// Resume state
-	if (this->pauseMenu->isButtonPressed("RESUME_STATE") && this->getCanPressButtons())
+	if (this->pauseMenu->isButtonPressed("RESUME_STATE"))
 	{
-		this->startButtonTimer();
 		this->unpauseState();
 	}
 
 	// Settings state
-	if (this->pauseMenu->isButtonPressed("SETTINGS_STATE") && this->getCanPressButtons())
+	if (this->pauseMenu->isButtonPressed("SETTINGS_STATE"))
 	{
-		// TODO: ADD SETTINGS STATE
-		this->startButtonTimer();
 		this->states->push(new SettingsState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Exit state
-	if (this->pauseMenu->isButtonPressed("EXIT_STATE") && this->getCanPressButtons())
+	if (this->pauseMenu->isButtonPressed("EXIT_STATE"))
 	{
-		this->startButtonTimer();
 		this->endState();
 	}
 }
@@ -155,9 +161,6 @@ void GameState::update(const float& dt)
 {
 	// Update mouse positions
 	this->updateMousePositions();
-
-	// Update button time
-	this->updateButtonTime(dt);
 
 	// Update key time
 	this->updateKeyTime(dt);
@@ -177,7 +180,7 @@ void GameState::update(const float& dt)
 	else
 	{
 		// Update the pause menu
-		this->pauseMenu->update(this->mousePosView);
+		this->pauseMenu->update(dt, this->mousePosView);
 
 		// Update buttons
 		this->updatePauseMenuButtons();

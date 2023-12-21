@@ -42,12 +42,7 @@ const PLAYER_DIR& MovementComponent::getLastState() const
 	return this->lastState;
 }
 
-// Functions
-void MovementComponent::applyForce(sf::Vector2f force)
-{
-	this->acceleration += force;
-}
-
+// Modifiers
 void MovementComponent::setDirectionX(float x)
 {
 	this->direction.x = x;
@@ -56,6 +51,12 @@ void MovementComponent::setDirectionX(float x)
 void MovementComponent::setDirectionY(float y)
 {
 	this->direction.y = y;
+}
+
+// Functions
+void MovementComponent::applyForce(sf::Vector2f force)
+{
+	this->acceleration += force;
 }
 
 void MovementComponent::updateMovementMap()

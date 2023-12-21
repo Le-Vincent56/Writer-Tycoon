@@ -42,10 +42,11 @@ public:
 	const bool isButtonPressed(const std::string key);
 
 	// Functions
+	void updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView);
 	void addButton(const std::string key, const std::string text,
 		float x, float y, float width, float height);
-	void updateButtons(const sf::Vector2f& mousePosView);
-	void update(const sf::Vector2f& mousePosView);
+	void updateButtons(const float& dt, const sf::Vector2f& mousePosView);
+	void update(const float& dt, const sf::Vector2f& mousePosView);
 	void render(sf::RenderTarget& target);
 };
 

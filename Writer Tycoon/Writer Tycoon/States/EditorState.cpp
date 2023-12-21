@@ -12,14 +12,14 @@ void EditorState::initBackground()
 void EditorState::initTextures()
 {
 	// Load button sprites
-	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long.png"))
+	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long_idle.png"))
 	{
-		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_LONG_TEXTURE";
+		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_LONG_IDLE_TEXTURE";
 	}
 
-	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_pressed.png"))
+	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_active.png"))
 	{
-		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_LONG_PRESSED_TEXTURE";
+		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_LONG_active_TEXTURE";
 	}
 }
 
@@ -54,7 +54,7 @@ void EditorState::initKeybinds()
 }
 
 
-void EditorState::initButtons()
+void EditorState::initGUI()
 {
 }
 
@@ -70,7 +70,7 @@ EditorState::EditorState(sf::RenderWindow* window,
 	this->initTextures();
 	this->initFonts();
 	this->initKeybinds();
-	this->initButtons();
+	this->initGUI();
 }
 
 EditorState::~EditorState()
@@ -83,6 +83,15 @@ EditorState::~EditorState()
 }
 
 // Functions
+void EditorState::updateEvents(sf::Event& sfEvent)
+{
+	// Update button events
+	for (auto& it : this->buttons)
+	{
+		it.second->updateEvents(sfEvent, this->mousePosView);
+	}
+}
+
 void EditorState::updateInput(const float& dt)
 {
 	// Check to end the state
@@ -90,7 +99,7 @@ void EditorState::updateInput(const float& dt)
 		this->endState();
 }
 
-void EditorState::updateButtons()
+void EditorState::updateGUI()
 {
 }
 
@@ -99,17 +108,14 @@ void EditorState::update(const float& dt)
 	// Update mouse positions
 	this->updateMousePositions();
 
-	// Update button time
-	this->updateButtonTime(dt);
-
 	// Update input
 	this->updateInput(dt);
 
 	// Update buttons
-	this->updateButtons();
+	this->updateGUI();
 }
 
-void EditorState::renderButtons(sf::RenderTarget& target)
+void EditorState::renderGUI(sf::RenderTarget& target)
 {
 	// Draw the buttons
 	for (auto& it : this->buttons)
@@ -125,5 +131,5 @@ void EditorState::render(sf::RenderTarget* target)
 		target = this->window;
 
 	// Draw buttons
-	this->renderButtons(*target);
+	this->renderGUI(*target);
 }

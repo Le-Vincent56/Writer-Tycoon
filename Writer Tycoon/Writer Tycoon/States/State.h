@@ -17,8 +17,6 @@ protected:
 	bool quit;
 	bool paused;
 
-	bool canPressButtons;
-	float buttonTime;
 	bool canPressKey;
 	float keyTime;
 
@@ -41,16 +39,14 @@ public:
 
 	// Accessors
 	const bool& getQuit() const;
-	const bool getCanPressButtons();
 	const bool getCanPressKey();
 
 	// Functions
 	void endState();
 	void pauseState();
 	void unpauseState();
-	void startButtonTimer();
 	void startKeyTimer();
-	virtual void updateButtonTime(const float& dt);
+	virtual void updateEvents(sf::Event& sfEvent) = 0;
 	virtual void updateKeyTime(const float& dt);
 	virtual void updateMousePositions();
 	virtual void updateInput(const float& dt) = 0;

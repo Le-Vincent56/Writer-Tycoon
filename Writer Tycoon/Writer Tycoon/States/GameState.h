@@ -31,6 +31,7 @@ public:
     virtual ~GameState();
 
     // Functions
+    void updateEvents(sf::Event& sfEvent);
     void updateInput(const float& dt);
     void updatePauseMenuButtons();
     void update(const float& dt);

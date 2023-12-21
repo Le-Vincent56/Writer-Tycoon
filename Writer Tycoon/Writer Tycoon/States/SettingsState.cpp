@@ -28,14 +28,25 @@ void SettingsState::initBackground()
 void SettingsState::initTextures()
 {
 	// Load button sprites
-	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long.png"))
+	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long_idle.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_TEXTURE";
+		throw "ERROR::SETTINGS_STATE::FAILED_TO_LOAD_BUTTON_LONG_IDLE_TEXTURE";
 	}
 
-	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_pressed.png"))
+	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_active.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_PRESSED_TEXTURE";
+		throw "ERROR::SETTINGS_STATE::FAILED_TO_LOAD_BUTTON_LONG_ACTIVE_TEXTURE";
+	}
+
+	// Load dropdown sprites
+	if (!this->dropdownIdle.loadFromFile("Assets/Sprites/UI/dropdown_idle.png"))
+	{
+		throw "ERROR::SETTINGS_STATE::FAILED_TO_LOAD_DROPDOWN_IDLE_TEXTURE";
+	}
+
+	if (!this->dropdownActive.loadFromFile("Assets/Sprites/UI/dropdown_active.png"))
+	{
+		throw "ERROR::SETTINGS_STATE::FAILED_TO_LOAD_DROPDOWN_ACTIVE_TEXTURE";
 	}
 }
 
@@ -70,23 +81,48 @@ void SettingsState::initKeybinds()
 }
 
 
-void SettingsState::initButtons()
+void SettingsState::initGUI()
 {
 	// Button Params
-	float windowCenterX = this->window->getSize().x / 2;
-	float buttonWidth = 200;
-	float buttonCenterX = windowCenterX - (buttonWidth / 2);
+	float windowThreeFourthsX = this->window->getSize().x - (this->window->getSize().x / 3.0f);
+	float buttonWidth = 200.0f;
+	float buttonCenterX = windowThreeFourthsX - (buttonWidth / 2.0f);
 
-	float windowCenterY = this->window->getSize().y / 2;
-	float buttonHeight = 75;
+	float windowCenterY = this->window->getSize().y / 2.0f;
+	float buttonHeight = 75.0f;
 
-	// Exit state
-	this->buttons["EXIT_STATE"] = new Button(
+	// Back state
+	// Back state
+	this->buttons["SAVE"] = new Button(
 		buttonCenterX, windowCenterY + (buttonHeight * 5.0),
 		buttonWidth, buttonHeight,
-		this->font, "QUIT", 32,
+		this->font, "SAVE", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
 		this->buttonIdle, this->buttonPressed
+	);
+
+	this->buttons["BACK"] = new Button(
+		buttonCenterX + buttonWidth, windowCenterY + (buttonHeight * 5.0f),
+		buttonWidth, buttonHeight,
+		this->font, "BACK", 28,
+		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
+		this->buttonIdle, this->buttonPressed
+	);
+
+	float windowCenterX = this->window->getSize().x / 2.0f;
+	float dropdownWidth = 300.0f;
+	float dropdownCenterX = windowCenterX - (dropdownWidth / 2.0f);
+
+	float dropdownCenterY = this->window->getSize().y / 5.0f;
+	float dropdownHeight = 40.0f;
+
+	std::string ddlNames[] = { "2560x1440", "1920x1080", "1280x720", "1024x576" };
+	this->dropdowns["RESOLUTION"] = new DropDown(
+		dropdownCenterX, dropdownCenterY, dropdownWidth , dropdownHeight,
+		this->font, 
+		this->dropdownIdle, this->dropdownActive,
+		ddlNames,
+		4, 0
 	);
 }
 
@@ -102,35 +138,68 @@ SettingsState::SettingsState(sf::RenderWindow* window,
 	this->initTextures();
 	this->initFonts();
 	this->initKeybinds();
-	this->initButtons();
+	this->initGUI();
 }
 
 SettingsState::~SettingsState()
 {
-	auto it = this->buttons.begin();
-	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
+	auto itButtons = this->buttons.begin();
+	for (itButtons = this->buttons.begin(); itButtons != this->buttons.end(); ++itButtons)
 	{
-		delete it->second;
+		delete itButtons->second;
+	}
+
+	auto itDropDowns = this->dropdowns.begin();
+	for (itDropDowns = this->dropdowns.begin(); itDropDowns != this->dropdowns.end(); ++itDropDowns)
+	{
+		delete itDropDowns->second;
 	}
 }
 
 // Functions
+void SettingsState::updateEvents(sf::Event& sfEvent)
+{
+	// Update button events
+	for (auto& it : this->buttons)
+	{
+		it.second->updateEvents(sfEvent, this->mousePosView);
+	}
+
+	// Update button events
+	for (auto& it : this->dropdowns)
+	{
+		it.second->updateEvents(sfEvent, this->mousePosView);
+	}
+}
+
 void SettingsState::updateInput(const float& dt)
 {
 }
 
-void SettingsState::updateButtons()
+void SettingsState::updateGUI(const float& dt)
 {
 	// Update the buttons
 	for (auto& it : this->buttons)
 	{
-		it.second->update(this->mousePosView);
+		it.second->update(dt, this->mousePosView);
+	}
+
+	// Update dropdown
+	// Update the buttons
+	for (auto& it : this->dropdowns)
+	{
+		it.second->update(dt, this->mousePosView);
+	}
+
+	// Save changes
+	if (this->buttons["SAVE"]->isPressed())
+	{
+
 	}
 
 	// Quit the game
-	if (this->buttons["EXIT_STATE"]->isPressed() && this->getCanPressButtons())
+	if (this->buttons["BACK"]->isPressed())
 	{
-		this->startButtonTimer();
 		this->endState();
 	}
 }
@@ -140,20 +209,23 @@ void SettingsState::update(const float& dt)
 	// Update mouse positions
 	this->updateMousePositions();
 
-	// Update button time
-	this->updateButtonTime(dt);
-
 	// Update input
 	this->updateInput(dt);
 
 	// Update buttons
-	this->updateButtons();
+	this->updateGUI(dt);
 }
 
-void SettingsState::renderButtons(sf::RenderTarget& target)
+void SettingsState::renderGUI(sf::RenderTarget& target)
 {
 	// Draw the buttons
 	for (auto& it : this->buttons)
+	{
+		it.second->render(target);
+	}
+
+	// Draw dropdowns
+	for (auto& it : this->dropdowns)
 	{
 		it.second->render(target);
 	}
@@ -168,5 +240,5 @@ void SettingsState::render(sf::RenderTarget* target)
 	// Draw the background
 	target->draw(this->background);
 
-	this->renderButtons(*target);
+	this->renderGUI(*target);
 }

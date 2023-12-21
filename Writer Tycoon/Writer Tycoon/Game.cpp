@@ -123,6 +123,14 @@ void Game::updateSFMLEvents()
 		if (sfEvent.type == sf::Event::Closed) {
 			this->window->close();
 		}
+
+		// Check if there are states
+		if (!this->states.empty())
+		{
+			// Update events for the top state
+			this->states.top()->updateEvents(this->sfEvent);
+		}
+		
 	}
 }
 
@@ -131,9 +139,10 @@ void Game::update()
 	// Update SFML events
 	this->updateSFMLEvents();
 
-	// Update the top state
+	// Check if there are states
 	if (!this->states.empty())
 	{
+		// Update the top state
 		this->states.top()->update(this->dt);
 
 		// Check if the state wants to quit

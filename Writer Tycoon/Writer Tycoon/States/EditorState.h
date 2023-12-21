@@ -19,7 +19,7 @@ private:
     void initTextures();
     void initFonts();
     void initKeybinds();
-    void initButtons();
+    void initGUI();
 
 public:
     // Constructor/Destructor
@@ -29,9 +29,10 @@ public:
     virtual ~EditorState();
 
     // Functions
+    void updateEvents(sf::Event& sfEvent);
     void updateInput(const float& dt);
-    void updateButtons();
+    void updateGUI();
     void update(const float& dt);
-    void renderButtons(sf::RenderTarget& target);
+    void renderGUI(sf::RenderTarget& target);
     void render(sf::RenderTarget* target = nullptr);
 };

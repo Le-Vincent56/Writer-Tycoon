@@ -28,14 +28,14 @@ void MainMenuState::initBackground()
 void MainMenuState::initTextures()
 {
 	// Load button sprites
-	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long.png"))
+	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long_idle.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_TEXTURE";
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_IDLE_TEXTURE";
 	}
 
-	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_pressed.png"))
+	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_active.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_PRESSED_TEXTURE";
+		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_ACTIVE_TEXTURE";
 	}
 }
 
@@ -70,7 +70,7 @@ void MainMenuState::initKeybinds()
 }
 
 
-void MainMenuState::initButtons()
+void MainMenuState::initGUI()
 {
 	// Button Params
 	float windowCenterX = this->window->getSize().x / 2;
@@ -84,7 +84,7 @@ void MainMenuState::initButtons()
 	this->buttons["GAME_STATE"] = new Button(
 		buttonCenterX, windowCenterY + (buttonHeight * 0.5), 
 		buttonWidth, buttonHeight,
-		this->font, "NEW GAME", 24,
+		this->font, "NEW GAME", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
 		this->buttonIdle, this->buttonPressed
 	);
@@ -93,7 +93,7 @@ void MainMenuState::initButtons()
 	this->buttons["SETTINGS_STATE"] = new Button(
 		buttonCenterX, windowCenterY + (buttonHeight * 2.0), 
 		buttonWidth, buttonHeight,
-		this->font, "SETTINGS", 24,
+		this->font, "SETTINGS", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
 		this->buttonIdle, this->buttonPressed
 	);
@@ -102,7 +102,7 @@ void MainMenuState::initButtons()
 	this->buttons["EDITOR_STATE"] = new Button(
 		buttonCenterX, windowCenterY + (buttonHeight * 3.5), 
 		buttonWidth, buttonHeight,
-		this->font, "EDITOR", 24,
+		this->font, "EDITOR", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
 		this->buttonIdle, this->buttonPressed
 	);
@@ -111,7 +111,7 @@ void MainMenuState::initButtons()
 	this->buttons["EXIT_STATE"] = new Button(
 		buttonCenterX, windowCenterY + (buttonHeight * 5.0), 
 		buttonWidth, buttonHeight,
-		this->font, "QUIT", 32,
+		this->font, "QUIT", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
 		this->buttonIdle, this->buttonPressed
 	);
@@ -129,7 +129,7 @@ MainMenuState::MainMenuState(sf::RenderWindow* window,
 	this->initTextures();
 	this->initFonts();
 	this->initKeybinds();
-	this->initButtons();
+	this->initGUI();
 }
 
 MainMenuState::~MainMenuState()
@@ -142,44 +142,49 @@ MainMenuState::~MainMenuState()
 }
 
 // Functions
+void MainMenuState::updateEvents(sf::Event& sfEvent)
+{
+	// Update button events
+	for (auto& it : this->buttons)
+	{
+		it.second->updateEvents(sfEvent, this->mousePosView);
+	}
+}
+
 void MainMenuState::updateInput(const float& dt)
 {
 
 }
 
-void MainMenuState::updateButtons()
+void MainMenuState::updateGUI(const float& dt)
 {
 	// Update the buttons
 	for (auto &it : this->buttons)
 	{
-		it.second->update(this->mousePosView);
+		it.second->update(dt, this->mousePosView);
 	}
 
 	// Start new game
-	if (this->buttons["GAME_STATE"]->isPressed() && this->getCanPressButtons())
+	if (this->buttons["GAME_STATE"]->isPressed())
 	{
-		this->startButtonTimer();
 		this->states->push(new GameState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Open Settings
-	if (this->buttons["SETTINGS_STATE"]->isPressed() && this->getCanPressButtons())
+	if (this->buttons["SETTINGS_STATE"]->isPressed())
 	{
-		this->startButtonTimer();
 		this->states->push(new SettingsState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Open Editor
-	if (this->buttons["EDITOR_STATE"]->isPressed() && this->getCanPressButtons())
+	if (this->buttons["EDITOR_STATE"]->isPressed())
 	{
-		this->startButtonTimer();
 		this->states->push(new EditorState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Quit the game
-	if (this->buttons["EXIT_STATE"]->isPressed() && this->getCanPressButtons())
+	if (this->buttons["EXIT_STATE"]->isPressed())
 	{
-		this->startButtonTimer();
 		this->endState();
 	}
 }
@@ -189,17 +194,14 @@ void MainMenuState::update(const float& dt)
 	// Update mouse positions
 	this->updateMousePositions();
 
-	// Update button time
-	this->updateButtonTime(dt);
-
 	// Update input
 	this->updateInput(dt);
 
 	// Update buttons
-	this->updateButtons();
+	this->updateGUI(dt);
 }
 
-void MainMenuState::renderButtons(sf::RenderTarget& target)
+void MainMenuState::renderGUI(sf::RenderTarget& target)
 {
 	// Draw the buttons
 	for (auto& it : this->buttons)
@@ -217,7 +219,7 @@ void MainMenuState::render(sf::RenderTarget* target)
 	// Draw the background
 	target->draw(this->background);
 
-	this->renderButtons(*target);
+	this->renderGUI(*target);
 
 	// Remove later
 	sf::Text mouseText;

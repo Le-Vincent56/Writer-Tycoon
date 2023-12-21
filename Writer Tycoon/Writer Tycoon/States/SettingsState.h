@@ -1,6 +1,7 @@
 #pragma once
 
 #include "State.h"
+#include "..\GUI\DropDown.h"
 
 class SettingsState :
     public State
@@ -13,8 +14,11 @@ private:
     sf::Font font;
     sf::Texture buttonIdle;
     sf::Texture buttonPressed;
+    sf::Texture dropdownIdle;
+    sf::Texture dropdownActive;
 
     std::map<std::string, Button*> buttons;
+    std::map<std::string, DropDown*> dropdowns;
 
     // Functions
     void initVariables();
@@ -22,7 +26,7 @@ private:
     void initTextures();
     void initFonts();
     void initKeybinds();
-    void initButtons();
+    void initGUI();
 
 public:
     // Constructor/Destructor
@@ -32,10 +36,11 @@ public:
     virtual ~SettingsState();
 
     // Functions
+    void updateEvents(sf::Event& sfEvent);
     void updateInput(const float& dt);
-    void updateButtons();
+    void updateGUI(const float& dt);
     void update(const float& dt);
-    void renderButtons(sf::RenderTarget& target);
+    void renderGUI(sf::RenderTarget& target);
     void render(sf::RenderTarget* target = nullptr);
 };
 
