@@ -3,6 +3,8 @@
 // Initialize Functions
 void SettingsState::initVariables()
 {
+	// Load video modes
+	this->modes = sf::VideoMode::getFullscreenModes();
 }
 
 void SettingsState::initBackground()
@@ -116,13 +118,33 @@ void SettingsState::initGUI()
 	float dropdownCenterY = this->window->getSize().y / 5.0f;
 	float dropdownHeight = 40.0f;
 
-	std::string ddlNames[] = { "2560x1440", "1920x1080", "1280x720", "1024x576" };
+	std::vector<std::string> modesStrings;
+	for (auto& i : this->modes)
+	{
+		modesStrings.push_back(std::to_string(i.width) + "x" + std::to_string(i.height));
+	}
+
 	this->dropdowns["RESOLUTION"] = new DropDown(
 		dropdownCenterX, dropdownCenterY, dropdownWidth , dropdownHeight,
 		this->font, 
 		this->dropdownIdle, this->dropdownActive,
-		ddlNames,
-		4, 0
+		modesStrings.data(),
+		modesStrings.size(), 0
+	);
+
+	this->initText(dropdownCenterX, dropdownWidth, dropdownCenterY);
+}
+
+void SettingsState::initText(const float& dropdownCenterX, const float& dropdownWidth,
+	const float& dropdownCenterY)
+{
+	this->optionsText.setFont(this->font);
+	this->optionsText.setPosition(sf::Vector2f(dropdownCenterX - (dropdownWidth / 2.0f) -  50, dropdownCenterY));
+	this->optionsText.setCharacterSize(30);
+	this->optionsText.setFillColor(sf::Color(255, 255, 255, 200));
+
+	this->optionsText.setString(
+		"Resolution\nFullscreen\nVsync\nAntialising"
 	);
 }
 
@@ -194,7 +216,10 @@ void SettingsState::updateGUI(const float& dt)
 	// Save changes
 	if (this->buttons["SAVE"]->isPressed())
 	{
-
+		this->window->create(
+			this->modes[this->dropdowns["RESOLUTION"]->getCurrentElementID()],
+			"Test", sf::Style::Default
+		);
 	}
 
 	// Quit the game
@@ -241,4 +266,6 @@ void SettingsState::render(sf::RenderTarget* target)
 	target->draw(this->background);
 
 	this->renderGUI(*target);
+
+	target->draw(this->optionsText);
 }

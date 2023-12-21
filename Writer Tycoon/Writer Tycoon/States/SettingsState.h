@@ -20,6 +20,10 @@ private:
     std::map<std::string, Button*> buttons;
     std::map<std::string, DropDown*> dropdowns;
 
+    sf::Text optionsText;
+
+    std::vector<sf::VideoMode> modes;
+
     // Functions
     void initVariables();
     void initBackground();
@@ -27,6 +31,8 @@ private:
     void initFonts();
     void initKeybinds();
     void initGUI();
+    void initText(const float& dropdownCenterX, const float& dropdownWidth,
+        const float& dropdownCenterY);
 
 public:
     // Constructor/Destructor

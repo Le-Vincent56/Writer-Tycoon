@@ -48,6 +48,12 @@ DropDown::~DropDown()
 	}
 }
 
+// Accessors
+const unsigned short& DropDown::getCurrentElementID() const
+{
+	return this->currentElement->getID();
+}
+
 // Functions
 void DropDown::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 {

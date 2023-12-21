@@ -37,6 +37,9 @@ public:
 		unsigned int numOfElements, const unsigned int defaultIndex = 0);
 	virtual ~DropDown();
 
+	// Accesors
+	const unsigned short& getCurrentElementID() const;
+
 	// Functions
 	void updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView);
 	void update(const float& dt, const sf::Vector2f& mousePosView);
