@@ -13,9 +13,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
-class DropDown
+class Dropdown
 {
 private:
+	// Variables
 	float clickBufferMax;
 	float clickBuffer;
 
@@ -31,12 +32,12 @@ private:
 
 public:
 	// Constructor/Destructor
-	DropDown(float x, float y, float width, float height,
+	Dropdown(float x, float y, float width, float height,
 		sf::Font& font,
 		sf::Texture& dropdownIdleTexture, sf::Texture& dropdownActiveTexture,
 		std::string elementNames[],
 		unsigned int numOfElements, const unsigned int defaultIndex = 0);
-	virtual ~DropDown();
+	virtual ~Dropdown();
 
 	// Accesors
 	const unsigned short& getCurrentElementID() const;

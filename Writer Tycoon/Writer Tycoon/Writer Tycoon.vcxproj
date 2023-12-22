@@ -130,8 +130,9 @@
   <ItemGroup>
     <ClCompile Include="Components\AnimationComponent.cpp" />
     <ClCompile Include="Components\HitboxComponent.cpp" />
-    <ClCompile Include="GUI\DropDown.cpp" />
+    <ClCompile Include="GUI\Dropdown.cpp" />
     <ClCompile Include="GUI\PauseMenu.cpp" />
+    <ClCompile Include="GUI\Popup.cpp" />
     <ClCompile Include="States\SettingsState.cpp" />
     <ClCompile Include="States\EditorState.cpp" />
     <ClCompile Include="Entities\Player.cpp" />
@@ -152,8 +153,9 @@
   <ItemGroup>
     <ClInclude Include="Components\AnimationComponent.h" />
     <ClInclude Include="Components\HitboxComponent.h" />
-    <ClInclude Include="GUI\DropDown.h" />
+    <ClInclude Include="GUI\Dropdown.h" />
     <ClInclude Include="GUI\PauseMenu.h" />
+    <ClInclude Include="GUI\Popup.h" />
     <ClInclude Include="States\SettingsState.h" />
     <ClInclude Include="States\EditorState.h" />
     <ClInclude Include="Entities\Player.h" />

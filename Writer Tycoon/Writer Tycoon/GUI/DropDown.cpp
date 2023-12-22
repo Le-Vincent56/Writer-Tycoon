@@ -1,7 +1,7 @@
-#include "DropDown.h"
+#include "Dropdown.h"
 
 // Constructor/Destructor
-DropDown::DropDown(float x, float y, float width, float height,
+Dropdown::Dropdown(float x, float y, float width, float height,
 	sf::Font& font, 
 	sf::Texture& dropdownIdleTexture, sf::Texture& dropdownActiveTexture,
 	std::string elementNames[], 
@@ -42,7 +42,7 @@ DropDown::DropDown(float x, float y, float width, float height,
 	this->lastCurrentID = this->currentElement->getID();
 }
 
-DropDown::~DropDown()
+Dropdown::~Dropdown()
 {
 	delete this->currentElement;
 	for (size_t i = 0; i < this->elements.size(); ++i)
@@ -52,18 +52,18 @@ DropDown::~DropDown()
 }
 
 // Accessors
-const unsigned short& DropDown::getCurrentElementID() const
+const unsigned short& Dropdown::getCurrentElementID() const
 {
 	return this->currentElement->getID();
 }
 
-const unsigned short& DropDown::getLastCurrentElementID() const
+const unsigned short& Dropdown::getLastCurrentElementID() const
 {
 	return this->lastCurrentID;
 }
 
 // Functions
-void DropDown::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
+void Dropdown::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 {
 	// Update the current element's events
 	this->currentElement->updateEvents(sfEvent, mousePosView);
@@ -78,7 +78,7 @@ void DropDown::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView
 	}
 }
 
-void DropDown::update(const float& dt, const sf::Vector2f& mousePosView)
+void Dropdown::update(const float& dt, const sf::Vector2f& mousePosView)
 {
 	// Update the active element
 	this->currentElement->update(dt, mousePosView);
@@ -129,7 +129,7 @@ void DropDown::update(const float& dt, const sf::Vector2f& mousePosView)
 	}
 }
 
-void DropDown::render(sf::RenderTarget& target)
+void Dropdown::render(sf::RenderTarget& target)
 {
 	// Draw active element
 	this->currentElement->render(target);

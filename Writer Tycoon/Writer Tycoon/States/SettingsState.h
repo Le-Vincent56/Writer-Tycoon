@@ -1,7 +1,7 @@
 #pragma once
 
 #include "State.h"
-#include "..\GUI\DropDown.h"
+#include "..\GUI\Dropdown.h"
 
 class SettingsState :
     public State
@@ -18,7 +18,7 @@ private:
     sf::Texture dropdownActive;
 
     std::map<std::string, Button*> buttons;
-    std::map<std::string, DropDown*> dropdowns;
+    std::map<std::string, Dropdown*> dropdowns;
 
     sf::Text optionsText;
 

@@ -10,14 +10,20 @@ void GameState::initTextures()
 	}
 
 	// Load button sprites
-	if (!this->buttonIdle.loadFromFile("Assets/Sprites/UI/button_long_idle.png"))
+	if (!this->buttonIdleTexture.loadFromFile("Assets/Sprites/UI/button_long_idle.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_IDLE_TEXTURE";
+		throw "ERROR::GAME_STATE::FAILED_TO_LOAD_BUTTON_LONG_IDLE_TEXTURE";
 	}
 
-	if (!this->buttonPressed.loadFromFile("Assets/Sprites/UI/button_long_active.png"))
+	if (!this->buttonPressedTexture.loadFromFile("Assets/Sprites/UI/button_long_active.png"))
 	{
-		throw "ERROR::MAIN_MENU_STATE::FAILED_TO_LOAD_BUTTON_LONG_ACTIVE_TEXTURE";
+		throw "ERROR::GAME_STATE::FAILED_TO_LOAD_BUTTON_LONG_ACTIVE_TEXTURE";
+	}
+
+	// Load popup frame sprite
+	if (!this->popupFrameTexture.loadFromFile("Assets/Sprites/UI/popup_frame.png"))
+	{
+		throw "ERROR::GAME_STATE::FAILED_TO_LOAD_POPUP_FRAME_TEXTURE";
 	}
 }
 
@@ -54,7 +60,7 @@ void GameState::initKeybinds()
 void GameState::initPauseMenu()
 {
 	// Create pause menu
-	this->pauseMenu = new PauseMenu(*this->window, this->font, this->buttonIdle, this->buttonPressed);
+	this->pauseMenu = new PauseMenu(*this->window, this->font, this->buttonIdleTexture, this->buttonPressedTexture);
 
 	// Button Params
 	float windowCenterX = this->pauseMenu->getContainerCenterBelowText().x;
@@ -63,21 +69,53 @@ void GameState::initPauseMenu()
 
 	float windowCenterY = this->pauseMenu->getContainerCenterBelowText().y;
 	float buttonHeight = 75;
+	float buttonCenterY = windowCenterY - (buttonHeight / 2);
 
 	this->pauseMenu->addButton("RESUME_STATE", "RESUME", 
-		buttonCenterX, windowCenterY + (buttonHeight * 0.5), 
+		buttonCenterX, windowCenterY + buttonCenterY, 
 		buttonWidth, buttonHeight
 	);
 
 	this->pauseMenu->addButton("SETTINGS_STATE", "SETTINGS",
-		buttonCenterX, windowCenterY + (buttonHeight * 2.0),
+		buttonCenterX, windowCenterY + (buttonCenterY * 2.0),
 		buttonWidth, buttonHeight
 	);
 
 	this->pauseMenu->addButton("EXIT_STATE", "MAIN MENU",
-		buttonCenterX, windowCenterY + (buttonHeight * 3.5),
+		buttonCenterX, windowCenterY + (buttonCenterY * 3.0),
 		buttonWidth, buttonHeight
 	);
+}
+
+void GameState::initPopups()
+{
+	float windowCenterX = this->window->getSize().x / 2.0f;
+	float popupWidth = 1000;
+	float popupCenterX = windowCenterX - (popupWidth / 2);
+
+	float windowCenterY = this->window->getSize().y / 2.0f;
+	float popupHeight = 1000;
+	float popupCenterY = windowCenterY - (popupHeight / 2);
+
+	this->popup = new Popup(popupCenterX, popupCenterY, popupWidth, popupHeight, 
+		this->font, this->popupFrameTexture);
+
+	// Add text
+	sf::Text* text1 = new sf::Text("Text 1", this->font, 32);
+	popup->addItem(text1, 500 - text1->getLocalBounds().width/2, 500 - text1->getCharacterSize()/2);
+	std::cout << "Text 1 Bounds Width/Height: "
+		<< text1->getLocalBounds().width << ", " << text1->getCharacterSize() << "\n";
+
+	this->popup->setEnabled(false);
+}
+
+void GameState::initGUI()
+{
+	// Initialize pause menu
+	this->initPauseMenu();
+
+	// Initialize popup
+	this->initPopups();
 }
 
 void GameState::initEntities()
@@ -94,13 +132,14 @@ GameState::GameState(sf::RenderWindow* window,
 	this->initTextures();
 	this->initFonts();
 	this->initKeybinds();
-	this->initPauseMenu();
+	this->initGUI();
 	this->initEntities();
 }
 
 GameState::~GameState()
 {
 	delete this->pauseMenu;
+	delete this->popup;
 	delete this->player;
 }
 
@@ -113,6 +152,9 @@ void GameState::updateEvents(sf::Event& sfEvent)
 		// Update pause menu events
 		this->pauseMenu->updateEvents(sfEvent, this->mousePosView);
 	}
+
+	// Update popups
+	this->popup->updateEvents(sfEvent, this->mousePosView);
 }
 
 void GameState::updateInput(const float& dt)
@@ -123,7 +165,9 @@ void GameState::updateInput(const float& dt)
 		// Start the key timer
 		this->startKeyTimer();
 
-		// Toggle paused
+		this->popup->setEnabled(!this->popup->getEnabled());
+
+		/* //Toggle paused
 		if (!this->paused)
 		{
 			this->pauseState();
@@ -131,8 +175,12 @@ void GameState::updateInput(const float& dt)
 		else
 		{
 			this->unpauseState();
-		}
+		}*/
 	}
+}
+
+void GameState::updateGUI(const float& dt, const sf::Vector2f& mousePosView)
+{
 }
 
 void GameState::updatePauseMenuButtons()
@@ -162,6 +210,9 @@ void GameState::update(const float& dt)
 	// Update mouse positions
 	this->updateMousePositions();
 
+	// Update GUI
+	this->updateGUI(dt, this->mousePosView);
+
 	// Update key time
 	this->updateKeyTime(dt);
 
@@ -185,6 +236,9 @@ void GameState::update(const float& dt)
 		// Update buttons
 		this->updatePauseMenuButtons();
 	}
+
+	// Update popups
+	this->popup->update(dt, this->mousePosView);
 }
 
 void GameState::render(sf::RenderTarget* target)
@@ -201,4 +255,7 @@ void GameState::render(sf::RenderTarget* target)
 	{
 		this->pauseMenu->render(*target);
 	}
+
+	// Draw popups
+	this->popup->render(*target);
 }

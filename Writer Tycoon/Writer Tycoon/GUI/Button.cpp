@@ -40,9 +40,9 @@ Button::Button(float x, float y, float width, float height,
 	// Center the text
 	this->text.setPosition(
 		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.0f) 
-			- this->text.getGlobalBounds().width / 2.0f,
+			- (this->text.getLocalBounds().width / 2.0f),
 		this->shape.getPosition().y + (this->shape.getGlobalBounds().height / 2.0f) 
-			- this->text.getGlobalBounds().height
+			- (this->text.getCharacterSize() / 1.5f)
 	);
 
 	// Set colors

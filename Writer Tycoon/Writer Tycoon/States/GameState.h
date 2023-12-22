@@ -3,16 +3,19 @@
 #include "State.h"
 #include "SettingsState.h"
 #include "..\GUI\PauseMenu.h"
+#include "..\GUI\Popup.h"
 
 class GameState :
     public State
 {
 private:
     sf::Font font;
-    sf::Texture buttonIdle;
-    sf::Texture buttonPressed;
+    sf::Texture buttonIdleTexture;
+    sf::Texture buttonPressedTexture;
+    sf::Texture popupFrameTexture;
 
     PauseMenu* pauseMenu;
+    Popup* popup;
 
     Player* player;
 
@@ -21,6 +24,8 @@ private:
     void initFonts();
     void initKeybinds();
     void initPauseMenu();
+    void initPopups();
+    void initGUI();
     void initEntities();
 
 public:
@@ -33,6 +38,7 @@ public:
     // Functions
     void updateEvents(sf::Event& sfEvent);
     void updateInput(const float& dt);
+    void updateGUI(const float& dt, const sf::Vector2f& mousePosView);
     void updatePauseMenuButtons();
     void update(const float& dt);
     void render(sf::RenderTarget* target = nullptr);

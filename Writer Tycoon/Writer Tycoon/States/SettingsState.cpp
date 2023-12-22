@@ -128,7 +128,7 @@ void SettingsState::initGUI()
 		modesStrings.push_back(std::to_string(i.width) + "x" + std::to_string(i.height));
 	}
 
-	this->dropdowns["RESOLUTION"] = new DropDown(
+	this->dropdowns["RESOLUTION"] = new Dropdown(
 		dropdownCenterX, dropdownCenterY, dropdownWidth , dropdownHeight,
 		this->font, 
 		this->dropdownIdle, this->dropdownActive,
@@ -175,10 +175,10 @@ SettingsState::~SettingsState()
 		delete itButtons->second;
 	}
 
-	auto itDropDowns = this->dropdowns.begin();
-	for (itDropDowns = this->dropdowns.begin(); itDropDowns != this->dropdowns.end(); ++itDropDowns)
+	auto itDropdowns = this->dropdowns.begin();
+	for (itDropdowns = this->dropdowns.begin(); itDropdowns != this->dropdowns.end(); ++itDropdowns)
 	{
-		delete itDropDowns->second;
+		delete itDropdowns->second;
 	}
 }
 
