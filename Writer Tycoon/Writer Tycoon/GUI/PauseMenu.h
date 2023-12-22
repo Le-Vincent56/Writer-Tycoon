@@ -22,7 +22,7 @@ public:
 	// Constructor/Destructor
 	PauseMenu(sf::RenderWindow& window, sf::Font& font,
 		sf::Texture& buttonIdleTexture, sf::Texture& buttonActiveTexture);
-	virtual ~PauseMenu();
+	~PauseMenu();
 
 	// Accessor
 	std::map<std::string, Button*>& getButtons();

@@ -16,7 +16,7 @@ private:
 public:
 	// Constructor/Destructor
 	TileMap(float gridSize, unsigned int width, unsigned int height);
-	virtual ~TileMap();
+	~TileMap();
 
 	// Accessors
 	const sf::Texture* getTileSheet() const;

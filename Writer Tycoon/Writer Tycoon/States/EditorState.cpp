@@ -28,7 +28,17 @@ void EditorState::initTextures()
 
 	if (!this->buttonPressedTexture.loadFromFile("Assets/Sprites/UI/button_long_active.png"))
 	{
-		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_LONG_active_TEXTURE";
+		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_LONG_ACTIVE_TEXTURE";
+	}
+
+	if (!this->buttonSquareIdleTexture.loadFromFile("Assets/Sprites/UI/button_square_idle.png"))
+	{
+		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_SQUARE_IDLE_TEXTURE";
+	}
+
+	if (!this->buttonSquareActiveTexture.loadFromFile("Assets/Sprites/UI/button_square_active.png"))
+	{
+		throw "ERROR::EDITOR_STATE::FAILED_TO_LOAD_BUTTON_SQUARE_ACTIVE_TEXTURE";
 	}
 }
 
@@ -46,6 +56,7 @@ void EditorState::initText()
 	this->cursorText.setFont(this->font);
 	this->cursorText.setFillColor(sf::Color::White);
 	this->cursorText.setCharacterSize(12);
+	this->cursorText.setPosition(this->mousePosView.x, this->mousePosView.y);
 }
 
 void EditorState::initKeybinds()
@@ -115,6 +126,12 @@ void EditorState::initGUI()
 	// Set selector rect texture
 	this->selectorRect.setTexture(this->tileMap->getTileSheet());
 	this->selectorRect.setTextureRect(this->textureRect);
+
+	// Initialize the texture selector
+	this->textureSelector = new TextureSelector(
+		20.0f, 20.0f, 500.0f, 500.0f, this->stateData->gridSize, this->tileMap->getTileSheet(),
+		this->font, "TS", this->buttonSquareIdleTexture, this->buttonSquareActiveTexture
+	);
 }
 
 void EditorState::initTileMap()
@@ -151,6 +168,9 @@ EditorState::~EditorState()
 
 	delete this->tileMap;
 	this->tileMap = nullptr;
+	
+	delete this->textureSelector;
+	this->textureSelector = nullptr;
 }
 
 // Functions
@@ -164,6 +184,9 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 	}
 	else
 	{
+		// Update texture selecotr events
+		this->textureSelector->updateEvents(sfEvent, this->mousePosWindow);
+
 		// Update button events
 		for (auto& it : this->buttons)
 		{
@@ -175,12 +198,21 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 		{
 			if (sfEvent.mouseButton.button == sf::Mouse::Left)
 			{
-				// Set the other to be false
-				if (pressingRight)
-					pressingRight = false;
+				// Check if the mouse is outside the texture selector space
+				if (!this->textureSelector->getActive())
+				{
+					// Set the other to be false
+					if (pressingRight)
+						pressingRight = false;
 
-				// Detect holding down
-				pressingLeft = true;
+					// Detect holding down
+					pressingLeft = true;
+				}
+				else
+				{
+					// Get the texture rect inside the texture selector
+					this->textureRect = this->textureSelector->getTextureRect();
+				}
 			}
 		}
 
@@ -198,12 +230,16 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 		{
 			if (sfEvent.mouseButton.button == sf::Mouse::Right)
 			{
-				// Set the other to be false
-				if (pressingLeft)
-					pressingLeft = false;
+				// Check if the mouse is outside the texture selecor space
+				if (!this->textureSelector->getActive())
+				{
+					// Set the other to be false
+					if (pressingLeft)
+						pressingLeft = false;
 
-				// Detect holding down
-				pressingRight = true;
+					// Detect holding down
+					pressingRight = true;
+				}
 			}
 		}
 
@@ -251,36 +287,35 @@ void EditorState::updateInput(const float& dt)
 			this->unpauseState();
 		}
 	}
-
-	// Change texture
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && this->getCanPressKey())
-	{
-		if (this->textureRect.left < 100)
-		{
-			this->textureRect.left += 100;
-		}
-	}
 }
 
 void EditorState::updateGUI(const float& dt)
 {
+	// Update texture selector
+	this->textureSelector->update(dt, this->mousePosWindow);
+
+	// Check if cursor is outside the texture selector space
+	if (!this->textureSelector->getActive())
+	{
+		// Update selector rect
+		this->selectorRect.setPosition(
+			this->mousePosGrid.x * this->stateData->gridSize,
+			this->mousePosGrid.y * this->stateData->gridSize
+		);
+		this->selectorRect.setTextureRect(this->textureRect);
+	}
+
 	// Update buttons
 	for (auto& it : this->buttons)
 	{
 		it.second->update(dt, this->mousePosView);
 	}
 
-	// Update selector rect
-	this->selectorRect.setPosition(
-		this->mousePosGrid.x * this->stateData->gridSize, 
-		this->mousePosGrid.y * this->stateData->gridSize
-	);
-	this->selectorRect.setTextureRect(this->textureRect);
-
 	// Update mouse position and data
-	this->cursorText.setPosition(this->mousePosView.x, this->mousePosView.y - 50.0f);
+	this->cursorText.setPosition(this->mousePosView.x + 100, this->mousePosView.y - 50.0f);
 	std::stringstream ss;
 	ss << this->mousePosView.x << ", " << this->mousePosView.y << "\n"
+		<< this->mousePosGrid.x << ", " << this->mousePosGrid.y << "\n"
 		<< this->textureRect.left << " " << this->textureRect.top;
 	this->cursorText.setString(ss.str());
 }
@@ -347,8 +382,15 @@ void EditorState::renderGUI(sf::RenderTarget& target)
 		it.second->render(target);
 	}
 
-	// Draw the selector rect
-	target.draw(this->selectorRect);
+	// Check if the mouse is outisde the texture selector space
+	if (!this->textureSelector->getActive())
+	{
+		// Draw the selector rect
+		target.draw(this->selectorRect);
+	}
+
+	// Draw the texture selector
+	this->textureSelector->render(target);
 
 	// Draw the cursor text
 	target.draw(this->cursorText);

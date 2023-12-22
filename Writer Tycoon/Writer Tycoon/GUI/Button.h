@@ -42,7 +42,7 @@ public:
 		sf::Color textIdleColor, sf::Color textHoverColor, sf::Color textActiveColor,
 		sf::Texture& buttonIdleTexture, sf::Texture& buttonActiveTexture,
 		short unsigned int id = 0);
-	virtual ~Button();
+	~Button();
 
 	// Accessors
 	const short unsigned int& getID() const;

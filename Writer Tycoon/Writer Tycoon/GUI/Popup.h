@@ -26,7 +26,7 @@ public:
 	// Constructor/Destructor
 	Popup(float x, float y, float width, float height,
 		sf::Font& font, sf::Texture& frameTexture);
-	virtual ~Popup();
+	~Popup();
 
 	// Accessors
 	const bool getEnabled() const;

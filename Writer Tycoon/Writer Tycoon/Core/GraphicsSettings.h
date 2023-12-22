@@ -14,7 +14,7 @@ public:
 
 	// Constructor/Destructor
 	GraphicsSettings();
-	virtual ~GraphicsSettings();
+	~GraphicsSettings();
 
 	// Functions
 	void saveToFile(const std::string path);

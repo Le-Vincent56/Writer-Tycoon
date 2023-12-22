@@ -157,6 +157,7 @@
     <ClCompile Include="States\State.cpp" />
     <ClCompile Include="Map\Tiles\Tile.cpp" />
     <ClCompile Include="Map\TileMap.cpp" />
+    <ClCompile Include="GUI\TextureSelector.cpp" />
     <ClCompile Include="Utils\MathUtils.cpp" />
     <ClCompile Include="Utils\VectorUtils.cpp" />
   </ItemGroup>
@@ -177,6 +178,7 @@
     <ClInclude Include="Components\MovementComponent.h" />
     <ClInclude Include="Map\Tiles\Tile.h" />
     <ClInclude Include="Map\TileMap.h" />
+    <ClInclude Include="GUI\TextureSelector.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="GUI\Button.h" />
     <ClInclude Include="Entities\Entity.h" />

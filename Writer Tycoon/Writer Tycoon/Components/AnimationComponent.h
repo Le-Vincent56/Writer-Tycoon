@@ -136,7 +136,7 @@ private:
 public:
 	// Constructor/Destructor
 	AnimationComponent(sf::Sprite&, sf::Texture& textureSheet);
-	virtual ~AnimationComponent();
+	~AnimationComponent();
 
 	// Accessor
 	const bool& isAnimationComplete(std::string key);

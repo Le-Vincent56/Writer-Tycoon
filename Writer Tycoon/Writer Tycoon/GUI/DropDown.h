@@ -29,7 +29,7 @@ public:
 		sf::Texture& dropdownIdleTexture, sf::Texture& dropdownActiveTexture,
 		std::string elementNames[],
 		unsigned int numOfElements, const unsigned int defaultIndex = 0);
-	virtual ~Dropdown();
+	~Dropdown();
 
 	// Accesors
 	const unsigned short& getCurrentElementID() const;

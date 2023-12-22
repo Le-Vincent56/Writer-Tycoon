@@ -4,6 +4,7 @@
 #include "SettingsState.h"
 #include "../GUI/PauseMenu.h"
 #include "../Map/TileMap.h"
+#include "../GUI/TextureSelector.h"
 
 // Forward Declarations
 class State;
@@ -24,6 +25,8 @@ private:
 
     sf::Texture buttonIdleTexture;
     sf::Texture buttonPressedTexture;
+    sf::Texture buttonSquareIdleTexture;
+    sf::Texture buttonSquareActiveTexture;
     std::map<std::string, Button*> buttons;
 
     PauseMenu* pauseMenu;
@@ -32,6 +35,8 @@ private:
 
     sf::IntRect textureRect;
     sf::RectangleShape selectorRect;
+
+    TextureSelector* textureSelector;
 
     // Functions
     void initVariables();

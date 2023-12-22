@@ -14,7 +14,7 @@ public:
 	HitboxComponent(sf::Sprite& sprite, 
 		float offsetX, float offsetY, 
 		float width, float height);
-	virtual ~HitboxComponent();
+	~HitboxComponent();
 
 	// Functions
 	bool checkIntersect(const sf::FloatRect& rect);

@@ -39,7 +39,7 @@ private:
 public:
 	// Constructor/Destructor
 	MovementComponent(sf::Sprite& sprite, float coeffOfFriction, float maxSpeed);
-	virtual ~MovementComponent();
+	~MovementComponent();
 
 	// Accessors
 	const float& getMaxSpeed() const;
