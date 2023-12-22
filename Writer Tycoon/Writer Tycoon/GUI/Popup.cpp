@@ -20,6 +20,7 @@ Popup::~Popup()
 		for (size_t i = 0; i < this->texts.size(); ++i)
 		{
 			delete this->texts[i];
+			this->texts[i] = nullptr;
 		}
 	}
 
@@ -28,6 +29,7 @@ Popup::~Popup()
 		for (size_t i = 0; i < this->buttons.size(); ++i)
 		{
 			delete this->buttons[i];
+			this->buttons[i] = nullptr;
 		}
 	}
 
@@ -36,6 +38,7 @@ Popup::~Popup()
 		for (size_t i = 0; i < this->dropdowns.size(); ++i)
 		{
 			delete this->dropdowns[i];
+			this->dropdowns[i] = nullptr;
 		}
 	}
 	

@@ -121,6 +121,11 @@ void GameState::initEntities()
 	this->player = new Player(0, 0, this->textures["PLAYER_SHEET"]);
 }
 
+void GameState::initTileMap()
+{
+	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10);
+}
+
 // Constructor/Destructor
 GameState::GameState(StateData* stateData)
 	: State(stateData)
@@ -130,13 +135,19 @@ GameState::GameState(StateData* stateData)
 	this->initKeybinds();
 	this->initGUI();
 	this->initEntities();
+	this->initTileMap();
 }
 
 GameState::~GameState()
 {
 	delete this->pauseMenu;
+	this->pauseMenu = nullptr;
 	delete this->popup;
+	this->popup = nullptr;
 	delete this->player;
+	this->player = nullptr;
+	delete this->tileMap;
+	this->tileMap = nullptr;
 }
 
 // Functions
@@ -148,9 +159,11 @@ void GameState::updateEvents(sf::Event& sfEvent)
 		// Update pause menu events
 		this->pauseMenu->updateEvents(sfEvent, this->mousePosView);
 	}
-
-	// Update popups
-	this->popup->updateEvents(sfEvent, this->mousePosView);
+	else
+	{
+		// Update popups
+		this->popup->updateEvents(sfEvent, this->mousePosView);
+	}
 }
 
 void GameState::updateInput(const float& dt)
@@ -175,7 +188,7 @@ void GameState::updateInput(const float& dt)
 	}
 }
 
-void GameState::updateGUI(const float& dt, const sf::Vector2f& mousePosView)
+void GameState::updateGUI(const float& dt)
 {
 }
 
@@ -207,7 +220,7 @@ void GameState::update(const float& dt)
 	this->updateMousePositions();
 
 	// Update GUI
-	this->updateGUI(dt, this->mousePosView);
+	this->updateGUI(dt);
 
 	// Update key time
 	this->updateKeyTime(dt);

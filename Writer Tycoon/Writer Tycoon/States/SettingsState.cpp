@@ -172,12 +172,14 @@ SettingsState::~SettingsState()
 	for (itButtons = this->buttons.begin(); itButtons != this->buttons.end(); ++itButtons)
 	{
 		delete itButtons->second;
+		itButtons->second = nullptr;
 	}
 
 	auto itDropdowns = this->dropdowns.begin();
 	for (itDropdowns = this->dropdowns.begin(); itDropdowns != this->dropdowns.end(); ++itDropdowns)
 	{
 		delete itDropdowns->second;
+		itDropdowns->second = nullptr;
 	}
 }
 

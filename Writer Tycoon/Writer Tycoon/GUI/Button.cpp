@@ -151,7 +151,7 @@ void Button::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 			if (sfEvent.mouseButton.button == sf::Mouse::Left)
 			{
 				// Check if the button can be clicked on release
-				if (getClickBuffer())
+				if (this->getClickBuffer())
 				{
 					// If so, activate
 					this->buttonState = BTN_ACTIVE_FUNCTION;

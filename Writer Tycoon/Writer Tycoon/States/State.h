@@ -19,7 +19,7 @@ public:
 	std::stack<State*>* states;
 
 	// Constructor/Destructor
-	StateData() {}
+	StateData() {};
 };
 
 class State
@@ -44,6 +44,7 @@ protected:
 	sf::Vector2i mousePosScreen;
 	sf::Vector2i mousePosWindow;
 	sf::Vector2f mousePosView;
+	sf::Vector2u mousePosGrid;
 
 	// Resources
 	std::map<std::string, sf::Texture> textures;

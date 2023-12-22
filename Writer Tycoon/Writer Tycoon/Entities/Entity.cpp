@@ -18,8 +18,11 @@ Entity::Entity()
 Entity::~Entity()
 {
 	delete this->movementComponent;
+	this->movementComponent = nullptr;
 	delete this->animationComponent;
+	this->animationComponent = nullptr;
 	delete this->hitboxComponent;
+	this->hitboxComponent = nullptr;
 }
 
 // Component Functions

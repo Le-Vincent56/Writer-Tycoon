@@ -27,7 +27,7 @@ private:
 
     Player* player;
 
-    TileMap map;
+    TileMap* tileMap;
 
     // Initalizer Functions
     void initTextures();
@@ -37,6 +37,7 @@ private:
     void initPopups();
     void initGUI();
     void initEntities();
+    void initTileMap();
 
 public:
     // Constructor/Destructor
@@ -46,7 +47,7 @@ public:
     // Functions
     void updateEvents(sf::Event& sfEvent);
     void updateInput(const float& dt);
-    void updateGUI(const float& dt, const sf::Vector2f& mousePosView);
+    void updateGUI(const float& dt);
     void updatePauseMenuButtons();
     void update(const float& dt);
     void render(sf::RenderTarget* target = nullptr);

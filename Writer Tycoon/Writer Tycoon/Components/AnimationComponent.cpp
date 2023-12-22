@@ -13,6 +13,7 @@ AnimationComponent::~AnimationComponent()
 	for (auto& it : this->animations)
 	{
 		delete it.second;
+		it.second = nullptr;
 	}
 }
 

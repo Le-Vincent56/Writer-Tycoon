@@ -11,7 +11,7 @@ void Game::initVariables()
 	this->window = nullptr;
 	this->fullscreen = false;
 	this->dt = 0.0f;
-	this->gridSize = 50.0f;
+	this->gridSize = 100.0f;
 }
 
 void Game::initGraphicsSettings()
@@ -93,11 +93,13 @@ Game::~Game()
 {
 	// Delete the window
 	delete this->window;
+	this->window = nullptr;
 
 	// Delete states
 	while (!this->states.empty())
 	{
 		delete this->states.top();
+		this->states.top() = nullptr;
 		this->states.pop();
 	}
 }
@@ -150,6 +152,7 @@ void Game::update()
 
 			// Remove data
 			delete this->states.top();
+			this->states.top() = nullptr;
 			this->states.pop();
 		}
 	}

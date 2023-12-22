@@ -47,6 +47,7 @@ PauseMenu::~PauseMenu()
 	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
 	{
 		delete it->second;
+		it->second = nullptr;
 	}
 }
 

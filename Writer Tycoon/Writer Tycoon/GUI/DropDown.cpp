@@ -46,9 +46,12 @@ Dropdown::Dropdown(float x, float y, float width, float height,
 Dropdown::~Dropdown()
 {
 	delete this->currentElement;
+	this->currentElement = nullptr;
+
 	for (size_t i = 0; i < this->elements.size(); ++i)
 	{
 		delete this->elements[i];
+		this->elements[i] = nullptr;
 	}
 }
 
