@@ -4,6 +4,11 @@
 #include "EditorState.h"
 #include "SettingsState.h"
 
+// Forward Declarations
+class GameState;
+class EditorState;
+class SettingsState;
+
 class MainMenuState :
     public State
 {
@@ -28,9 +33,7 @@ private:
 
 public:
     // Constructor/Destructor
-    MainMenuState(sf::RenderWindow* window, 
-        std::map<std::string, int>* supportedKeys, 
-        std::stack<State*>* states);
+    MainMenuState(StateData* stateData);
     virtual ~MainMenuState();
 
     // Functions

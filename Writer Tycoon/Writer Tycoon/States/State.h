@@ -1,7 +1,26 @@
 #pragma once
 
-#include "..\Entities\Player.h"
-#include "..\GUI\Button.h"
+#include "../Core/GraphicsSettings.h"
+#include "../Entities/Player.h"
+
+// Forward Declarations
+class State;
+class GraphicsSettings;
+class Player;
+
+class StateData
+{
+public:
+	// Variables
+	float gridSize;
+	sf::RenderWindow* window;
+	GraphicsSettings* gSettings;
+	std::map <std::string, int>* supportedKeys;
+	std::stack<State*>* states;
+
+	// Constructor/Destructor
+	StateData() {}
+};
 
 class State
 {
@@ -10,10 +29,12 @@ private:
 
 protected:
 	// Variables
+	StateData* stateData;
 	sf::RenderWindow* window;
 	std::stack<State*>* states;
 	std::map<std::string, int>* supportedKeys;
 	std::map<std::string, int> keybinds;
+	float gridSize;
 	bool quit;
 	bool paused;
 
@@ -32,9 +53,7 @@ protected:
 
 public:
 	// Constructor/Destructor
-	State(sf::RenderWindow* window, 
-		std::map<std::string, int>* supportedKeys, 
-		std::stack<State*>* states);
+	State(StateData* stateData);
 	virtual ~State();
 
 	// Accessors

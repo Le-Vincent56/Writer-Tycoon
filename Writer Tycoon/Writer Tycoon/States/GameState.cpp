@@ -1,3 +1,4 @@
+#include "../stdafx.h"
 #include "GameState.h"
 
 // Initializer Functions
@@ -101,10 +102,7 @@ void GameState::initPopups()
 		this->font, this->popupFrameTexture);
 
 	// Add text
-	sf::Text* text1 = new sf::Text("Text 1", this->font, 32);
-	popup->addItem(text1, 500 - text1->getLocalBounds().width/2, 500 - text1->getCharacterSize()/2);
-	std::cout << "Text 1 Bounds Width/Height: "
-		<< text1->getLocalBounds().width << ", " << text1->getCharacterSize() << "\n";
+	popup->addItem(new sf::Text("Text 1", this->font, 32), 300, 300);
 
 	this->popup->setEnabled(false);
 }
@@ -124,10 +122,8 @@ void GameState::initEntities()
 }
 
 // Constructor/Destructor
-GameState::GameState(sf::RenderWindow* window, 
-	std::map<std::string, int>* supportedKeys, 
-	std::stack<State*>* states)
-	: State(window, supportedKeys, states)
+GameState::GameState(StateData* stateData)
+	: State(stateData)
 {
 	this->initTextures();
 	this->initFonts();
@@ -165,9 +161,9 @@ void GameState::updateInput(const float& dt)
 		// Start the key timer
 		this->startKeyTimer();
 
-		this->popup->setEnabled(!this->popup->getEnabled());
+		//this->popup->setEnabled(!this->popup->getEnabled());
 
-		/* //Toggle paused
+		 //Toggle paused
 		if (!this->paused)
 		{
 			this->pauseState();
@@ -175,7 +171,7 @@ void GameState::updateInput(const float& dt)
 		else
 		{
 			this->unpauseState();
-		}*/
+		}
 	}
 }
 
@@ -194,7 +190,7 @@ void GameState::updatePauseMenuButtons()
 	// Settings state
 	if (this->pauseMenu->isButtonPressed("SETTINGS_STATE"))
 	{
-		this->states->push(new SettingsState(this->window, this->supportedKeys, this->states));
+		this->states->push(new SettingsState(this->stateData));
 	}
 
 	// Exit state
@@ -246,6 +242,9 @@ void GameState::render(sf::RenderTarget* target)
 	// If nothing bound to target, set it to this window
 	if (!target)
 		target = this->window;
+
+	// Draw the map
+	//this->map.render(*target);
 
 	// Draw the player
 	this->player->render(*target);

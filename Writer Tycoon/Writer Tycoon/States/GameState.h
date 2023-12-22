@@ -2,8 +2,16 @@
 
 #include "State.h"
 #include "SettingsState.h"
-#include "..\GUI\PauseMenu.h"
-#include "..\GUI\Popup.h"
+#include "../GUI/PauseMenu.h"
+#include "../GUI/Popup.h"
+#include "../Map/TileMap.h"
+
+// Forward Declarations
+class State;
+class SettingsState;
+class PauseMenu;
+class Popup;
+class TileMap;
 
 class GameState :
     public State
@@ -19,6 +27,8 @@ private:
 
     Player* player;
 
+    TileMap map;
+
     // Initalizer Functions
     void initTextures();
     void initFonts();
@@ -30,9 +40,7 @@ private:
 
 public:
     // Constructor/Destructor
-    GameState(sf::RenderWindow* window, 
-        std::map<std::string, int>* supportedKeys, 
-        std::stack<State*>* states);
+    GameState(StateData* stateData);
     virtual ~GameState();
 
     // Functions

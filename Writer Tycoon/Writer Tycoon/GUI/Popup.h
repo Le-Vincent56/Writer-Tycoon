@@ -1,17 +1,11 @@
 #pragma once
 
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <sstream>
-
 #include "Button.h"
 #include "Dropdown.h"
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
+// Forward Declaration
+class Button;
+class Dropdown;
 
 class Popup
 {

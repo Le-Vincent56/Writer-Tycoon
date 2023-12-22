@@ -1,11 +1,18 @@
 #pragma once
 
-#include "States/MainMenuState.h"
+#include "GraphicsSettings.h"
+#include "../States/MainMenuState.h"
+
+// Forward Declarations
+class GraphicsSettings;
+class MainMenuState;
 
 class Game
 {
 private:
 	// Variables
+	StateData stateData;
+	GraphicsSettings gSettings;
 	sf::RenderWindow* window;
 	sf::Event sfEvent;
 	std::vector<sf::VideoMode> videoModes;
@@ -19,10 +26,14 @@ private:
 
 	std::map<std::string, int> supportedKeys;
 
+	float gridSize;
+
 	// Initialization
 	void initVariables();
+	void initGraphicsSettings();
 	void initWindow();
 	void initKeys();
+	void initStateData();
 	void initStates();
 
 public:

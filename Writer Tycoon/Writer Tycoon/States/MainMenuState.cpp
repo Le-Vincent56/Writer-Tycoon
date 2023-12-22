@@ -1,3 +1,4 @@
+#include "../stdafx.h"
 #include "MainMenuState.h"
 
 // Initialize Functions
@@ -118,10 +119,8 @@ void MainMenuState::initGUI()
 }
 
 // Constructor/Destructor
-MainMenuState::MainMenuState(sf::RenderWindow* window, 
-	std::map<std::string, int>* supportedKeys, 
-	std::stack<State*>* states)
-	: State(window, supportedKeys, states)
+MainMenuState::MainMenuState(StateData* stateData)
+	: State(stateData)
 {
 	// Initialize variables
 	this->initVariables();
@@ -167,19 +166,20 @@ void MainMenuState::updateGUI(const float& dt)
 	// Start new game
 	if (this->buttons["GAME_STATE"]->isPressed())
 	{
-		this->states->push(new GameState(this->window, this->supportedKeys, this->states));
+		this->states->push(new GameState(this->stateData));
 	}
 
 	// Open Settings
 	if (this->buttons["SETTINGS_STATE"]->isPressed())
 	{
-		this->states->push(new SettingsState(this->window, this->supportedKeys, this->states));
+		this->states->push(new SettingsState(stateData)
+		);
 	}
 
 	// Open Editor
 	if (this->buttons["EDITOR_STATE"]->isPressed())
 	{
-		this->states->push(new EditorState(this->window, this->supportedKeys, this->states));
+		this->states->push(new EditorState(this->stateData));
 	}
 
 	// Quit the game

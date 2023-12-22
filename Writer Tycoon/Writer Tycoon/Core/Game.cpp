@@ -1,3 +1,4 @@
+#include "../stdafx.h"
 #include "Game.h"
 
 // Static Functions
@@ -10,49 +11,43 @@ void Game::initVariables()
 	this->window = nullptr;
 	this->fullscreen = false;
 	this->dt = 0.0f;
+	this->gridSize = 50.0f;
 }
 
-void Game::initWindow() {
-	// Open the config ini
-	std::ifstream ifs("Config/window.ini");
+void Game::initGraphicsSettings()
+{
+	this->gSettings.loadFromFile("Config/graphics.ini");
+}
 
-	// Retrieve all video modes
-	this->videoModes = sf::VideoMode::getFullscreenModes();
+void Game::initStateData()
+{
+	// Set all state data
+	this->stateData.window = this->window;
+	this->stateData.gSettings = &this->gSettings;
+	this->stateData.supportedKeys = &this->supportedKeys;
+	this->stateData.states = &this->states;
+	this->stateData.gridSize = this->gridSize;
+}
 
-	// Set default settings in case of read failure
-	std::string title = "None";
-	sf::VideoMode window_bounds = sf::VideoMode::getDesktopMode();
-	bool fullscreen = false;
-	unsigned int framerate_limit = 120;
-	bool vertical_sync_enabled = false;
-	unsigned int antialiasing_level = 0;
-
-	// Check if the file is open
-	if (ifs.is_open())
-	{
-		// Read data
-		std::getline(ifs, title);
-		ifs >> window_bounds.width >> window_bounds.height;		// Load window size settings
-		ifs >> fullscreen;										// Load fullscreen settings
-		ifs >> framerate_limit;									// Load framerate limit settings
-		ifs >> vertical_sync_enabled;						    // Load VSync settings
-		ifs >> antialiasing_level;								// Load antialiasing settings
-	}
-
-	// Close the file
-	ifs.close();
-
-	// Assign settings
-	this->fullscreen = fullscreen;
-	this->windowSettings.antialiasingLevel = antialiasing_level;
-
-	if(this->fullscreen)
-		this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Fullscreen, this->windowSettings);
+void Game::initWindow()
+{
+	// Initialize window based on fullscreen vs windowed
+	if(this->gSettings.fullscreen)
+		this->window = new sf::RenderWindow(
+			this->gSettings.resolution,
+			this->gSettings.title, 
+			sf::Style::Fullscreen, 
+			this->gSettings.contextSettings
+		);
 	else
-		this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Titlebar | sf::Style::Close, this->windowSettings);
+		this->window = new sf::RenderWindow(
+			this->gSettings.resolution, 
+			this->gSettings.title, 
+			sf::Style::Titlebar | sf::Style::Close, 
+			this->gSettings.contextSettings);
 
-	this->window->setFramerateLimit(framerate_limit);
-	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
+	this->window->setFramerateLimit(this->gSettings.frameRateLimit);
+	this->window->setVerticalSyncEnabled(this->gSettings.verticalSync);
 }
 
 void Game::initKeys()
@@ -79,7 +74,7 @@ void Game::initKeys()
 void Game::initStates()
 {
 	// Set the game state
-	this->states.push(new MainMenuState(this->window, &this->supportedKeys, &this->states));
+	this->states.push(new MainMenuState(&this->stateData));
 }
 
 // Constructor/Destructor
@@ -87,8 +82,10 @@ Game::Game()
 {
 	// Initialize the game
 	this->initVariables();
+	this->initGraphicsSettings();
 	this->initWindow();
 	this->initKeys();
+	this->initStateData();
 	this->initStates();
 }
 

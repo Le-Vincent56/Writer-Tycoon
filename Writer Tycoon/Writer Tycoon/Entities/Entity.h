@@ -4,6 +4,11 @@
 #include "../Components/AnimationComponent.h"
 #include "../Components/HitboxComponent.h"
 
+// Forward Declarations
+class MovementComponent;
+class AnimationComponent;
+class HitboxComponent;
+
 class Entity
 {
 private:

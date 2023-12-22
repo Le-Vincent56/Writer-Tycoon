@@ -1,17 +1,9 @@
 #pragma once
 
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <sstream>
-#include<vector>
-
 #include "Button.h"
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
+// Forward Declarations
+class Button;
 
 class Dropdown
 {

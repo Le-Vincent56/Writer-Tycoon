@@ -21,7 +21,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="Core\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="States\GameState.cpp">
@@ -57,7 +57,7 @@
     <ClCompile Include="Components\HitboxComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tiles\Tile.cpp">
+    <ClCompile Include="Map\Tiles\Tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GUI\PauseMenu.cpp">
@@ -72,12 +72,24 @@
     <ClCompile Include="GUI\Popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Map\TileMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\MathUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GraphicsSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="Core\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="States\GameState.h">
@@ -116,7 +128,7 @@
     <ClInclude Include="Components\HitboxComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tiles\Tile.h">
+    <ClInclude Include="Map\Tiles\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUI\PauseMenu.h">
@@ -129,6 +141,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUI\Popup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\TileMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GraphicsSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

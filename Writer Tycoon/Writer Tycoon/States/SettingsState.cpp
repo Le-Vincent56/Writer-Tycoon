@@ -1,3 +1,4 @@
+#include "../stdafx.h"
 #include "SettingsState.h"
 
 // Initialize Functions
@@ -153,10 +154,8 @@ void SettingsState::initText(const float& dropdownCenterX, const float& dropdown
 }
 
 // Constructor/Destructor
-SettingsState::SettingsState(sf::RenderWindow* window, 
-	std::map<std::string, int>* supportedKeys, 
-	std::stack<State*>* states)
-	: State(window, supportedKeys, states)
+SettingsState::SettingsState(StateData* stateData)
+	: State(stateData)
 {
 	// Initialize variables
 	this->initVariables();
@@ -227,10 +226,19 @@ void SettingsState::updateGUI(const float& dt)
 	if (this->buttons["SAVE"]->isPressed())
 	{
 		// Save changes
+		this->stateData->gSettings->resolution = this->modes[
+			this->dropdowns["RESOLUTION"]->getCurrentElementID()
+		];
+
+		// Create the new window
 		this->window->create(
-			this->modes[this->dropdowns["RESOLUTION"]->getCurrentElementID()],
-			"Test", sf::Style::Default
+			this->stateData->gSettings->resolution,
+			this->stateData->gSettings->title, sf::Style::Default
 		);
+
+		std::cout << "Current Resolution: " << 
+			this->stateData->gSettings->resolution.width << "x" << 
+			this->stateData->gSettings->resolution.height << "\n";
 
 		// Reset changes made
 		this->changesMade = false;

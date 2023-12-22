@@ -1,3 +1,4 @@
+#include "../stdafx.h"
 #include "VectorUtils.h"
 
 sf::Vector2f VectorUtils::normalize(const sf::Vector2f& source)

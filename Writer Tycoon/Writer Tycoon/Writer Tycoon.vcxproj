@@ -77,6 +77,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -91,6 +93,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +132,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\GraphicsSettings.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Components\AnimationComponent.cpp" />
     <ClCompile Include="Components\HitboxComponent.cpp" />
     <ClCompile Include="GUI\Dropdown.cpp" />
@@ -139,18 +150,22 @@
     <ClCompile Include="Components\MovementComponent.cpp" />
     <ClCompile Include="GUI\Button.cpp" />
     <ClCompile Include="Entities\Entity.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Core\Game.cpp" />
     <ClCompile Include="States\MainMenuState.cpp" />
     <ClCompile Include="States\GameState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="States\State.cpp" />
-    <ClCompile Include="Tiles\Tile.cpp" />
+    <ClCompile Include="Map\Tiles\Tile.cpp" />
+    <ClCompile Include="Map\TileMap.cpp" />
+    <ClCompile Include="Utils\MathUtils.cpp" />
     <ClCompile Include="Utils\VectorUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\GraphicsSettings.h" />
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="Components\AnimationComponent.h" />
     <ClInclude Include="Components\HitboxComponent.h" />
     <ClInclude Include="GUI\Dropdown.h" />
@@ -160,11 +175,12 @@
     <ClInclude Include="States\EditorState.h" />
     <ClInclude Include="Entities\Player.h" />
     <ClInclude Include="Components\MovementComponent.h" />
-    <ClInclude Include="Tiles\Tile.h" />
+    <ClInclude Include="Map\Tiles\Tile.h" />
+    <ClInclude Include="Map\TileMap.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="GUI\Button.h" />
     <ClInclude Include="Entities\Entity.h" />
-    <ClInclude Include="Game.h" />
+    <ClInclude Include="Core\Game.h" />
     <ClInclude Include="States\MainMenuState.h" />
     <ClInclude Include="States\GameState.h" />
     <ClInclude Include="States\State.h" />

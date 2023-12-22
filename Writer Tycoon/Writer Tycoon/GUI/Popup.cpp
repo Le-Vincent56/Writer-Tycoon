@@ -1,3 +1,4 @@
+#include "../stdafx.h"
 #include "Popup.h"
 
 // Constructor/Destructor

@@ -1,7 +1,13 @@
 #pragma once
 
 #include "State.h"
-#include "..\GUI\Dropdown.h"
+#include "../Core/GraphicsSettings.h"
+#include "../GUI/Dropdown.h"
+
+// Forward Declarations
+class State;
+class GraphicsSettings;
+class Dropdown;
 
 class SettingsState :
     public State
@@ -38,9 +44,7 @@ private:
 
 public:
     // Constructor/Destructor
-    SettingsState(sf::RenderWindow* window, 
-        std::map<std::string, int>* supportedKeys, 
-        std::stack<State*>* states);
+    SettingsState(StateData* stateData);
     virtual ~SettingsState();
 
     // Functions
