@@ -8,10 +8,15 @@ void EditorState::initVariables()
 	pressingLeft = false;
 	pressingRight = false;
 
+	// Set texture rect
 	this->textureRect = sf::IntRect(0, 0, 
 		static_cast<int>(this->stateData->gridSize),
 		static_cast<int>(this->stateData->gridSize)
 	);
+
+	// Set tile variables
+	this->collision = false;
+	this->type = TileType::DEFAULT;
 }
 
 void EditorState::initBackground()
@@ -76,8 +81,10 @@ void EditorState::initKeybinds()
 		}
 	}
 
-	// Close the ilfe stream
+	// Close the file stream
 	ifs.close();
+
+	sf::Keyboard::Key;
 }
 
 void EditorState::initPauseMenu()
@@ -226,6 +233,7 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 			}
 		}
 
+		// Reset on release
 		if (sfEvent.type == sf::Event::MouseButtonReleased)
 		{
 			if (sfEvent.mouseButton.button == sf::Mouse::Left)
@@ -253,12 +261,32 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 			}
 		}
 
+		// Reset on release
 		if (sfEvent.type == sf::Event::MouseButtonReleased)
 		{
 			if (sfEvent.mouseButton.button == sf::Mouse::Right)
 			{
 				// Stop holding
 				pressingRight = false;
+			}
+		}
+
+		// Check for changing type
+		if (sfEvent.type == sf::Event::MouseWheelScrolled)
+		{
+			if (sfEvent.mouseWheelScroll.delta > 0)
+			{
+				// TODO: Limit to max height
+				this->type++;
+			}
+			else if (sfEvent.mouseWheelScroll.delta < 0)
+			{
+				// Check if greater than 0 - stay within the positive bounds of the
+				// enum
+				if (this->type > 0)
+				{
+					this->type--;
+				}
 			}
 		}
 	}
@@ -269,7 +297,7 @@ void EditorState::updateEditorInput(const float& dt)
 	// If the left mouse button is being pressed/held, add a tile at it's position
 	if (pressingLeft)
 	{
-		this->tileMap->addTile(this->textureRect, this->mousePosGrid.x, this->mousePosGrid.y);
+		this->tileMap->addTile(this->textureRect, this->mousePosGrid.x, this->mousePosGrid.y, 0, this->collision, this->type);
 	}
 
 	// If the right mouse button is being pressed/held, remove a tile at it's position
@@ -296,6 +324,13 @@ void EditorState::updateInput(const float& dt)
 		{
 			this->unpauseState();
 		}
+	}
+
+	// Toggle collision
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_COLLISION"))) && this->getCanPressKey())
+	{
+		// Toggle collision
+		this->collision = !this->collision;
 	}
 }
 
@@ -326,7 +361,9 @@ void EditorState::updateGUI(const float& dt)
 	std::stringstream ss;
 	ss << this->mousePosView.x << ", " << this->mousePosView.y << "\n"
 		<< this->mousePosGrid.x << ", " << this->mousePosGrid.y << "\n"
-		<< this->textureRect.left << " " << this->textureRect.top;
+		<< this->textureRect.left << " " << this->textureRect.top << "\n"
+		<< "Collision: " << this->collision << "\n"
+		<< "Type: " << this->type << "\n";
 	this->cursorText.setString(ss.str());
 }
 

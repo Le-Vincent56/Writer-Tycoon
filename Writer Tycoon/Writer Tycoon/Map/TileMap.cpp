@@ -210,7 +210,7 @@ void TileMap::loadFromFile(const std::string fileName)
 }
 
 void TileMap::addTile(const sf::IntRect& textureRect, const unsigned int x, const unsigned int y,
-	const unsigned int z)
+	const unsigned int z, const bool& collision, const short int& type)
 {
 	// Check if the given coordinates are within the grid bounds
 	if (x < this->maxSize.x && x >= 0 
@@ -221,7 +221,8 @@ void TileMap::addTile(const sf::IntRect& textureRect, const unsigned int x, cons
 		if (this->map[x][y][z] == nullptr)
 		{
 			this->map[x][y][z] = new Tile(x, y, 
-				this->gridSizeF, this->tileSheet, textureRect);
+				this->gridSizeF, this->tileSheet, textureRect,
+				collision, type);
 		}
 	}
 }

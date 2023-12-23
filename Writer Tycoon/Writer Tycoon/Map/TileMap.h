@@ -29,7 +29,7 @@ public:
 	void saveToFile(const std::string fileName);
 	void loadFromFile(const std::string fileName);
 	void addTile(const sf::IntRect& textureRect, const unsigned int x, const unsigned int y,
-		const unsigned int z = 0);
+		const unsigned int z, const bool& collision, const short int& type);
 	void removeTile(const unsigned int x, const unsigned int y, const unsigned int z = 0);
 	void update();
 	void render(sf::RenderTarget& target);

@@ -4,6 +4,7 @@
 #include "SettingsState.h"
 #include "../GUI/PauseMenu.h"
 #include "../Map/TileMap.h"
+#include "../Map/Tiles/Tile.h"
 #include "../GUI/TextureSelector.h"
 
 // Forward Declarations
@@ -37,6 +38,9 @@ private:
     sf::RectangleShape selectorRect;
 
     TextureSelector* textureSelector;
+
+    bool collision;
+    short int type;
 
     // Functions
     void initVariables();

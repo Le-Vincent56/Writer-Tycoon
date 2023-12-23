@@ -1,6 +1,6 @@
 #pragma once
 
-enum TileTypes
+enum TileType
 {
 	DEFAULT = 0,
 	FLOOR = 1
@@ -22,7 +22,7 @@ public:
 	// Constructor/Destructor
 	Tile();
 	Tile(unsigned int gridX, unsigned int gridY, float gridSize, const sf::Texture& texture, 
-		const sf::IntRect textureRect, bool collision = false, short type = TileTypes::DEFAULT);
+		const sf::IntRect textureRect, const bool& collision = false, const short int& type = TileType::DEFAULT);
 	virtual ~Tile();
 
 	// Accessors

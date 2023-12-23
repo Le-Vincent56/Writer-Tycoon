@@ -5,12 +5,12 @@ Tile::Tile()
 {
 	// Set default variables
 	this->collision = false;
-	this->type = 0;
+	this->type = TileType::DEFAULT;
 }
 
 // Constructor/Destructor
 Tile::Tile(unsigned int gridX, unsigned int gridY, float gridSize, const sf::Texture& texture, 
-	const sf::IntRect textureRect, bool collision, short type)
+	const sf::IntRect textureRect, const bool& collision, const short& type)
 {
 	// Set rectangle shape
 	this->shape.setSize(sf::Vector2f(gridSize, gridSize));
