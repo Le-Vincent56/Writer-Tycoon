@@ -16,12 +16,12 @@ TextureSelector::TextureSelector(float x, float y,
 	// Set hidden
 	this->hidden = false;
 
-	float offset = 60.0f;
+	float offset = 100.0f;
 
 	// Set hide button
 	this->hideButton = new Button(
 		x, y, 50.0f, 50.0f,
-		font, text, 50,
+		font, text, 24,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
 		buttonIdleTexture, buttonActiveTexture
 	);

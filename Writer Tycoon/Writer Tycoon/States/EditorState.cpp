@@ -95,18 +95,28 @@ void EditorState::initPauseMenu()
 	float buttonHeight = 75;
 	float buttonCenterY = windowCenterY - (buttonHeight / 2);
 
-	this->pauseMenu->addButton("RESUME_STATE", "RESUME",
+	this->pauseMenu->addButton("RESUME", "RESUME",
 		buttonCenterX, windowCenterY + buttonCenterY,
 		buttonWidth, buttonHeight
 	);
 
-	this->pauseMenu->addButton("SETTINGS_STATE", "SETTINGS",
+	this->pauseMenu->addButton("SAVE", "SAVE",
 		buttonCenterX, windowCenterY + (buttonCenterY * 2.0),
 		buttonWidth, buttonHeight
 	);
 
-	this->pauseMenu->addButton("EXIT_STATE", "MAIN MENU",
+	this->pauseMenu->addButton("LOAD", "LOAD",
 		buttonCenterX, windowCenterY + (buttonCenterY * 3.0),
+		buttonWidth, buttonHeight
+	);
+
+	this->pauseMenu->addButton("SETTINGS", "SETTINGS",
+		buttonCenterX, windowCenterY + (buttonCenterY * 4.0),
+		buttonWidth, buttonHeight
+	);
+
+	this->pauseMenu->addButton("EXIT", "MAIN MENU",
+		buttonCenterX, windowCenterY + (buttonCenterY * 5.0),
 		buttonWidth, buttonHeight
 	);
 }
@@ -136,7 +146,7 @@ void EditorState::initGUI()
 
 void EditorState::initTileMap()
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10);
+	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "Assets/Images/tilesheet1.png");
 }
 
 // Constructor/Destructor
@@ -323,19 +333,31 @@ void EditorState::updateGUI(const float& dt)
 void EditorState::updatePauseMenuButtons()
 {
 	// Resume state
-	if (this->pauseMenu->isButtonPressed("RESUME_STATE"))
+	if (this->pauseMenu->isButtonPressed("RESUME"))
 	{
 		this->unpauseState();
 	}
 
+	// Save
+	if (this->pauseMenu->isButtonPressed("SAVE"))
+	{
+		this->tileMap->saveToFile("TestSave.wtmp");
+	}
+
+	// Load
+	if (this->pauseMenu->isButtonPressed("LOAD"))
+	{
+		this->tileMap->loadFromFile("TestSave.wtmp");
+	}
+
 	// Settings state
-	if (this->pauseMenu->isButtonPressed("SETTINGS_STATE"))
+	if (this->pauseMenu->isButtonPressed("SETTINGS"))
 	{
 		this->states->push(new SettingsState(this->stateData));
 	}
 
 	// Exit state
-	if (this->pauseMenu->isButtonPressed("EXIT_STATE"))
+	if (this->pauseMenu->isButtonPressed("EXIT"))
 	{
 		this->endState();
 	}

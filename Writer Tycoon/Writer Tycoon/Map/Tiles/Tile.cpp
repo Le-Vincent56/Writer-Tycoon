@@ -3,22 +3,43 @@
 
 Tile::Tile()
 {
+	// Set default variables
+	this->collision = false;
+	this->type = 0;
 }
 
 // Constructor/Destructor
-Tile::Tile(float x, float y, float gridSize, const sf::Texture& texture, const sf::IntRect textureRect)
+Tile::Tile(unsigned int gridX, unsigned int gridY, float gridSize, const sf::Texture& texture, 
+	const sf::IntRect textureRect, bool collision, short type)
 {
-	this->shape.setPosition(x, y);
+	// Set rectangle shape
 	this->shape.setSize(sf::Vector2f(gridSize, gridSize));
 	this->shape.setFillColor(sf::Color::White);
+	this->shape.setPosition(static_cast<float>(gridX) * gridSize, static_cast<float>(gridY) * gridSize);
 	this->shape.setOutlineThickness(1.0f);
 	this->shape.setOutlineColor(sf::Color::Black);
 	this->shape.setTexture(&texture);
 	this->shape.setTextureRect(textureRect);
+
+	// Set default variables
+	this->collision = collision;
+	this->type = type;
 }
 
 Tile::~Tile()
 {
+}
+
+// Accessors
+const std::string Tile::toString() const
+{
+	std::stringstream ss;
+
+	// Add data to the string
+	ss << this->shape.getTextureRect().left << " " << this->shape.getTextureRect().top 
+		<< " " << this->collision << " " << this->type;
+
+	return ss.str();
 }
 
 // Functions

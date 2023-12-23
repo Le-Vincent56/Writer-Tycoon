@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.props" Condition="Exists('..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.props')" />
   <Import Project="..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.props" Condition="Exists('..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -71,6 +72,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>true</VcpkgEnabled>
+    <VcpkgManifestInstall>true</VcpkgManifestInstall>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -191,6 +196,7 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.targets" Condition="Exists('..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.targets')" />
+    <Import Project="..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.targets" Condition="Exists('..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -198,5 +204,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.props'))" />
     <Error Condition="!Exists('..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.source.repos.WriterTycoon.WriterTycoon.vcpkg.targets'))" />
+    <Error Condition="!Exists('..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.props'))" />
+    <Error Condition="!Exists('..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.1.0.0\build\native\vcpkg.C.Users.levin.OneDrive.Desktop.Folders.VCPKG.vcpkg.targets'))" />
   </Target>
 </Project>

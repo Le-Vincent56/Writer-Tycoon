@@ -21,7 +21,7 @@ Player::Player(float x, float y, sf::Texture& textureSheet)
 	this->setPosition(x, y);
 
 	// Rescale the player
-	this->sprite.setScale(2, 2);
+	//this->sprite.setScale(2, 2);
 
 	// Create components
 	this->createMovementComponent(10.0f, 300.0f);
