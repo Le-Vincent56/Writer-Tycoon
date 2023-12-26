@@ -1,6 +1,11 @@
 #pragma once
 
 #include "Tiles/Tile.h"
+#include "../Entities/Entity.h"
+
+// Forward Declarations
+class Tile;
+class Entity;
 
 class TileMap
 {
@@ -13,6 +18,7 @@ private:
 	std::vector<std::vector<std::vector<Tile*>>> map;
 	std::string textureFilePath;
 	sf::Texture tileSheet;
+	sf::RectangleShape collisionBox;
 
 	// Functions
 	void clear();
@@ -31,7 +37,8 @@ public:
 	void addTile(const sf::IntRect& textureRect, const unsigned int x, const unsigned int y,
 		const unsigned int z, const bool& collision, const short int& type);
 	void removeTile(const unsigned int x, const unsigned int y, const unsigned int z = 0);
+	void updateCollision(Entity* entity);
 	void update();
-	void render(sf::RenderTarget& target);
+	void render(sf::RenderTarget& target, Entity* entity = nullptr);
 };
 

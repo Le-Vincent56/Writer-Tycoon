@@ -198,7 +198,10 @@ GameState::~GameState()
 void GameState::updateView(const float& dt)
 {
 	// Track the player by always keeping it at the center position
-	this->view.setCenter(this->player->getPosition());
+	this->view.setCenter(
+		std::floor(this->player->getPosition().x), 
+		std::floorf(this->player->getPosition().y)
+	);
 }
 
 void GameState::updateEvents(sf::Event& sfEvent)

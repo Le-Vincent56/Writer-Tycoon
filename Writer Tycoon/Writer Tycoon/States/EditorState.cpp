@@ -361,6 +361,9 @@ void EditorState::updateInput(const float& dt)
 	// Toggle collision
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("TOGGLE_COLLISION"))) && this->getCanPressKey())
 	{
+		// Start the key timer
+		this->startKeyTimer();
+
 		// Toggle collision
 		this->collision = !this->collision;
 	}
@@ -368,19 +371,19 @@ void EditorState::updateInput(const float& dt)
 	// Move view
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
 	{
-		this->view.move(0.0f, -this->cameraSpeed * dt);
+		this->view.move(0.0f, -std::floor(this->cameraSpeed * dt));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))))
 	{
-		this->view.move(-this->cameraSpeed * dt, 0.0f);
+		this->view.move(-std::floorf(this->cameraSpeed * dt), 0.0f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
 	{
-		this->view.move(0.0f, this->cameraSpeed * dt);
+		this->view.move(0.0f, std::floor(this->cameraSpeed * dt));
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))))
 	{
-		this->view.move(this->cameraSpeed * dt, 0.0f);
+		this->view.move(std::floor(this->cameraSpeed * dt), 0.0f);
 	}
 }
 

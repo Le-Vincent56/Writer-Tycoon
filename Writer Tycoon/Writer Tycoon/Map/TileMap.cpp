@@ -34,6 +34,12 @@ TileMap::TileMap(float gridSize, unsigned int width, unsigned int height, std::s
 	this->layers = 2;
 	this->textureFilePath = textureFilePath;
 
+	// Create collision box
+	this->collisionBox.setSize(sf::Vector2f(gridSize, gridSize));
+	this->collisionBox.setFillColor(sf::Color(255, 0, 0, 50));
+	this->collisionBox.setOutlineThickness(1.0f);
+	this->collisionBox.setOutlineColor(sf::Color::Red);
+
 	// Resize the x vector and fill it with objects
 	this->map.resize(this->maxSize.x, std::vector<std::vector<Tile*>>());
 	for (size_t x = 0; x < this->maxSize.x; ++x)
@@ -242,11 +248,16 @@ void TileMap::removeTile(const unsigned int x, const unsigned int y, const unsig
 	}
 }
 
+void TileMap::updateCollision(Entity* entity)
+{
+
+}
+
 void TileMap::update()
 {
 }
 
-void TileMap::render(sf::RenderTarget& target)
+void TileMap::render(sf::RenderTarget& target, Entity* entity)
 {
 	for (auto &x : this->map)
 	{
@@ -255,8 +266,19 @@ void TileMap::render(sf::RenderTarget& target)
 			for (auto* z : y)
 			{
 				// Check if z is a nullptr
-				if(z != nullptr)
+				if (z != nullptr)
+				{
+					// Render the tile
 					z->render(target);
+					
+					// Render collisions
+					if (z->getCollision())
+					{
+						this->collisionBox.setPosition(z->getPosition());
+						target.draw(this->collisionBox);
+					}
+					
+				}
 			}
 		}
 	}

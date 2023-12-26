@@ -26,6 +26,8 @@ public:
 	virtual ~Tile();
 
 	// Accessors
+	const sf::Vector2f& getPosition() const;
+	const bool& getCollision() const;
 	const std::string toString() const;
 
 	// Functions
