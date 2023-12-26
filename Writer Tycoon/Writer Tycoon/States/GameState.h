@@ -35,6 +35,7 @@ private:
 
     // Initalizer Functions
     void initView();
+    void initDeferredRender();
     void initTextures();
     void initFonts();
     void initKeybinds();

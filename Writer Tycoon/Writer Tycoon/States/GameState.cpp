@@ -21,6 +21,28 @@ void GameState::initView()
 	);
 }
 
+void GameState::initDeferredRender()
+{
+	// Create a render texture "canvas" that encapsulates the screen
+	this->renderTexture.create(
+		this->stateData->gSettings->resolution.width,
+		this->stateData->gSettings->resolution.height
+	);
+
+	// Set the render sprite
+	this->renderSprite.setTexture(this->renderTexture.getTexture());
+
+	// Set the texture rect of the render sprite to the resolution of the screen
+	this->renderSprite.setTextureRect(
+		sf::IntRect(
+			0,
+			0,
+			this->stateData->gSettings->resolution.width,
+			this->stateData->gSettings->resolution.height
+		)
+	);
+}
+
 void GameState::initTextures()
 {
 	// Load player sprite
@@ -151,6 +173,7 @@ GameState::GameState(StateData* stateData)
 	: State(stateData)
 {
 	this->initView();
+	this->initDeferredRender();
 	this->initTextures();
 	this->initFonts();
 	this->initKeybinds();
@@ -286,21 +309,29 @@ void GameState::render(sf::RenderTarget* target)
 	if (!target)
 		target = this->window;
 
+	// Clear the render canvas before display
+	this->renderTexture.clear();
+
 	// Render the tilemap
-	target->setView(this->view);
-	this->tileMap->render(*target);
+	this->renderTexture.setView(this->view);
+	this->tileMap->render(this->renderTexture);
 
 	// Draw the player
-	this->player->render(*target);
+	this->player->render(this->renderTexture);
 
 	// Draw the pause menu
 	if (this->paused)
 	{
-		target->setView(this->window->getDefaultView());
-		this->pauseMenu->render(*target);
+		this->renderTexture.setView(this->window->getDefaultView());
+		this->pauseMenu->render(this->renderTexture);
 	}
 
 	// Draw popups
-	target->setView(this->window->getDefaultView());
-	this->popup->render(*target);
+	this->renderTexture.setView(this->window->getDefaultView());
+	this->popup->render(this->renderTexture);
+
+	// Draw the canvas
+	this->renderTexture.display();
+	this->renderSprite.setTexture(this->renderTexture.getTexture());
+	target->draw(this->renderSprite);
 }
