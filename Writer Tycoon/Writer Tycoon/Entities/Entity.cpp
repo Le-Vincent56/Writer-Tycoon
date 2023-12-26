@@ -25,6 +25,19 @@ Entity::~Entity()
 	this->hitboxComponent = nullptr;
 }
 
+// Accessors
+const sf::Vector2f& Entity::getPosition() const
+{
+	return this->sprite.getPosition();
+}
+
+// Modifiers
+void Entity::setPosition(const float x, const float y)
+{
+	// Set the position of the sprite
+	this->sprite.setPosition(x, y);
+}
+
 // Component Functions
 void Entity::setTexture(sf::Texture& texture)
 {
@@ -50,12 +63,6 @@ void Entity::createHitboxComponent(sf::Sprite& sprite,
 }
 
 // Functions
-void Entity::setPosition(const float x, const float y)
-{
-	// Set the position of the sprite
-	this->sprite.setPosition(x, y);
-}
-
 void Entity::render(sf::RenderTarget& target)
 {
 	// Draw the sprite

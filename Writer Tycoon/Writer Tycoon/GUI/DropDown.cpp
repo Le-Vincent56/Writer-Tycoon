@@ -67,25 +67,25 @@ const unsigned short& Dropdown::getLastCurrentElementID() const
 }
 
 // Functions
-void Dropdown::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
+void Dropdown::updateEvents(sf::Event& sfEvent, const sf::Vector2i& mousePosWindow)
 {
 	// Update the current element's events
-	this->currentElement->updateEvents(sfEvent, mousePosView);
+	this->currentElement->updateEvents(sfEvent, mousePosWindow);
 
 	// If showing elements, update their events
 	if (this->showElements)
 	{
 		for (size_t i = 0; i < this->elements.size(); ++i)
 		{
-			this->elements[i]->updateEvents(sfEvent, mousePosView);
+			this->elements[i]->updateEvents(sfEvent, mousePosWindow);
 		}
 	}
 }
 
-void Dropdown::update(const float& dt, const sf::Vector2f& mousePosView)
+void Dropdown::update(const float& dt, const sf::Vector2i& mousePosWindow)
 {
 	// Update the active element
-	this->currentElement->update(dt, mousePosView);
+	this->currentElement->update(dt, mousePosWindow);
 
 	// Check if the active element is pressed (want to toggle dropdown)
 	if (this->currentElement->isPressed())
@@ -112,7 +112,7 @@ void Dropdown::update(const float& dt, const sf::Vector2f& mousePosView)
 	{
 		for (auto& i : this->elements)
 		{
-			i->update(dt, mousePosView);
+			i->update(dt, mousePosWindow);
 
 			if (i->isPressed())
 			{

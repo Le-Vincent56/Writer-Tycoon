@@ -36,8 +36,8 @@ public:
 	const unsigned short& getLastCurrentElementID() const;
 
 	// Functions
-	void updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView);
-	void update(const float& dt, const sf::Vector2f& mousePosView);
+	void updateEvents(sf::Event& sfEvent, const sf::Vector2i& mousePosWindow);
+	void update(const float& dt, const sf::Vector2i& mousePosWindow);
 	void render(sf::RenderTarget& target);
 };
 

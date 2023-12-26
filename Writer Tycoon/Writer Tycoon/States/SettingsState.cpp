@@ -189,13 +189,13 @@ void SettingsState::updateEvents(sf::Event& sfEvent)
 	// Update button events
 	for (auto& it : this->buttons)
 	{
-		it.second->updateEvents(sfEvent, this->mousePosView);
+		it.second->updateEvents(sfEvent, this->mousePosWindow);
 	}
 
 	// Update button events
 	for (auto& it : this->dropdowns)
 	{
-		it.second->updateEvents(sfEvent, this->mousePosView);
+		it.second->updateEvents(sfEvent, this->mousePosWindow);
 	}
 }
 
@@ -208,7 +208,7 @@ void SettingsState::updateGUI(const float& dt)
 	// Update the buttons
 	for (auto& it : this->buttons)
 	{
-		it.second->update(dt, this->mousePosView);
+		it.second->update(dt, this->mousePosWindow);
 	}
 
 	// Update dropdown
@@ -221,7 +221,7 @@ void SettingsState::updateGUI(const float& dt)
 		}
 
 		// Update
-		it.second->update(dt, this->mousePosView);
+		it.second->update(dt, this->mousePosWindow);
 	}
 
 	// Save changes

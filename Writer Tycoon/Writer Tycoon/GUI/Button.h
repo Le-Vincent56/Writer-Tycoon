@@ -58,9 +58,9 @@ public:
 	void setTextureOverride(const bool isOverriding);
 
 	// Functions
-	void updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView);
+	void updateEvents(sf::Event& sfEvent, const sf::Vector2i& mousePosWindow);
 	void updateClickBuffer(const float& dt);
-	void update(const float& dt, const sf::Vector2f& mousePosView);
+	void update(const float& dt, const sf::Vector2i& mousePosWindow);
 	void render(sf::RenderTarget& target);
 };
 

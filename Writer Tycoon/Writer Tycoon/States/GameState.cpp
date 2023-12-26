@@ -2,6 +2,25 @@
 #include "GameState.h"
 
 // Initializer Functions
+void GameState::initView()
+{
+	// Set the view size to the window resolution
+	this->view.setSize(
+		sf::Vector2f(
+			this->stateData->gSettings->resolution.width,
+			this->stateData->gSettings->resolution.height
+		)
+	);
+
+	// Set the view center to the center of the resolution
+	this->view.setCenter(
+		sf::Vector2f(
+			this->stateData->gSettings->resolution.width / 2.0f,
+			this->stateData->gSettings->resolution.height / 2.0f
+		)
+	);
+}
+
 void GameState::initTextures()
 {
 	// Load player sprite
@@ -124,12 +143,14 @@ void GameState::initEntities()
 void GameState::initTileMap()
 {
 	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "Assets/Images/tilesheet1.png");
+	this->tileMap->loadFromFile("TestSave.wtmp");
 }
 
 // Constructor/Destructor
 GameState::GameState(StateData* stateData)
 	: State(stateData)
 {
+	this->initView();
 	this->initTextures();
 	this->initFonts();
 	this->initKeybinds();
@@ -151,18 +172,24 @@ GameState::~GameState()
 }
 
 // Functions
+void GameState::updateView(const float& dt)
+{
+	// Track the player by always keeping it at the center position
+	this->view.setCenter(this->player->getPosition());
+}
+
 void GameState::updateEvents(sf::Event& sfEvent)
 {
 	// Check if paused
 	if (this->paused)
 	{
 		// Update pause menu events
-		this->pauseMenu->updateEvents(sfEvent, this->mousePosView);
+		this->pauseMenu->updateEvents(sfEvent, this->mousePosWindow);
 	}
 	else
 	{
 		// Update popups
-		this->popup->updateEvents(sfEvent, this->mousePosView);
+		this->popup->updateEvents(sfEvent, this->mousePosWindow);
 	}
 }
 
@@ -217,7 +244,7 @@ void GameState::updatePauseMenuButtons()
 void GameState::update(const float& dt)
 {
 	// Update mouse positions
-	this->updateMousePositions();
+	this->updateMousePositions(&this->view);
 
 	// Update GUI
 	this->updateGUI(dt);
@@ -231,6 +258,9 @@ void GameState::update(const float& dt)
 	// Check if paused
 	if(!this->paused)
 	{
+		// Update the view
+		this->updateView(dt);
+
 		// Update player input
 		this->player->updateInput(this->keybinds, dt);
 
@@ -240,14 +270,14 @@ void GameState::update(const float& dt)
 	else
 	{
 		// Update the pause menu
-		this->pauseMenu->update(dt, this->mousePosView);
+		this->pauseMenu->update(dt, this->mousePosWindow);
 
 		// Update buttons
 		this->updatePauseMenuButtons();
 	}
 
 	// Update popups
-	this->popup->update(dt, this->mousePosView);
+	this->popup->update(dt, this->mousePosWindow);
 }
 
 void GameState::render(sf::RenderTarget* target)
@@ -256,8 +286,9 @@ void GameState::render(sf::RenderTarget* target)
 	if (!target)
 		target = this->window;
 
-	// Draw the map
-	//this->map.render(*target);
+	// Render the tilemap
+	target->setView(this->view);
+	this->tileMap->render(*target);
 
 	// Draw the player
 	this->player->render(*target);
@@ -265,9 +296,11 @@ void GameState::render(sf::RenderTarget* target)
 	// Draw the pause menu
 	if (this->paused)
 	{
+		target->setView(this->window->getDefaultView());
 		this->pauseMenu->render(*target);
 	}
 
 	// Draw popups
+	target->setView(this->window->getDefaultView());
 	this->popup->render(*target);
 }

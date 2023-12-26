@@ -73,14 +73,25 @@ void State::updateKeyTime(const float& dt)
 	}
 }
 
-void State::updateMousePositions()
+void State::updateMousePositions(sf::View* view)
 {
-	// Get all mouse positions
+	// Get screen and window positions
 	this->mousePosScreen = sf::Mouse::getPosition();
 	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+
+	// Set the view to the window, if given
+	if (view != nullptr)
+	{
+		this->window->setView(*view);
+	}
+
+	// Get the positiosn within the view and grids
 	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 	this->mousePosGrid = sf::Vector2u(
 		static_cast<unsigned int>(this->mousePosView.x) / static_cast<unsigned int>(this->gridSize),
 		static_cast<unsigned int>(this->mousePosView.y) / static_cast<unsigned int>(this->gridSize)
 	);
+
+	// Set the default view for the window
+	this->window->setView(this->window->getDefaultView());
 }

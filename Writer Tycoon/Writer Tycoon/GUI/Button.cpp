@@ -127,7 +127,7 @@ void Button::setTextureOverride(const bool isOverriding)
 	this->textureOverriden = isOverriding;
 }
 
-void Button::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
+void Button::updateEvents(sf::Event& sfEvent, const sf::Vector2i& mousePosWindow)
 {
 	// Don't update events if the button is disabled
 	if (this->buttonState == BTN_DISABLED)
@@ -136,7 +136,7 @@ void Button::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 	}
 
 	// Detect if the mouse is within bounds and if the button is disabled
-	if (this->shape.getGlobalBounds().contains(mousePosView))
+	if (this->shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
 	{
 		// When the button is pressed, set the active texture
 		if (sfEvent.type == sf::Event::MouseButtonPressed)
@@ -187,7 +187,7 @@ void Button::updateClickBuffer(const float& dt)
 }
 
 // Functions
-void Button::update(const float& dt, const sf::Vector2f& mousePosView)
+void Button::update(const float& dt, const sf::Vector2i& mousePosWindow)
 {
 	// Check if the button is disabled
 	if (this->buttonState == BTN_DISABLED)
@@ -202,7 +202,7 @@ void Button::update(const float& dt, const sf::Vector2f& mousePosView)
 		this->updateClickBuffer(dt);
 
 		// Check if the mouse is hovering over the button
-		if (this->shape.getGlobalBounds().contains(mousePosView))
+		if (this->shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosWindow)))
 		{
 			hovering = true;
 		}

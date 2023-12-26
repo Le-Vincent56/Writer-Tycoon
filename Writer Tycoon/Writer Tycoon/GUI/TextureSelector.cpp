@@ -89,7 +89,7 @@ const sf::IntRect& TextureSelector::getTextureRect() const
 void TextureSelector::updateEvents(sf::Event& sfEvent, const sf::Vector2i& mousePosWindow)
 {
 	// Update button events
-	this->hideButton->updateEvents(sfEvent, static_cast<sf::Vector2f>(mousePosWindow));
+	this->hideButton->updateEvents(sfEvent, mousePosWindow);
 }
 
 void TextureSelector::updateButtons()
@@ -108,7 +108,7 @@ void TextureSelector::update(const float& dt, const sf::Vector2i& mousePosWindow
 	this->updateButtons();
 
 	// Update hide button
-	this->hideButton->update(dt, static_cast<sf::Vector2f>(mousePosWindow));
+	this->hideButton->update(dt, mousePosWindow);
 
 	// Check if hidden
 	if (this->hidden)

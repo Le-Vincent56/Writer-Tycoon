@@ -2,6 +2,23 @@
 #include "EditorState.h"
 
 // Initialize Functions
+void EditorState::initView()
+{
+	// Set the view size to the current resolution
+	this->view.setSize(
+		sf::Vector2f(
+			this->stateData->gSettings->resolution.width,
+			this->stateData->gSettings->resolution.height)
+	);
+
+	// Set the view center to the center of the current resolution
+	this->view.setCenter(
+		this->stateData->gSettings->resolution.width / 2.0f,
+		this->stateData->gSettings->resolution.height / 2.0f
+	);
+}
+
+
 void EditorState::initVariables()
 {
 	// Set mouse state
@@ -17,6 +34,9 @@ void EditorState::initVariables()
 	// Set tile variables
 	this->collision = false;
 	this->type = TileType::DEFAULT;
+
+	// Set camera speed
+	this->cameraSpeed = 100.0f;
 }
 
 void EditorState::initBackground()
@@ -143,6 +163,13 @@ void EditorState::initGUI()
 	// Set selector rect texture
 	this->selectorRect.setTexture(this->tileMap->getTileSheet());
 	this->selectorRect.setTextureRect(this->textureRect);
+	
+	// Initialize sidebar
+	this->sidebar.setSize(sf::Vector2f(80.0f,
+		static_cast<float>(this->stateData->gSettings->resolution.height)));
+	this->sidebar.setFillColor(sf::Color(50, 50, 50, 100));
+	this->sidebar.setOutlineThickness(1.0f);
+	this->sidebar.setOutlineColor(sf::Color(200, 200, 200, 150));
 
 	// Initialize the texture selector
 	this->textureSelector = new TextureSelector(
@@ -161,6 +188,7 @@ EditorState::EditorState(StateData* stateData)
 	: State(stateData)
 {
 	// Initialize variables
+	this->initView();
 	this->initVariables();
 	this->initBackground();
 	this->initTextures();
@@ -197,7 +225,7 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 	if (this->paused)
 	{
 		// Update pause menu events
-		this->pauseMenu->updateEvents(sfEvent, this->mousePosView);
+		this->pauseMenu->updateEvents(sfEvent, this->mousePosWindow);
 	}
 	else
 	{
@@ -207,7 +235,7 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 		// Update button events
 		for (auto& it : this->buttons)
 		{
-			it.second->updateEvents(sfEvent, this->mousePosView);
+			it.second->updateEvents(sfEvent, this->mousePosWindow);
 		}
 
 		// Check for adding tiles
@@ -216,7 +244,9 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 			if (sfEvent.mouseButton.button == sf::Mouse::Left)
 			{
 				// Check if the mouse is outside the texture selector space
-				if (!this->textureSelector->getActive())
+				if (!this->textureSelector->getActive() && 
+					!this->sidebar.getGlobalBounds().contains(
+					sf::Vector2f(this->mousePosWindow)))
 				{
 					// Set the other to be false
 					if (pressingRight)
@@ -248,8 +278,10 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 		{
 			if (sfEvent.mouseButton.button == sf::Mouse::Right)
 			{
-				// Check if the mouse is outside the texture selecor space
-				if (!this->textureSelector->getActive())
+				// Check if the mouse is outside the texture selector space
+				if (!this->textureSelector->getActive() &&
+					!this->sidebar.getGlobalBounds().contains(
+						sf::Vector2f(this->mousePosWindow)))
 				{
 					// Set the other to be false
 					if (pressingLeft)
@@ -332,6 +364,24 @@ void EditorState::updateInput(const float& dt)
 		// Toggle collision
 		this->collision = !this->collision;
 	}
+
+	// Move view
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_UP"))))
+	{
+		this->view.move(0.0f, -this->cameraSpeed * dt);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_LEFT"))))
+	{
+		this->view.move(-this->cameraSpeed * dt, 0.0f);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_DOWN"))))
+	{
+		this->view.move(0.0f, this->cameraSpeed * dt);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("MOVE_CAMERA_RIGHT"))))
+	{
+		this->view.move(this->cameraSpeed * dt, 0.0f);
+	}
 }
 
 void EditorState::updateGUI(const float& dt)
@@ -353,7 +403,7 @@ void EditorState::updateGUI(const float& dt)
 	// Update buttons
 	for (auto& it : this->buttons)
 	{
-		it.second->update(dt, this->mousePosView);
+		it.second->update(dt, this->mousePosWindow);
 	}
 
 	// Update mouse position and data
@@ -403,7 +453,7 @@ void EditorState::updatePauseMenuButtons()
 void EditorState::update(const float& dt)
 {
 	// Update mouse positions
-	this->updateMousePositions();
+	this->updateMousePositions(&this->view);
 
 	// Update buttons
 	this->updateGUI(dt);
@@ -426,7 +476,7 @@ void EditorState::update(const float& dt)
 	else
 	{
 		// Update the pause menu
-		this->pauseMenu->update(dt, this->mousePosView);
+		this->pauseMenu->update(dt, this->mousePosWindow);
 
 		// Update buttons
 		this->updatePauseMenuButtons();
@@ -444,14 +494,22 @@ void EditorState::renderGUI(sf::RenderTarget& target)
 	// Check if the mouse is outisde the texture selector space
 	if (!this->textureSelector->getActive())
 	{
+		// Set to the editor view
+		target.setView(this->view);
+
 		// Draw the selector rect
 		target.draw(this->selectorRect);
 	}
 
 	// Draw the texture selector
+	target.setView(this->window->getDefaultView());
 	this->textureSelector->render(target);
 
+	// Draw the side bar
+	target.draw(this->sidebar);
+
 	// Draw the cursor text
+	target.setView(this->view);
 	target.draw(this->cursorText);
 }
 
@@ -461,15 +519,25 @@ void EditorState::render(sf::RenderTarget* target)
 	if (!target)
 		target = this->window;
 
+	// Set the editor view for tile map calculations
+	target->setView(this->view);
+
 	// Draw map
 	this->tileMap->render(*target);
+
+	// Revert to default view
+	target->setView(this->window->getDefaultView());
 
 	// Draw GUI
 	this->renderGUI(*target);
 
-	// Draw the pause menu
+	// Check if paused
 	if (this->paused)
 	{
+		// Revert to default view
+		target->setView(this->window->getDefaultView());
+
+		// Render the pause menu
 		this->pauseMenu->render(*target);
 	}
 }

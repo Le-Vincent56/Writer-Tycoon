@@ -18,6 +18,8 @@ class EditorState :
 {
 private:
     // Variables
+    sf::View view;
+
     bool pressingLeft;
     bool pressingRight;
 
@@ -37,12 +39,16 @@ private:
     sf::IntRect textureRect;
     sf::RectangleShape selectorRect;
 
+    sf::RectangleShape sidebar;
     TextureSelector* textureSelector;
 
     bool collision;
     short int type;
 
+    float cameraSpeed;
+
     // Functions
+    void initView();
     void initVariables();
     void initBackground();
     void initTextures();

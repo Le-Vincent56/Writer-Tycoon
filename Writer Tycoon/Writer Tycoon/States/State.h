@@ -68,7 +68,7 @@ public:
 	void startKeyTimer();
 	virtual void updateEvents(sf::Event& sfEvent) = 0;
 	virtual void updateKeyTime(const float& dt);
-	virtual void updateMousePositions();
+	virtual void updateMousePositions(sf::View* view = nullptr);
 	virtual void updateInput(const float& dt) = 0;
 	virtual void update(const float& dt) = 0;
 	virtual void render(sf::RenderTarget* target = nullptr) = 0;

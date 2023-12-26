@@ -73,12 +73,12 @@ const bool PauseMenu::isButtonPressed(const std::string key)
 }
 
 // Functions
-void PauseMenu::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
+void PauseMenu::updateEvents(sf::Event& sfEvent, const sf::Vector2i& mousePosWindow)
 {
 	// Update button events
 	for (auto& it : this->buttons)
 	{
-		it.second->updateEvents(sfEvent, mousePosView);
+		it.second->updateEvents(sfEvent, mousePosWindow);
 	}
 }
 
@@ -91,19 +91,19 @@ void PauseMenu::addButton(const std::string key, const std::string text,
 		this->buttonIdleTexture, this->buttonActiveTexture);
 }
 
-void PauseMenu::updateButtons(const float& dt, const sf::Vector2f& mousePosView)
+void PauseMenu::updateButtons(const float& dt, const sf::Vector2i& mousePosWindow)
 {
 	// Update the buttons
 	for (auto &it : this->buttons)
 	{
-		it.second->update(dt, mousePosView);
+		it.second->update(dt, mousePosWindow);
 	}
 }
 
-void PauseMenu::update(const float& dt, const sf::Vector2f& mousePosView)
+void PauseMenu::update(const float& dt, const sf::Vector2i& mousePosWindow)
 {
 	// Update buttons
-	this->updateButtons(dt, mousePosView);
+	this->updateButtons(dt, mousePosWindow);
 }
 
 void PauseMenu::render(sf::RenderTarget& target)

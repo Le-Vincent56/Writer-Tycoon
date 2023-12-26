@@ -17,6 +17,10 @@ class GameState :
     public State
 {
 private:
+    sf::View view;
+    sf::RenderTexture renderTexture;
+    sf::Sprite renderSprite;
+
     sf::Font font;
     sf::Texture buttonIdleTexture;
     sf::Texture buttonPressedTexture;
@@ -30,6 +34,7 @@ private:
     TileMap* tileMap;
 
     // Initalizer Functions
+    void initView();
     void initTextures();
     void initFonts();
     void initKeybinds();
@@ -45,6 +50,7 @@ public:
     virtual ~GameState();
 
     // Functions
+    void updateView(const float& dt);
     void updateEvents(sf::Event& sfEvent);
     void updateInput(const float& dt);
     void updateGUI(const float& dt);

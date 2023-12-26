@@ -26,6 +26,12 @@ public:
 	Entity();
 	virtual ~Entity();
 
+	// Accessors
+	virtual const sf::Vector2f& getPosition() const;
+
+	// Modifiers
+	virtual void setPosition(const float x, const float y);
+
 	// Component Functions
 	void setTexture(sf::Texture& texture);
 	void createMovementComponent(const float deceleration, const float maxSpeed);
@@ -35,8 +41,6 @@ public:
 		float width, float height);
 
 	// Functions
-	virtual void setPosition(const float x, const float y);
-
 	virtual void update(const float& dt) = 0;
 	virtual void render(sf::RenderTarget& target);
 };

@@ -100,7 +100,7 @@ const void Popup::setEnabled(const bool enabled)
 }
 
 // Functions
-void Popup::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
+void Popup::updateEvents(sf::Event& sfEvent, const sf::Vector2i& mousePosWindow)
 {
 	// Check if the popup is enabled
 	if (!this->enabled)
@@ -112,7 +112,7 @@ void Popup::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 		// Update all button events
 		for (size_t i = 0; i < this->buttons.size(); ++i)
 		{
-			this->buttons[i]->updateEvents(sfEvent, mousePosView);
+			this->buttons[i]->updateEvents(sfEvent, mousePosWindow);
 		}
 	}
 
@@ -122,12 +122,12 @@ void Popup::updateEvents(sf::Event& sfEvent, const sf::Vector2f& mousePosView)
 		// Update all dropdown events
 		for (size_t i = 0; i < this->dropdowns.size(); ++i)
 		{
-			this->dropdowns[i]->updateEvents(sfEvent, mousePosView);
+			this->dropdowns[i]->updateEvents(sfEvent, mousePosWindow);
 		}
 	}
 }
 
-void Popup::update(const float& dt, const sf::Vector2f& mousePosView)
+void Popup::update(const float& dt, const sf::Vector2i& mousePosView)
 {
 	// Check if the popup is enabled
 	if (!this->enabled)

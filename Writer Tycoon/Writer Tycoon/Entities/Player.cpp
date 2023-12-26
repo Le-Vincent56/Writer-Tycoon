@@ -21,12 +21,11 @@ Player::Player(float x, float y, sf::Texture& textureSheet)
 	this->setPosition(x, y);
 
 	// Rescale the player
-	//this->sprite.setScale(2, 2);
+	this->sprite.setScale(2, 2);
 
 	// Create components
 	this->createMovementComponent(10.0f, 300.0f);
 	this->createAnimationComponent(textureSheet);
-	this->createHitboxComponent(this->sprite, 0.0f, 16.0f, 32.0, 48.0);
 
 	this->animationComponent->addAnimation("IDLE_DOWN", 10.0f, 0, 0, 5, 0, 16, 32);
 	this->animationComponent->addAnimation("IDLE_LEFT", 10.0f, 0, 1, 5, 1, 16, 32);
@@ -37,6 +36,13 @@ Player::Player(float x, float y, sf::Texture& textureSheet)
 	this->animationComponent->addAnimation("RUN_LEFT", 10.0f, 0, 5, 5, 5, 16, 32);
 	this->animationComponent->addAnimation("RUN_RIGHT", 10.0f, 0, 6, 5, 6, 16, 32);
 	this->animationComponent->addAnimation("RUN_UP", 10.0f, 0, 7, 5, 7, 16, 32);
+
+	// Create hitbox
+	this->createHitboxComponent(this->sprite, 0.0f, 0.0f,
+		this->sprite.getGlobalBounds().width, this->sprite.getGlobalBounds().height);
+
+	/*std::cout << "Offset (X, Y): (" << 0.0f << ", " << 0.0f << ") - Width, Height: ("
+		<< this->sprite.getGlobalBounds().width << ", " << this->sprite.getGlobalBounds().height << ")\n";*/
 }
 
 Player::~Player()
@@ -127,22 +133,26 @@ void Player::updateAnimation(const float& dt)
 		{
 			if (currentState == PLAYER_DIR::DOWN)
 			{
-				this->animationComponent->play("RUN_DOWN", dt, this->movementComponent->getVelocity().y, this->movementComponent->getMaxSpeed());
+				this->animationComponent->play("RUN_DOWN", dt, 
+					this->movementComponent->getVelocity().y, this->movementComponent->getMaxSpeed());
 			}
 
 			if (currentState == PLAYER_DIR::LEFT)
 			{
-				this->animationComponent->play("RUN_LEFT", dt, this->movementComponent->getVelocity().x, this->movementComponent->getMaxSpeed());
+				this->animationComponent->play("RUN_LEFT", dt, 
+					this->movementComponent->getVelocity().x, this->movementComponent->getMaxSpeed());
 			}
 
 			if (currentState == PLAYER_DIR::RIGHT)
 			{
-				this->animationComponent->play("RUN_RIGHT", dt, this->movementComponent->getVelocity().x, this->movementComponent->getMaxSpeed());
+				this->animationComponent->play("RUN_RIGHT", dt, 
+					this->movementComponent->getVelocity().x, this->movementComponent->getMaxSpeed());
 			}
 
 			if (currentState == PLAYER_DIR::UP)
 			{
-				this->animationComponent->play("RUN_UP", dt, this->movementComponent->getVelocity().y, this->movementComponent->getMaxSpeed());
+				this->animationComponent->play("RUN_UP", dt, 
+					this->movementComponent->getVelocity().y, this->movementComponent->getMaxSpeed());
 			}
 		}
 	}
