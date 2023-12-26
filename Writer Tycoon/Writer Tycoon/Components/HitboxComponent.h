@@ -16,9 +16,16 @@ public:
 		float width, float height);
 	~HitboxComponent();
 
-	// Functions
-	bool checkIntersect(const sf::FloatRect& rect);
+	// Accessors
+	const sf::Vector2f& getPosition() const;
+	const sf::FloatRect getGlobalBounds() const;
 
+	// Modifiers
+	void setPosition(const sf::Vector2f& position);
+	void setPosition(const float x, const float y);
+
+	// Functions
+	bool intersects(const sf::FloatRect& rect);
 	void update();
 	void render(sf::RenderTarget& target);
 };

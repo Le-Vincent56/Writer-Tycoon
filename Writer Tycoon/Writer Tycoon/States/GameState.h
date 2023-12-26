@@ -56,6 +56,7 @@ public:
     void updateInput(const float& dt);
     void updateGUI(const float& dt);
     void updatePauseMenuButtons();
+    void updateTileMap(const float& dt);
     void update(const float& dt);
     void render(sf::RenderTarget* target = nullptr);
 };

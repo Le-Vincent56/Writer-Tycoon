@@ -38,8 +38,14 @@ Player::Player(float x, float y, sf::Texture& textureSheet)
 	this->animationComponent->addAnimation("RUN_UP", 10.0f, 0, 7, 5, 7, 16, 32);
 
 	// Create hitbox
-	this->createHitboxComponent(this->sprite, 0.0f, 0.0f,
-		this->sprite.getGlobalBounds().width, this->sprite.getGlobalBounds().height);
+	this->createHitboxComponent(
+		this->sprite, 
+		0.0f, 
+		this->sprite.getGlobalBounds().height * 0.28125,
+		this->sprite.getGlobalBounds().width, 
+		this->sprite.getGlobalBounds().height 
+			- this->sprite.getGlobalBounds().height * 0.28125
+	);
 
 	/*std::cout << "Offset (X, Y): (" << 0.0f << ", " << 0.0f << ") - Width, Height: ("
 		<< this->sprite.getGlobalBounds().width << ", " << this->sprite.getGlobalBounds().height << ")\n";*/
@@ -174,4 +180,13 @@ void Player::update(const float& dt)
 	this->updateMovement(dt);
 	this->updateAnimation(dt);
 	this->updateHitbox();
+}
+
+void Player::render(sf::RenderTarget& target)
+{
+	// Draw the sprite
+	target.draw(this->sprite);
+
+	// Render the hitbox
+	this->hitboxComponent->render(target);
 }

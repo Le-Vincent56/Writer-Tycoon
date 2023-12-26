@@ -28,14 +28,44 @@ Entity::~Entity()
 // Accessors
 const sf::Vector2f& Entity::getPosition() const
 {
+	// Check if the entity has a hitbox
+	if (this->hitboxComponent)
+	{
+		// If so, return the hitbox's position
+		return this->hitboxComponent->getPosition();
+	}
+
+	// Otherwise, return the sprite's position
 	return this->sprite.getPosition();
+}
+
+const sf::FloatRect Entity::getGlobalBounds() const
+{
+	// Check if the entity has a hitbox
+	if (this->hitboxComponent)
+	{
+		// If so, return the hitbox's global bounds
+		return this->hitboxComponent->getGlobalBounds();
+	}
+
+	// Otherwise, return the sprite's global bounds
+	return this->sprite.getGlobalBounds();
 }
 
 // Modifiers
 void Entity::setPosition(const float x, const float y)
 {
-	// Set the position of the sprite
-	this->sprite.setPosition(x, y);
+	// Check if the entity has a hitbox
+	if (this->hitboxComponent)
+	{
+		// If so, set the position of the hitbox
+		this->hitboxComponent->setPosition(x, y);
+	}
+	else
+	{
+		// Otherwise, set the position of the sprite
+		this->sprite.setPosition(x, y);
+	}
 }
 
 // Component Functions
@@ -60,18 +90,4 @@ void Entity::createHitboxComponent(sf::Sprite& sprite,
 	float width, float height)
 {
 	this->hitboxComponent = new HitboxComponent(sprite, offsetX, offsetY, width, height);
-}
-
-// Functions
-void Entity::render(sf::RenderTarget& target)
-{
-	// Draw the sprite
-	target.draw(this->sprite);
-
-	// Check if there is a hitbox component
-	if (this->hitboxComponent)
-	{
-		// Render the target
-		this->hitboxComponent->render(target);
-	}
 }

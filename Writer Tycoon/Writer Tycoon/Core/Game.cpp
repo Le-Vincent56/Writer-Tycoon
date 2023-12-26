@@ -138,8 +138,8 @@ void Game::update()
 	// Update SFML events
 	this->updateSFMLEvents();
 
-	// Check if there are states
-	if (!this->states.empty())
+	// Check if there are states and if the window is in focus
+	if (!this->states.empty() && this->window->hasFocus())
 	{
 		// Update the top state
 		this->states.top()->update(this->dt);

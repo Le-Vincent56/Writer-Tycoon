@@ -266,6 +266,13 @@ void GameState::updatePauseMenuButtons()
 	}
 }
 
+void GameState::updateTileMap(const float& dt)
+{
+	// Update the tilemap and collisions
+	this->tileMap->update();
+	this->tileMap->updateCollision(this->player);
+}
+
 
 void GameState::update(const float& dt)
 {
@@ -292,6 +299,9 @@ void GameState::update(const float& dt)
 
 		// Update player
 		this->player->update(dt);
+
+		// Update the tilemap
+		this->updateTileMap(dt);
 	}
 	else
 	{

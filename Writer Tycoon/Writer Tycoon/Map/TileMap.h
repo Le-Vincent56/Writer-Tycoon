@@ -13,7 +13,8 @@ private:
 	// Variables
 	float gridSizeF;
 	unsigned int gridSizeU;
-	sf::Vector2u maxSize;
+	sf::Vector2u maxSizeGrid;
+	sf::Vector2f maxSizeWorld;
 	unsigned int layers;
 	std::vector<std::vector<std::vector<Tile*>>> map;
 	std::string textureFilePath;

@@ -4,9 +4,9 @@
 // Private Functions
 void TileMap::clear()
 {
-	for (size_t x = 0; x < this->maxSize.x; ++x)
+	for (size_t x = 0; x < this->maxSizeGrid.x; ++x)
 	{
-		for (size_t y = 0; y < this->maxSize.y; ++y)
+		for (size_t y = 0; y < this->maxSizeGrid.y; ++y)
 		{
 			for (size_t z = 0; z < this->layers; ++z)
 			{
@@ -29,8 +29,10 @@ TileMap::TileMap(float gridSize, unsigned int width, unsigned int height, std::s
 	// Set variables
 	this->gridSizeF = gridSize;
 	this->gridSizeU = static_cast<unsigned int>(this->gridSizeF);
-	this->maxSize.x = width;
-	this->maxSize.y = height;
+	this->maxSizeGrid.x = width;
+	this->maxSizeGrid.y = height;
+	this->maxSizeWorld.x = static_cast<float>(width) * gridSize;
+	this->maxSizeWorld.y = static_cast<float>(height) * gridSize;
 	this->layers = 2;
 	this->textureFilePath = textureFilePath;
 
@@ -41,13 +43,13 @@ TileMap::TileMap(float gridSize, unsigned int width, unsigned int height, std::s
 	this->collisionBox.setOutlineColor(sf::Color::Red);
 
 	// Resize the x vector and fill it with objects
-	this->map.resize(this->maxSize.x, std::vector<std::vector<Tile*>>());
-	for (size_t x = 0; x < this->maxSize.x; ++x)
+	this->map.resize(this->maxSizeGrid.x, std::vector<std::vector<Tile*>>());
+	for (size_t x = 0; x < this->maxSizeGrid.x; ++x)
 	{
-		for (size_t y = 0; y < this->maxSize.y; ++y)
+		for (size_t y = 0; y < this->maxSizeGrid.y; ++y)
 		{
 			// Resize the y vectors and fill them with objects
-			this->map[x].resize(this->maxSize.y, std::vector<Tile*>());
+			this->map[x].resize(this->maxSizeGrid.y, std::vector<Tile*>());
 			
 			for (size_t z = 0; z < this->layers; ++z)
 			{
@@ -95,14 +97,14 @@ void TileMap::saveToFile(const std::string fileName)
 	// CHeck if the opening is successful
 	if (outFile.is_open())
 	{
-		outFile << this->maxSize.x << " " << this->maxSize.y << "\n"
+		outFile << this->maxSizeGrid.x << " " << this->maxSizeGrid.y << "\n"
 			<< this->gridSizeU << "\n"
 			<< this->layers << "\n"
 			<< this->textureFilePath << "\n";
 
-		for (size_t x = 0; x < this->maxSize.x; ++x)
+		for (size_t x = 0; x < this->maxSizeGrid.x; ++x)
 		{
-			for (size_t y = 0; y < this->maxSize.y; ++y)
+			for (size_t y = 0; y < this->maxSizeGrid.y; ++y)
 			{
 				for (size_t z = 0; z < this->layers; ++z)
 				{
@@ -164,8 +166,8 @@ void TileMap::loadFromFile(const std::string fileName)
 		// Set variables
 		this->gridSizeF = static_cast<float>(gridSize);
 		this->gridSizeU = gridSize;
-		this->maxSize.x = size.x;
-		this->maxSize.y = size.y;
+		this->maxSizeGrid.x = size.x;
+		this->maxSizeGrid.y = size.y;
 		this->layers = layers;
 		this->textureFilePath = textureFile;
 
@@ -173,13 +175,13 @@ void TileMap::loadFromFile(const std::string fileName)
 		this->clear();
 
 		// Resize the x vector and fill it with objects
-		this->map.resize(this->maxSize.x, std::vector<std::vector<Tile*>>());
-		for (size_t x = 0; x < this->maxSize.x; ++x)
+		this->map.resize(this->maxSizeGrid.x, std::vector<std::vector<Tile*>>());
+		for (size_t x = 0; x < this->maxSizeGrid.x; ++x)
 		{
-			for (size_t y = 0; y < this->maxSize.y; ++y)
+			for (size_t y = 0; y < this->maxSizeGrid.y; ++y)
 			{
 				// Resize the y vectors and fill them with objects
-				this->map[x].resize(this->maxSize.y, std::vector<Tile*>());
+				this->map[x].resize(this->maxSizeGrid.y, std::vector<Tile*>());
 
 				for (size_t z = 0; z < this->layers; ++z)
 				{
@@ -219,8 +221,8 @@ void TileMap::addTile(const sf::IntRect& textureRect, const unsigned int x, cons
 	const unsigned int z, const bool& collision, const short int& type)
 {
 	// Check if the given coordinates are within the grid bounds
-	if (x < this->maxSize.x && x >= 0 
-		&& y < maxSize.y && y >= 0
+	if (x < this->maxSizeGrid.x && x >= 0
+		&& y < maxSizeGrid.y && y >= 0
 		&& z < this->layers && z >= 0)
 	{
 		// Check if the tile can be added into the space
@@ -235,8 +237,8 @@ void TileMap::addTile(const sf::IntRect& textureRect, const unsigned int x, cons
 
 void TileMap::removeTile(const unsigned int x, const unsigned int y, const unsigned int z)
 {
-	if (x < this->maxSize.x && x >= 0
-		&& y < maxSize.y && y >= 0
+	if (x < this->maxSizeGrid.x && x >= 0
+		&& y < maxSizeGrid.y && y >= 0
 		&& z < this->layers && z >= 0)
 	{
 		// Check if the tile can be added into the space
@@ -250,7 +252,24 @@ void TileMap::removeTile(const unsigned int x, const unsigned int y, const unsig
 
 void TileMap::updateCollision(Entity* entity)
 {
+	// Keep entities within the world bounds
+	if (entity->getPosition().x < 0.0f)
+	{
+		entity->setPosition(0.0f, entity->getPosition().y);
+	}
+	else if (entity->getPosition().x + entity->getGlobalBounds().width  > this->maxSizeWorld.x)
+	{
+		entity->setPosition(this->maxSizeWorld.x - entity->getGlobalBounds().width, entity->getPosition().y);
+	}
 
+	if (entity->getPosition().y < 0.0f)
+	{
+		entity->setPosition(entity->getPosition().x, 0.0f);
+	}
+	else if (entity->getPosition().y + entity->getGlobalBounds().height > this->maxSizeWorld.y)
+	{
+		entity->setPosition(entity->getPosition().x, this->maxSizeWorld.y - entity->getGlobalBounds().height);
+	}
 }
 
 void TileMap::update()
