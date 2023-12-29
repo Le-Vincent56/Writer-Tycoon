@@ -13,8 +13,8 @@ void EditorState::initView()
 
 	// Set the view center to the center of the current resolution
 	this->view.setCenter(
-		static_cast<float>(this->stateData->gSettings->resolution.width / 2),
-		static_cast<float>(this->stateData->gSettings->resolution.height / 2)
+		static_cast<float>(this->stateData->gSettings->resolution.width) / 2.0f,
+		static_cast<float>(this->stateData->gSettings->resolution.height) / 2.0f
 	);
 }
 

@@ -41,8 +41,11 @@ TextureSelector::TextureSelector(float x, float y,
 	if (this->sheet.getGlobalBounds().width > this->bounds.getGlobalBounds().width)
 	{
 		this->sheet.setTextureRect(
-			sf::IntRect(0, 0,
-				this->bounds.getGlobalBounds().width, this->sheet.getGlobalBounds().height
+			sf::IntRect(
+				0, 
+				0,
+				static_cast<int>(this->bounds.getGlobalBounds().width),
+				static_cast<int>(this->sheet.getGlobalBounds().height)
 			)
 		);
 	}
@@ -51,7 +54,8 @@ TextureSelector::TextureSelector(float x, float y,
 	{
 		this->sheet.setTextureRect(
 			sf::IntRect(0, 0,
-				this->sheet.getGlobalBounds().width, this->bounds.getGlobalBounds().height
+				static_cast<int>(this->sheet.getGlobalBounds().width), 
+				static_cast<int>(this->bounds.getGlobalBounds().height)
 			)
 		);
 	}
@@ -154,14 +158,14 @@ void TextureSelector::update(const float& dt, const sf::Vector2i& mousePosWindow
 		this->textureRect.top = static_cast<int>(this->selector.getPosition().y - this->bounds.getPosition().y);
 
 		// Clamp within the texture bounds
-		if (this->textureRect.left > this->sheet.getGlobalBounds().width)
+		if (this->textureRect.left > static_cast<int>(this->sheet.getGlobalBounds().width))
 		{
-			this->textureRect.left = this->sheet.getGlobalBounds().width;
+			this->textureRect.left = static_cast<int>(this->sheet.getGlobalBounds().width);
 		}
 
-		if (this->textureRect.top > this->sheet.getGlobalBounds().height)
+		if (this->textureRect.top > static_cast<int>(this->sheet.getGlobalBounds().height))
 		{
-			this->textureRect.top = this->sheet.getGlobalBounds().height;
+			this->textureRect.top = static_cast<int>(this->sheet.getGlobalBounds().height);
 		}
 	}
 }

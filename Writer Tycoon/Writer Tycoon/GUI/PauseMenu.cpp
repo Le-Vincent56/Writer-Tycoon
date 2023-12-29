@@ -57,7 +57,7 @@ std::map<std::string, Button*>& PauseMenu::getButtons()
 	return this->buttons;
 }
 
-const sf::Vector2f& PauseMenu::getContainerCenterBelowText() const
+const sf::Vector2f PauseMenu::getContainerCenterBelowText() const
 {
 	return sf::Vector2f(
 		this->container.getPosition().x

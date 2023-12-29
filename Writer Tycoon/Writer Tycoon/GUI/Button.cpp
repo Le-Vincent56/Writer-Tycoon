@@ -182,7 +182,7 @@ void Button::updateClickBuffer(const float& dt)
 {
 	if (this->clickBuffer >= 0.0f)
 	{
-		this->clickBuffer -= 10.0 * dt;
+		this->clickBuffer -= 10.0f * dt;
 	}
 }
 

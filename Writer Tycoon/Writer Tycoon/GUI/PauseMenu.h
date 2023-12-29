@@ -26,7 +26,7 @@ public:
 
 	// Accessor
 	std::map<std::string, Button*>& getButtons();
-	const sf::Vector2f& getContainerCenterBelowText() const;
+	const sf::Vector2f getContainerCenterBelowText() const;
 	const bool isButtonPressed(const std::string key);
 
 	// Functions

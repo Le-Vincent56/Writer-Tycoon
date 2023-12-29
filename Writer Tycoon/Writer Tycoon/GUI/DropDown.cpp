@@ -26,7 +26,7 @@ Dropdown::Dropdown(float x, float y, float width, float height,
 		);
 
 	// Push back buttons
-	for (size_t i = 0; i < numOfElements; ++i)
+	for (unsigned int i = 0; i < numOfElements; ++i)
 	{
 		this->elements.push_back(
 			new Button(
@@ -34,7 +34,7 @@ Dropdown::Dropdown(float x, float y, float width, float height,
 				this->font, elementNames[i], 24,
 				sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
 				this->dropdownIdleTexture, this->dropdownActiveTexture,
-				i
+				static_cast<unsigned short int>(i)
 			)
 		);
 	}
