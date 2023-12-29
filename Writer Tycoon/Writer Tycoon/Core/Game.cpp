@@ -11,7 +11,7 @@ void Game::initVariables()
 	this->window = nullptr;
 	this->fullscreen = false;
 	this->dt = 0.0f;
-	this->gridSize = 100.0f;
+	this->gridSize = 32.0f;
 }
 
 void Game::initGraphicsSettings()

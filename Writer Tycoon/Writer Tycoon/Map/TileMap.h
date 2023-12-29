@@ -12,21 +12,26 @@ class TileMap
 private:
 	// Variables
 	float gridSizeF;
-	unsigned int gridSizeU;
-	sf::Vector2u maxSizeGrid;
+	int gridSizeI;
+	sf::Vector2i maxSizeGrid;
 	sf::Vector2f maxSizeWorld;
-	unsigned int layers;
+	int layers;
 	std::vector<std::vector<std::vector<Tile*>>> map;
 	std::string textureFilePath;
 	sf::Texture tileSheet;
 	sf::RectangleShape collisionBox;
+	int fromX;
+	int toX;
+	int fromY;
+	int toY;
+	int layer;
 
 	// Functions
 	void clear();
 
 public:
 	// Constructor/Destructor
-	TileMap(float gridSize, unsigned int width, unsigned int height, std::string textureFilePath);
+	TileMap(float gridSize, int width, int height, std::string textureFilePath);
 	~TileMap();
 
 	// Accessors
@@ -35,10 +40,11 @@ public:
 	// Functions
 	void saveToFile(const std::string fileName);
 	void loadFromFile(const std::string fileName);
-	void addTile(const sf::IntRect& textureRect, const unsigned int x, const unsigned int y,
-		const unsigned int z, const bool& collision, const short int& type);
-	void removeTile(const unsigned int x, const unsigned int y, const unsigned int z = 0);
-	void updateCollision(Entity* entity);
+	void addTile(const sf::IntRect& textureRect, const int x, const int y,
+		const int z, const bool& collision, const short int& type);
+	void removeTile(const int x, const int y, const int z = 0);
+	void cullTiles(Entity* entity);
+	void updateCollision(const float& dt, Entity* entity);
 	void update();
 	void render(sf::RenderTarget& target, Entity* entity = nullptr);
 };

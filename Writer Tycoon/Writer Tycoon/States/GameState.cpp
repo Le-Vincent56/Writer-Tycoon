@@ -164,7 +164,7 @@ void GameState::initEntities()
 
 void GameState::initTileMap()
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "Assets/Images/tilesheet1.png");
+	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "Assets/Sprites/Environment/Floor_Tilesheet_1.png");
 	this->tileMap->loadFromFile("TestSave.wtmp");
 }
 
@@ -270,7 +270,7 @@ void GameState::updateTileMap(const float& dt)
 {
 	// Update the tilemap and collisions
 	this->tileMap->update();
-	this->tileMap->updateCollision(this->player);
+	this->tileMap->updateCollision(dt, this->player);
 }
 
 
@@ -297,11 +297,11 @@ void GameState::update(const float& dt)
 		// Update player input
 		this->player->updateInput(this->keybinds, dt);
 
-		// Update player
-		this->player->update(dt);
-
 		// Update the tilemap
 		this->updateTileMap(dt);
+
+		// Update player
+		this->player->update(dt);
 	}
 	else
 	{
@@ -327,7 +327,7 @@ void GameState::render(sf::RenderTarget* target)
 
 	// Render the tilemap
 	this->renderTexture.setView(this->view);
-	this->tileMap->render(this->renderTexture);
+	this->tileMap->render(this->renderTexture, this->player);
 
 	// Draw the player
 	this->player->render(this->renderTexture);

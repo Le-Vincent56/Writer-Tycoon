@@ -41,6 +41,16 @@ const bool& Tile::getCollision() const
 	return this->collision;
 }
 
+const bool Tile::intersects(const sf::FloatRect bounds) const
+{
+	return this->shape.getGlobalBounds().intersects(bounds);
+}
+
+const sf::FloatRect Tile::getGlobalBounds() const
+{
+	return this->shape.getGlobalBounds();
+}
+
 const std::string Tile::toString() const
 {
 	std::stringstream ss;

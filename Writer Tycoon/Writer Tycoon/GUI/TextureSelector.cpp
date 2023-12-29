@@ -56,6 +56,9 @@ TextureSelector::TextureSelector(float x, float y,
 		);
 	}
 
+	std::cout << "Sheet Global Bounds Width: " << this->sheet.getGlobalBounds().width << "\n";
+	std::cout << "Sheet Global Bounds Height: " << this->sheet.getGlobalBounds().height << "\n";
+
 	// Initialize selector
 	this->selector.setPosition(x, y);
 	this->selector.setSize(sf::Vector2f(this->gridSize, this->gridSize));
@@ -65,7 +68,7 @@ TextureSelector::TextureSelector(float x, float y,
 
 	// Initialize texture rect
 	this->textureRect.width = static_cast<int>(gridSize);
-	this->textureRect.width = static_cast<int>(gridSize);
+	this->textureRect.height = static_cast<int>(gridSize);
 }
 
 TextureSelector::~TextureSelector()
@@ -145,9 +148,21 @@ void TextureSelector::update(const float& dt, const sf::Vector2i& mousePosWindow
 			this->bounds.getPosition().y + this->mousePosGrid.y * this->gridSize
 		);
 
+
 		// Update texture rect
 		this->textureRect.left = static_cast<int>(this->selector.getPosition().x - this->bounds.getPosition().x);
 		this->textureRect.top = static_cast<int>(this->selector.getPosition().y - this->bounds.getPosition().y);
+
+		// Clamp within the texture bounds
+		if (this->textureRect.left > this->sheet.getGlobalBounds().width)
+		{
+			this->textureRect.left = this->sheet.getGlobalBounds().width;
+		}
+
+		if (this->textureRect.top > this->sheet.getGlobalBounds().height)
+		{
+			this->textureRect.top = this->sheet.getGlobalBounds().height;
+		}
 	}
 }
 

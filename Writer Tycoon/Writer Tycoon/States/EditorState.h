@@ -42,6 +42,8 @@ private:
     sf::RectangleShape sidebar;
     TextureSelector* textureSelector;
 
+    sf::RectangleShape test;
+
     bool collision;
     short int type;
 

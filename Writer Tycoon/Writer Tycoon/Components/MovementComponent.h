@@ -50,6 +50,7 @@ public:
 	// Modifiers
 	void setDirectionX(float x);
 	void setDirectionY(float y);
+	void setVelocity(const float x, const float y);
 
 	// Functions
 	void applyForce(sf::Vector2f force);

@@ -54,6 +54,12 @@ void MovementComponent::setDirectionY(float y)
 	this->direction.y = y;
 }
 
+void MovementComponent::setVelocity(const float x, const float y)
+{
+	this->velocity.x = x;
+	this->velocity.y = y;
+}
+
 // Functions
 void MovementComponent::applyForce(sf::Vector2f force)
 {
@@ -128,7 +134,7 @@ void MovementComponent::update(const float& dt)
 		this->position = this->sprite.getPosition();
 
 		// Set velocity and position
-		this->velocity += acceleration * dt;
+		this->velocity += this->acceleration * dt;
 		this->position += this->velocity * dt;
 
 		// Set sprite position

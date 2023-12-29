@@ -103,8 +103,6 @@ void EditorState::initKeybinds()
 
 	// Close the file stream
 	ifs.close();
-
-	sf::Keyboard::Key;
 }
 
 void EditorState::initPauseMenu()
@@ -116,11 +114,11 @@ void EditorState::initPauseMenu()
 	// Button Params
 	float windowCenterX = this->pauseMenu->getContainerCenterBelowText().x;
 	float buttonWidth = 200;
-	float buttonCenterX = windowCenterX - (buttonWidth / 2);
+	float buttonCenterX = windowCenterX - (buttonWidth / 2.0f);
 
 	float windowCenterY = this->pauseMenu->getContainerCenterBelowText().y;
 	float buttonHeight = 75;
-	float buttonCenterY = windowCenterY - (buttonHeight / 2);
+	float buttonCenterY = windowCenterY - (buttonHeight / 2.0f);
 
 	this->pauseMenu->addButton("RESUME", "RESUME",
 		buttonCenterX, windowCenterY + buttonCenterY,
@@ -128,22 +126,22 @@ void EditorState::initPauseMenu()
 	);
 
 	this->pauseMenu->addButton("SAVE", "SAVE",
-		buttonCenterX, windowCenterY + (buttonCenterY * 2.0),
+		buttonCenterX, windowCenterY + (buttonCenterY * 2.0f),
 		buttonWidth, buttonHeight
 	);
 
 	this->pauseMenu->addButton("LOAD", "LOAD",
-		buttonCenterX, windowCenterY + (buttonCenterY * 3.0),
+		buttonCenterX, windowCenterY + (buttonCenterY * 3.0f),
 		buttonWidth, buttonHeight
 	);
 
 	this->pauseMenu->addButton("SETTINGS", "SETTINGS",
-		buttonCenterX, windowCenterY + (buttonCenterY * 4.0),
+		buttonCenterX, windowCenterY + (buttonCenterY * 4.0f),
 		buttonWidth, buttonHeight
 	);
 
 	this->pauseMenu->addButton("EXIT", "MAIN MENU",
-		buttonCenterX, windowCenterY + (buttonCenterY * 5.0),
+		buttonCenterX, windowCenterY + (buttonCenterY * 5.0f),
 		buttonWidth, buttonHeight
 	);
 }
@@ -162,7 +160,7 @@ void EditorState::initGUI()
 
 	// Set selector rect texture
 	this->selectorRect.setTexture(this->tileMap->getTileSheet());
-	this->selectorRect.setTextureRect(this->textureRect);
+	//this->selectorRect.setTextureRect(this->textureRect);
 	
 	// Initialize sidebar
 	this->sidebar.setSize(sf::Vector2f(80.0f,
@@ -180,7 +178,7 @@ void EditorState::initGUI()
 
 void EditorState::initTileMap()
 {
-	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "Assets/Images/tilesheet1.png");
+	this->tileMap = new TileMap(this->stateData->gridSize, 10, 10, "Assets/Sprites/Environment/Floor_Tilesheet_1.png");
 }
 
 // Constructor/Destructor
@@ -255,7 +253,7 @@ void EditorState::updateEvents(sf::Event& sfEvent)
 					// Detect holding down
 					pressingLeft = true;
 				}
-				else
+				else if(this->textureSelector->getActive())
 				{
 					// Get the texture rect inside the texture selector
 					this->textureRect = this->textureSelector->getTextureRect();
@@ -400,7 +398,17 @@ void EditorState::updateGUI(const float& dt)
 			this->mousePosGrid.x * this->stateData->gridSize,
 			this->mousePosGrid.y * this->stateData->gridSize
 		);
+
+		//this->selectorRect.setTextureRect(this->textureRect);
+		//sf::IntRect testRect = sf::IntRect(this->stateData->gridSize, 0, this->stateData->gridSize, this->stateData->gridSize);
 		this->selectorRect.setTextureRect(this->textureRect);
+		/*std::cout << "Test Rect: GetPos(" << testRect.getPosition().x << ", " << testRect.getPosition().y
+			<< ") Dimensions(" << testRect.width << ", " << testRect.height
+			<< ") GetSize(" << testRect.getSize().x << ", " << testRect.getSize().y << ")\n";
+
+		std::cout << "This->TextureRect: GetPos(" << this->textureRect.getPosition().x << ", " << this->textureRect.getPosition().y
+			<< ") Dimensions(" << this->textureRect.width << ", " << this->textureRect.height
+			<< ") GetSize(" << this->textureRect.getSize().x << ", " << this->textureRect.getSize().y << ")\n";*/
 	}
 
 	// Update buttons
@@ -514,6 +522,7 @@ void EditorState::renderGUI(sf::RenderTarget& target)
 	// Draw the cursor text
 	target.setView(this->view);
 	target.draw(this->cursorText);
+	target.draw(this->test);
 }
 
 void EditorState::render(sf::RenderTarget* target)
