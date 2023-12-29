@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tiles/Tile.h"
+#include "../Utils/RectUtils.h"
 #include "../Entities/Entity.h"
 
 // Forward Declarations

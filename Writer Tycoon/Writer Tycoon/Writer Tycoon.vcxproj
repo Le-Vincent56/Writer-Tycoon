@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Core\GraphicsSettings.cpp" />
+    <ClCompile Include="Utils\RectUtils.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\GraphicsSettings.h" />
+    <ClInclude Include="Utils\RectUtils.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Components\AnimationComponent.h" />
     <ClInclude Include="Components\HitboxComponent.h" />

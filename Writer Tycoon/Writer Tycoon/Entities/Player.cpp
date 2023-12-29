@@ -46,9 +46,6 @@ Player::Player(float x, float y, sf::Texture& textureSheet)
 		this->sprite.getGlobalBounds().height 
 			- this->sprite.getGlobalBounds().height * 0.28125
 	);
-
-	/*std::cout << "Offset (X, Y): (" << 0.0f << ", " << 0.0f << ") - Width, Height: ("
-		<< this->sprite.getGlobalBounds().width << ", " << this->sprite.getGlobalBounds().height << ")\n";*/
 }
 
 Player::~Player()

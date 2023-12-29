@@ -368,42 +368,41 @@ void TileMap::updateCollision(const float& dt, Entity* entity)
 				if (this->map[x][y][this->layer]->getCollision()
 					&& this->map[x][y][this->layer]->intersects(nextPositionBounds))
 				{
-					// Bottom collision
-					if (playerBounds.top < wallBounds.top
-						&& playerBounds.top + playerBounds.height < wallBounds.top + wallBounds.height
-						&& playerBounds.left < wallBounds.left + wallBounds.width
-						&& playerBounds.left + playerBounds.width > wallBounds.left)
-					{
-						entity->setVelocity(entity->getVelocity().x, 0.0f);
-						entity->setPosition(playerBounds.left, wallBounds.top - playerBounds.height);
-					}
-					// Top collision
-					else if (playerBounds.top > wallBounds.top
-						&& playerBounds.top + playerBounds.height > wallBounds.top + wallBounds.height
-						&& playerBounds.left < wallBounds.left + wallBounds.width
-						&& playerBounds.left + playerBounds.width > wallBounds.left)
-					{
-						entity->setVelocity(entity->getVelocity().x, 0.0f);
-						entity->setPosition(playerBounds.left, wallBounds.top + wallBounds.height);
-					}
+					sf::FloatRect collisionBox = RectUtils::getIntersect(playerBounds, wallBounds);
 
-					// Right collision
-					if (playerBounds.left < wallBounds.left
-						&& playerBounds.left + playerBounds.width < wallBounds.left + wallBounds.width
-						&& playerBounds.top < wallBounds.top + wallBounds.height
-						&& playerBounds.top + playerBounds.height > wallBounds.top)
+					// If the width is less than or equal to the height, then the character is colliding through the side
+					if (collisionBox.width <= collisionBox.height)
 					{
-						entity->setVelocity(0.0f, entity->getVelocity().y);
-						entity->setPosition(wallBounds.left - playerBounds.width, playerBounds.top);
+						// Check if the difference between the colliding boxes is greater than 0,
+						// that means the collider is to the right of the player - so move left
+						if (wallBounds.left - playerBounds.left > 0)
+						{
+							entity->setVelocity(0.0f, entity->getVelocity().y);
+							entity->setPosition(playerBounds.left - collisionBox.width, playerBounds.top);
+						}
+						// Otherwise, the player is to the left of the collider, so move right
+						else if (wallBounds.left - playerBounds.left < 0)
+						{
+							entity->setVelocity(0.0f, entity->getVelocity().y);
+							entity->setPosition(playerBounds.left + collisionBox.width, playerBounds.top);
+						}
 					}
-					// Left collision
-					else if (playerBounds.left > wallBounds.left
-						&& playerBounds.left + playerBounds.width > wallBounds.left + wallBounds.width
-						&& playerBounds.top < wallBounds.top + wallBounds.height
-						&& playerBounds.top + playerBounds.height > wallBounds.top)
+					// If the height is less than the width, then the character is colliding through the top
+					else if (collisionBox.height < collisionBox.width)
 					{
-						entity->setVelocity(0.0f, entity->getVelocity().y);
-						entity->setPosition(wallBounds.left + wallBounds.width, playerBounds.top);
+						// Check if the difference between the colliding boxes is less than 0,
+						// that means the collider is above the player - so move down
+						if (wallBounds.top - playerBounds.top < 0)
+						{
+							entity->setVelocity(entity->getVelocity().x, 0.0f);
+							entity->setPosition(playerBounds.left, playerBounds.top + collisionBox.height);
+						}
+						// Otherwise, the player is above the collider, so move up
+						else if (wallBounds.top - playerBounds.top > 0)
+						{
+							entity->setVelocity(entity->getVelocity().x, 0.0f);
+							entity->setPosition(playerBounds.left, playerBounds.top - collisionBox.height);
+						}
 					}
 				}
 			}
