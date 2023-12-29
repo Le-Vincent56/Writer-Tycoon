@@ -19,7 +19,8 @@ public:
 	std::stack<State*>* states;
 
 	// Constructor/Destructor
-	StateData() {};
+	StateData() 
+	: gridSize(0.0f), window(nullptr), gSettings(nullptr), supportedKeys(nullptr), states(nullptr) {};
 };
 
 class State

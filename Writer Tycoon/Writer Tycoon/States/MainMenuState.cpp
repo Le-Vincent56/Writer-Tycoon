@@ -74,16 +74,16 @@ void MainMenuState::initKeybinds()
 void MainMenuState::initGUI()
 {
 	// Button Params
-	float windowCenterX = this->window->getSize().x / 2;
-	float buttonWidth = 200;
-	float buttonCenterX = windowCenterX - (buttonWidth / 2);
+	float windowCenterX = this->window->getSize().x / 2.0f;
+	float buttonWidth = 200.0f;
+	float buttonCenterX = windowCenterX - (buttonWidth / 2.0f);
 
-	float windowCenterY = this->window->getSize().y / 2;
-	float buttonHeight = 75;
+	float windowCenterY = this->window->getSize().y / 2.0f;
+	float buttonHeight = 75.0f;
 
 	// Game State
 	this->buttons["GAME_STATE"] = new Button(
-		buttonCenterX, windowCenterY + (buttonHeight * 0.5), 
+		buttonCenterX, windowCenterY + (buttonHeight * 0.5f), 
 		buttonWidth, buttonHeight,
 		this->font, "NEW GAME", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
@@ -92,7 +92,7 @@ void MainMenuState::initGUI()
 
 	// Settings State
 	this->buttons["SETTINGS_STATE"] = new Button(
-		buttonCenterX, windowCenterY + (buttonHeight * 2.0), 
+		buttonCenterX, windowCenterY + (buttonHeight * 2.0f), 
 		buttonWidth, buttonHeight,
 		this->font, "SETTINGS", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
@@ -101,7 +101,7 @@ void MainMenuState::initGUI()
 
 	// Editor State
 	this->buttons["EDITOR_STATE"] = new Button(
-		buttonCenterX, windowCenterY + (buttonHeight * 3.5), 
+		buttonCenterX, windowCenterY + (buttonHeight * 3.5f), 
 		buttonWidth, buttonHeight,
 		this->font, "EDITOR", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
@@ -110,7 +110,7 @@ void MainMenuState::initGUI()
 
 	// Exit state
 	this->buttons["EXIT_STATE"] = new Button(
-		buttonCenterX, windowCenterY + (buttonHeight * 5.0), 
+		buttonCenterX, windowCenterY + (buttonHeight * 5.0f), 
 		buttonWidth, buttonHeight,
 		this->font, "QUIT", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),

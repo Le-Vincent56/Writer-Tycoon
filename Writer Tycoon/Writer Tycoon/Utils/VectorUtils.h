@@ -2,7 +2,7 @@
 
 #include "MathUtils.h"
 
-static class VectorUtils
+class VectorUtils
 {
 public:
 	static sf::Vector2f normalize(const sf::Vector2f& source);

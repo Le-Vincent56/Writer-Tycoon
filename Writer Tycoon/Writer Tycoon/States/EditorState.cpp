@@ -7,14 +7,14 @@ void EditorState::initView()
 	// Set the view size to the current resolution
 	this->view.setSize(
 		sf::Vector2f(
-			this->stateData->gSettings->resolution.width,
-			this->stateData->gSettings->resolution.height)
+			static_cast<float>(this->stateData->gSettings->resolution.width),
+			static_cast<float>(this->stateData->gSettings->resolution.height))
 	);
 
 	// Set the view center to the center of the current resolution
 	this->view.setCenter(
-		this->stateData->gSettings->resolution.width / 2.0f,
-		this->stateData->gSettings->resolution.height / 2.0f
+		static_cast<float>(this->stateData->gSettings->resolution.width / 2),
+		static_cast<float>(this->stateData->gSettings->resolution.height / 2)
 	);
 }
 

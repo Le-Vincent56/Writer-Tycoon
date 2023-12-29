@@ -97,7 +97,7 @@ void SettingsState::initGUI()
 
 	// Save Button
 	this->buttons["SAVE"] = new Button(
-		buttonCenterX, windowCenterY + (buttonHeight * 5.0),
+		buttonCenterX, windowCenterY + (buttonHeight * 5.0f),
 		buttonWidth, buttonHeight,
 		this->font, "SAVE", 28,
 		sf::Color(0, 0, 0, 255), sf::Color(180, 180, 180, 255), sf::Color(150, 150, 150, 255),
@@ -134,7 +134,7 @@ void SettingsState::initGUI()
 		this->font, 
 		this->dropdownIdle, this->dropdownActive,
 		modesStrings.data(),
-		modesStrings.size(), 0
+		static_cast<unsigned int>(modesStrings.size()), 0
 	);
 
 	this->initText(dropdownCenterX, dropdownWidth, dropdownCenterY);

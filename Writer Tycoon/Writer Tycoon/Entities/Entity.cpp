@@ -71,7 +71,7 @@ const sf::FloatRect Entity::getGlobalBounds() const
 	return this->sprite.getGlobalBounds();
 }
 
-const sf::FloatRect& Entity::getNextPositionBounds(const float& dt) const
+const sf::FloatRect Entity::getNextPositionBounds(const float& dt) const
 {
 	// Check if the entity has a hitbox and a movement component
 	if (this->hitboxComponent && this->movementComponent)
@@ -84,7 +84,7 @@ const sf::FloatRect& Entity::getNextPositionBounds(const float& dt) const
 	return sf::FloatRect();
 }
 
-const sf::Vector2f& Entity::getVelocity() const
+const sf::Vector2f Entity::getVelocity() const
 {
 	// Check if the entity has a movement component
 	if (this->movementComponent)

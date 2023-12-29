@@ -41,10 +41,10 @@ Player::Player(float x, float y, sf::Texture& textureSheet)
 	this->createHitboxComponent(
 		this->sprite, 
 		0.0f, 
-		this->sprite.getGlobalBounds().height * 0.28125,
+		this->sprite.getGlobalBounds().height * 0.28125f,
 		this->sprite.getGlobalBounds().width, 
 		this->sprite.getGlobalBounds().height 
-			- this->sprite.getGlobalBounds().height * 0.28125
+			- this->sprite.getGlobalBounds().height * 0.28125f
 	);
 }
 

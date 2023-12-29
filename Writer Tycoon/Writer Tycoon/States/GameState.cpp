@@ -4,20 +4,17 @@
 // Initializer Functions
 void GameState::initView()
 {
-	// Set the view size to the window resolution
+	// Set the view size to the current resolution
 	this->view.setSize(
 		sf::Vector2f(
-			this->stateData->gSettings->resolution.width,
-			this->stateData->gSettings->resolution.height
-		)
+			static_cast<float>(this->stateData->gSettings->resolution.width),
+			static_cast<float>(this->stateData->gSettings->resolution.height))
 	);
 
-	// Set the view center to the center of the resolution
+	// Set the view center to the center of the current resolution
 	this->view.setCenter(
-		sf::Vector2f(
-			this->stateData->gSettings->resolution.width / 2.0f,
-			this->stateData->gSettings->resolution.height / 2.0f
-		)
+		static_cast<float>(this->stateData->gSettings->resolution.width / 2),
+		static_cast<float>(this->stateData->gSettings->resolution.height / 2)
 	);
 }
 
@@ -106,12 +103,12 @@ void GameState::initPauseMenu()
 
 	// Button Params
 	float windowCenterX = this->pauseMenu->getContainerCenterBelowText().x;
-	float buttonWidth = 200;
-	float buttonCenterX = windowCenterX - (buttonWidth / 2);
+	float buttonWidth = 200.0f;
+	float buttonCenterX = windowCenterX - (buttonWidth / 2.0f);
 
 	float windowCenterY = this->pauseMenu->getContainerCenterBelowText().y;
-	float buttonHeight = 75;
-	float buttonCenterY = windowCenterY - (buttonHeight / 2);
+	float buttonHeight = 75.0f;
+	float buttonCenterY = windowCenterY - (buttonHeight / 2.0f);
 
 	this->pauseMenu->addButton("RESUME_STATE", "RESUME", 
 		buttonCenterX, windowCenterY + buttonCenterY, 
@@ -119,12 +116,12 @@ void GameState::initPauseMenu()
 	);
 
 	this->pauseMenu->addButton("SETTINGS_STATE", "SETTINGS",
-		buttonCenterX, windowCenterY + (buttonCenterY * 2.0),
+		buttonCenterX, windowCenterY + (buttonCenterY * 2.0f),
 		buttonWidth, buttonHeight
 	);
 
 	this->pauseMenu->addButton("EXIT_STATE", "MAIN MENU",
-		buttonCenterX, windowCenterY + (buttonCenterY * 3.0),
+		buttonCenterX, windowCenterY + (buttonCenterY * 3.0f),
 		buttonWidth, buttonHeight
 	);
 }
@@ -133,11 +130,11 @@ void GameState::initPopups()
 {
 	float windowCenterX = this->window->getSize().x / 2.0f;
 	float popupWidth = 1000;
-	float popupCenterX = windowCenterX - (popupWidth / 2);
+	float popupCenterX = windowCenterX - (popupWidth / 2.0f);
 
 	float windowCenterY = this->window->getSize().y / 2.0f;
 	float popupHeight = 1000;
-	float popupCenterY = windowCenterY - (popupHeight / 2);
+	float popupCenterY = windowCenterY - (popupHeight / 2.0f);
 
 	this->popup = new Popup(popupCenterX, popupCenterY, popupWidth, popupHeight, 
 		this->font, this->popupFrameTexture);
